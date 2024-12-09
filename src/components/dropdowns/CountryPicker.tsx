@@ -274,34 +274,34 @@ export function CountryPicker() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-fit justify-between"
         >
           {value
-            ? country.find((framework) => framework.value === value)?.label
+            ? country.find((country) => country.value === value)?.label
             : "Select Country..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder="Search country..." />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No country found.</CommandEmpty>
             <CommandGroup>
-              {country.map((framework) => (
+              {country.map((country) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
+                  key={country.value}
+                  value={country.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue)
                     setOpen(false)
                   }}
                 >
-                  {framework.label}
+                  {country.label}
                   <Check
                     className={cn(
                       "ml-auto",
-                      value === framework.value ? "opacity-100" : "opacity-0"
+                      value === country.value ? "opacity-100" : "opacity-0"
                     )}
                   />
                 </CommandItem>

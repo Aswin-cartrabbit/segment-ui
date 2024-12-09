@@ -19,8 +19,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 const ConditionDropdown = () => {
-
-
     const operators = [
         { value: "and", label: "and" },
         { value: "or", label: "or" },

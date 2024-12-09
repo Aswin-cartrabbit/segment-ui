@@ -1,13 +1,11 @@
-import { DateRangePicker } from "@/components/DateRangePicker";
-import { AniversaryConditionsDropdown } from "@/components/dropdowns/AniversaryConditions";
 import { Combobox } from "@/components/dropdowns/ComboBox";
 import ConditionDropdown from "@/components/dropdowns/ConditionDropdown";
-import { DateDropdown } from "@/components/dropdowns/DateDropdown";
-import { Button } from "@/components/ui/button";
+import Conditions from "@/components/dropdowns/Conditions";
 import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
+import { Button } from "react-day-picker";
 
-const BirthDate = ({ index, removeFilter, groupIndex }: any) => {
+const AmountSpentPerOrder = ({ index, removeFilter, groupIndex }: any) => {
   return (
     <div className="min-w-fit flex gap-5">
       {index === 0 ? (
@@ -20,12 +18,10 @@ const BirthDate = ({ index, removeFilter, groupIndex }: any) => {
       <Combobox
         key={index}
         type="contact"
-        defaultValue={{ value: "birthdate", label: <>Birthdate</> }}
+        defaultValue={{ value: "lastName", label: <>Last Name</> }}
       />
-      <AniversaryConditionsDropdown />
-      <DateRangePicker />
-      <Input className="w-[100px]" type="number" />
-      <DateDropdown />
+      <Conditions />
+      <Input className="w-[100px]" />
       <Button
         onClick={() => {
           removeFilter(index, groupIndex);
@@ -38,4 +34,4 @@ const BirthDate = ({ index, removeFilter, groupIndex }: any) => {
   );
 };
 
-export default BirthDate;
+export default AmountSpentPerOrder;

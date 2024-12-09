@@ -43,7 +43,7 @@ function App() {
                             {
                               filterType: "filter",
                               filterValue: {
-                                property: "lastName",
+                                property: "birthdate",
                                 valueType: "string_list",
                                 operator: "eq",
                                 value: {
@@ -103,6 +103,50 @@ function App() {
                   ],
                 },
               },
+              {
+                type: "group",
+                group: {
+                  junction: "and",
+                  members: [
+                    {
+                      type: "rule",
+                      rule: {
+                        resourceType: "contacts",
+                        filter: {
+                          junction: "and",
+                          filterType: "junction",
+                          filters: [
+                            {
+                              filterType: "filter",
+                              filterValue: {
+                                property: "dateOfAddition",
+                                valueType: "string_list",
+                                operator: "eq",
+                                value: {
+                                  operator: "any",
+                                  values: ["hello", "kumar"],
+                                },
+                              },
+                            },
+                            {
+                              filterType: "filter",
+                              filterValue: {
+                                property: "firstName",
+                                valueType: "string_list",
+                                operator: "eq",
+                                value: {
+                                  operator: "any",
+                                  values: ["hello", "kumar"],
+                                },
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
             ],
           },
         },
@@ -134,8 +178,8 @@ function App() {
     category: string,
     hoveredOption: string
   ) => {
-    console.log(index, category, hoveredOption);
 
+    console.log(index, category, hoveredOption);
     setFilter((prevFilter) => {
       const newFilter = JSON.parse(JSON.stringify(prevFilter));
 
@@ -199,7 +243,7 @@ function App() {
                 },
               },
             };
-            members.push(newFilterToAdd)
+            members.push(newFilterToAdd);
           }
         }
       }
@@ -265,17 +309,19 @@ function App() {
     });
   };
   const removeFilter = (indexToRemove: number, groupIndex: number) => {
-    console.log(indexToRemove,groupIndex)
     setFilter((prevFilter) => {
       const newFilter = JSON.parse(JSON.stringify(prevFilter));
-      console.log(newFilter.group.members[0].group.members[groupIndex].group.members)
       if (
         Array.isArray(
           newFilter.group.members[0].group.members[groupIndex]?.group.members
         )
       ) {
-        newFilter.group.members[0].group.members[groupIndex].group.members[0].rule.filter.filters =
-          newFilter.group.members[0].group.members[groupIndex].group.members[0].rule.filter.filters.filter(
+        newFilter.group.members[0].group.members[
+          groupIndex
+        ].group.members[0].rule.filter.filters =
+          newFilter.group.members[0].group.members[
+            groupIndex
+          ].group.members[0].rule.filter.filters.filter(
             (_: any, index: number) => index !== indexToRemove
           );
       }
@@ -284,7 +330,6 @@ function App() {
     });
   };
 
-  console.log(filter.group.members[0].group.members);
   return (
     <div className="flex h-screen p-5 flex-col">
       {filter.type === "group" ? (

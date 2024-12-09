@@ -1,16 +1,15 @@
-import { AniversaryConditionsDropdown } from "@/components/dropdowns/AniversaryConditions";
+import BooleanDropdown from "@/components/dropdowns/Boolean";
 import { Combobox } from "@/components/dropdowns/ComboBox";
 import ConditionDropdown from "@/components/dropdowns/ConditionDropdown";
-import { DateDropdown } from "@/components/dropdowns/DateDropdown";
+import { LanguagePicker } from "@/components/dropdowns/LanguagePicker";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
 
-const DateofAdd = ({ index, removeFilter, groupIndex }: any) => {
+const Language = ({ index, removeFilter, groupIndex }: any) => {
   return (
     <div className="min-w-fit flex gap-5 items-center">
       {index === 0 ? (
-        <span className="whitespace-nowrap">All contacts whose</span>
+        <span className="whitespace-nowrap">All orders where</span>
       ) : (
         <div className="mr-1">
           <ConditionDropdown />
@@ -18,13 +17,14 @@ const DateofAdd = ({ index, removeFilter, groupIndex }: any) => {
       )}
       <Combobox
         key={index}
-        type="contact"
-        defaultValue={{ value: "dateOfAddition", label: <>Date of Addition</> }}
+        type="order"
+        defaultValue={{
+          value: "customerLanguage",
+          label: "Customer's language",
+        }}
       />
-      <span>is</span>
-      <AniversaryConditionsDropdown />
-      <Input className="w-[100px]" type="number" />
-      <DateDropdown />
+      <BooleanDropdown />
+      <LanguagePicker />
       <Button
         onClick={() => {
           removeFilter(index, groupIndex);
@@ -37,4 +37,4 @@ const DateofAdd = ({ index, removeFilter, groupIndex }: any) => {
   );
 };
 
-export default DateofAdd;
+export default Language;

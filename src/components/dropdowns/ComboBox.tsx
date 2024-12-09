@@ -17,7 +17,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function Combobox({ type, onSelect,defaultValue }: any) {
+export function Combobox({ type, onSelect, defaultValue }: any) {
   const contactProperties = [
     { value: "firstName", label: <>First Name</> },
     { value: "lastName", label: <>Last Name</> },
@@ -29,6 +29,7 @@ export function Combobox({ type, onSelect,defaultValue }: any) {
     { value: "city", label: <>City</> },
     { value: "country", label: <>Country</> },
     { value: "language", label: <>Language</> },
+    { value: "subscription Status", label: <>SubscriptionStatus</> },
   ];
   const orderProperties = [
     {
@@ -61,21 +62,71 @@ export function Combobox({ type, onSelect,defaultValue }: any) {
     },
     {
       value: "customerLanguage",
-      label: "Customer's language when placing the order",
+      label: "Customer's language",
+    },
+  ];
+
+  const productProperties = [
+    {
+      value: "nameOfProduct",
+      label: "Name of the product",
+    },
+    {
+      value: "idOfProduct",
+      label: "ID of the product",
+    },
+    {
+      value: "totalPurchased",
+      label: "Total purchased",
+    },
+  ];
+
+  const abandonedCarts = [
+    {
+      value: "totalAbandonedCarts",
+      label: "Total Abandoned Carts",
+    },
+    {
+      value: "amountInEachAbandonedCart",
+      label: "Amount in each abandoned cart",
+    },
+    {
+      value: "abandonedDate",
+      label: "Abandoned Date",
+    },
+    {
+      value: "abandonedProductName",
+      label: "Abandoned Product Name",
+    },
+    {
+      value: "abandonedProductID",
+      label: "Abandoned Product ID",
+    },
+  ];
+
+  const automationProperties = [
+    {
+      value: "automationEmailStatus",
+      label: "Automation Email Status",
     },
   ];
 
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue?.value);
 
-  let options: { label: any; value:string}[] = [];
+  let options: { label: any; value: string }[] = [];
 
   if (type === "contact") {
     options = contactProperties;
   } else if (type === "order") {
     options = orderProperties;
+  } else if (type === "product") {
+    options = productProperties;
+  }else if(type === "abandonedCart"){
+    options = abandonedCarts
+  }else if(type === "automation"){
+    options = automationProperties
   }
- console.log(defaultValue)
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -83,7 +134,7 @@ export function Combobox({ type, onSelect,defaultValue }: any) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between hover:bg-[#F27052] hover:text-white"
+          className="min-w-fit justify-between hover:bg-[#F27052] hover:text-white"
         >
           {value
             ? options?.find(

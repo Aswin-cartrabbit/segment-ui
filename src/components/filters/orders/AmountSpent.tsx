@@ -1,17 +1,15 @@
-import { DateRangePicker } from "@/components/DateRangePicker";
-import { AniversaryConditionsDropdown } from "@/components/dropdowns/AniversaryConditions";
 import { Combobox } from "@/components/dropdowns/ComboBox";
 import ConditionDropdown from "@/components/dropdowns/ConditionDropdown";
-import { DateDropdown } from "@/components/dropdowns/DateDropdown";
+import { OperatorsDropdown } from "@/components/dropdowns/OperatorDropdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
 
-const BirthDate = ({ index, removeFilter, groupIndex }: any) => {
+const AmountSpent = ({ index, removeFilter, groupIndex }: any) => {
   return (
-    <div className="min-w-fit flex gap-5">
+    <div className="min-w-fit flex gap-5 items-center">
       {index === 0 ? (
-        <span className="whitespace-nowrap">All contacts whose</span>
+        <span className="whitespace-nowrap">All orders where</span>
       ) : (
         <div className="mr-1">
           <ConditionDropdown />
@@ -19,13 +17,14 @@ const BirthDate = ({ index, removeFilter, groupIndex }: any) => {
       )}
       <Combobox
         key={index}
-        type="contact"
-        defaultValue={{ value: "birthdate", label: <>Birthdate</> }}
+        type="order"
+        defaultValue={{
+            value: "totalSpend",
+            label: <>Amount spend in total</>,
+          }}
       />
-      <AniversaryConditionsDropdown />
-      <DateRangePicker />
+      <OperatorsDropdown />
       <Input className="w-[100px]" type="number" />
-      <DateDropdown />
       <Button
         onClick={() => {
           removeFilter(index, groupIndex);
@@ -38,4 +37,4 @@ const BirthDate = ({ index, removeFilter, groupIndex }: any) => {
   );
 };
 
-export default BirthDate;
+export default AmountSpent;
