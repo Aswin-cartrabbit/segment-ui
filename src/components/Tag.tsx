@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-const TagsInput = ({ data, setData }: any) => {
+const TagsInput = ({ data, setData ,type}: any) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleKeyDown = (e: { key: string; preventDefault: () => void }) => {
@@ -54,7 +54,7 @@ const TagsInput = ({ data, setData }: any) => {
       )}
       <div className="flex  items-center border border-gray-300 rounded-md p-0">
         <input
-          type="text"
+          type={type??"text"}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}

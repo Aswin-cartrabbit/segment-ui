@@ -48,22 +48,27 @@ const items = [
     icon: <Mail className="mr-1 h-3 w-3" />,
   },
   {
+    // options: [
+    //   "Order canceld",
+    //   "Order fulfilled",
+    //   "Order refunded",
+    //   "Paid for order",
+    //   "Placed order",
+    //   "Started checkout"
+    // ],
     category: "Placed Orders",
     options: [
       {
-        label: "Amount spent in total",
+        label: "Order canceld",
         icon: <DollarSign className="h-3 w-3" />,
       },
-      { label: "Number of orders", icon: <ShoppingCart className="h-3 w-3" /> },
-      { label: "Order status", icon: <ShoppingCart className="h-3 w-3" /> },
+      { label: "Order fulfilled", icon: <ShoppingCart className="h-3 w-3" /> },
+      { label: "Order refunded", icon: <ShoppingCart className="h-3 w-3" /> },
       {
-        label: "Amount spent per order",
+        label: "Paid for order",
         icon: <DollarSign className="h-3 w-3" />,
       },
-      { label: "Date of the order", icon: <Calendar className="h-3 w-3" /> },
-      { label: "Last Order Date", icon: <Calendar className="h-3 w-3" /> },
-      { label: "Currency of the Order", icon: <Tag className="h-3 w-3" /> },
-      { label: "Customer's language", icon: <Tag className="h-3 w-3" /> },
+      { label: "Placed order", icon: <Calendar className="h-3 w-3" /> },
     ],
     icon: <ShoppingCart className="mr-1 h-3 w-3" />,
   },
@@ -99,8 +104,8 @@ const items = [
       { label: "Clicked on mail", icon: <Mail className="h-3 w-3" /> },
       { label: "Marked mail as spam", icon: <Mail className="h-3 w-3" /> },
       { label: "Mail delivery failed", icon: <Mail className="h-3 w-3" /> },
-      { label: "Message sent", icon: <Mail className="h-3 w-3" /> },
-      { label: "Opened message", icon: <Mail className="h-3 w-3" /> },
+      { label: "Mail sent", icon: <Mail className="h-3 w-3" /> },
+      { label: "Opened Mail", icon: <Mail className="h-3 w-3" /> },
       { label: "Opted in", icon: <Mail className="h-3 w-3" /> },
       { label: "Opted out", icon: <Mail className="h-3 w-3" /> },
       { label: "Viewed page", icon: <Mail className="h-3 w-3" /> },
@@ -134,7 +139,6 @@ export function AddFilter({ index, addFilter }: any) {
     currentValue: React.SetStateAction<string>,
     category: React.SetStateAction<string>
   ) => {
-
     setValue(currentValue === value ? "" : currentValue);
     setOpen(false);
 
@@ -171,7 +175,7 @@ export function AddFilter({ index, addFilter }: any) {
             <span className="text-sm">+ Filter</span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent  className="w-[300px] p-0 flex ml-10">
+        <PopoverContent className="w-[300px] p-0 flex ml-10">
           <Command>
             <CommandInput placeholder="Search filter..." />
             <CommandList>
@@ -189,13 +193,15 @@ export function AddFilter({ index, addFilter }: any) {
                   }
                 >
                   {group.options.map((option) => (
+                    <div className="hover:bg[#F27052]">
+                      
                     <CommandItem
                       key={option.label}
                       value={option.label}
                       onSelect={(currentValue) => {
                         onSelect(currentValue, group.category);
                       }}
-                      className="flex items-center space-x-2"
+                      className="flex items-center space-x-2 ml-5"
                       onMouseEnter={() => {
                         setHoveredOption(option.label);
                         setCategory(group.category);
@@ -208,6 +214,7 @@ export function AddFilter({ index, addFilter }: any) {
                       {option.icon}
                       <span>{option.label}</span>
                     </CommandItem>
+                    </div>
                   ))}
                 </CommandGroup>
               ))}

@@ -1,15 +1,15 @@
-import { DatePickerWithPresets } from "@/components/DatePickerWithPresets";
+import BooleanDropdown from "@/components/dropdowns/Boolean";
 import { Combobox } from "@/components/dropdowns/ComboBox";
 import ConditionDropdown from "@/components/dropdowns/ConditionDropdown";
 import { CustomDropdown } from "@/components/dropdowns/CustomDropdown";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 
-const AbandonedDate = ({ index, removeFilter, groupIndex }: any) => {
+const EmailCampaignStatus = ({ index, removeFilter, groupIndex }: any) => {
   return (
     <div className="min-w-fit flex gap-5 items-center">
       {index === 0 ? (
-        <span className="whitespace-nowrap">Abandoned Carts</span>
+        <span className="whitespace-nowrap">Email campaigns where</span>
       ) : (
         <div className="mr-1">
           <ConditionDropdown />
@@ -17,14 +17,50 @@ const AbandonedDate = ({ index, removeFilter, groupIndex }: any) => {
       )}
       <Combobox
         key={index}
-        type="abandonedCart"
+        type="emailCampaign"
         defaultValue={{
-          value: "abandonedDate",
-          label: <>Abandoned Date</>,
+          value: "EmailCampaignStatus",
+          label: <>Campaign Email Status</>,
         }}
       />
+      <span>for</span>
       <CustomDropdown
-        defaulValue="after"
+        defaulValue=""
+        items={[
+          {
+            value: "anyCampaign",
+            label: "Any Campaign",
+          },
+        ]}
+      />
+      <BooleanDropdown />
+      <CustomDropdown
+        defaulValue="opened"
+        items={[
+          {
+            value: "opened",
+            label: "Opened",
+          },
+          {
+            value: "linkClicked",
+            label: "Link Clicked",
+          },
+          {
+            value: "unsubscribed",
+            label: "Unsubscribed",
+          },
+          {
+            value: "failed",
+            label: "Failed",
+          },
+          {
+            value: "deliverd",
+            label: "Deliverd",
+          },
+        ]}
+      />
+      <CustomDropdown
+        defaulValue="isBefore"
         items={[
           {
             value: "after",
@@ -48,7 +84,6 @@ const AbandonedDate = ({ index, removeFilter, groupIndex }: any) => {
           },
         ]}
       />
-      <DatePickerWithPresets />
       <Button
         onClick={() => {
           removeFilter(index, groupIndex);
@@ -61,4 +96,4 @@ const AbandonedDate = ({ index, removeFilter, groupIndex }: any) => {
   );
 };
 
-export default AbandonedDate;
+export default EmailCampaignStatus;

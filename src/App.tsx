@@ -23,7 +23,7 @@ function App() {
                     {
                       type: "rule",
                       rule: {
-                        resourceType: "contacts",
+                        resourceType: "contact",
                         filter: {
                           junction: "and",
                           filterType: "junction",
@@ -36,107 +36,7 @@ function App() {
                                 operator: "eq",
                                 value: {
                                   operator: "any",
-                                  values: ["hello", "kumar"],
-                                },
-                              },
-                            },
-                            {
-                              filterType: "filter",
-                              filterValue: {
-                                property: "birthdate",
-                                valueType: "string_list",
-                                operator: "eq",
-                                value: {
-                                  operator: "any",
-                                  values: ["hello", "kumar"],
-                                },
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                type: "group",
-                group: {
-                  junction: "and",
-                  members: [
-                    {
-                      type: "rule",
-                      rule: {
-                        resourceType: "contacts",
-                        filter: {
-                          junction: "and",
-                          filterType: "junction",
-                          filters: [
-                            {
-                              filterType: "filter",
-                              filterValue: {
-                                property: "language",
-                                valueType: "string_list",
-                                operator: "eq",
-                                value: {
-                                  operator: "any",
-                                  values: ["hello", "kumar"],
-                                },
-                              },
-                            },
-                            {
-                              filterType: "filter",
-                              filterValue: {
-                                property: "firstName",
-                                valueType: "string_list",
-                                operator: "eq",
-                                value: {
-                                  operator: "any",
-                                  values: ["hello", "kumar"],
-                                },
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                type: "group",
-                group: {
-                  junction: "and",
-                  members: [
-                    {
-                      type: "rule",
-                      rule: {
-                        resourceType: "contacts",
-                        filter: {
-                          junction: "and",
-                          filterType: "junction",
-                          filters: [
-                            {
-                              filterType: "filter",
-                              filterValue: {
-                                property: "dateOfAddition",
-                                valueType: "string_list",
-                                operator: "eq",
-                                value: {
-                                  operator: "any",
-                                  values: ["hello", "kumar"],
-                                },
-                              },
-                            },
-                            {
-                              filterType: "filter",
-                              filterValue: {
-                                property: "firstName",
-                                valueType: "string_list",
-                                operator: "eq",
-                                value: {
-                                  operator: "any",
-                                  values: ["hello", "kumar"],
+                                  values: ["John", "Jane"],
                                 },
                               },
                             },
@@ -154,11 +54,28 @@ function App() {
     },
   });
 
+  const setRule = (
+    rule: any,
+    resourceType: string,
+    groupIndex: number,
+    filterIndex: number
+  ) => {
+    setFilter((prevFilter) => {
+      const newFilter = JSON.parse(JSON.stringify(prevFilter));
+      newFilter.group.members[0].group.members[groupIndex].group.members.find(
+        (member: { rule: { resourceType: string } }) =>
+          member.rule.resourceType === resourceType
+      ).rule.filter.filters[filterIndex] = rule;
+
+      return newFilter;
+    });
+  };
+
+  console.log(filter);
   const addGroup = (newMember: any) => {
     setFilter((prevFilter) => {
       const newFilter = JSON.parse(JSON.stringify(prevFilter));
       const members = newFilter.group.members[0]?.group?.members;
-
       if (!Array.isArray(members)) {
         newFilter.group.members[0] = {
           type: "group",
@@ -178,8 +95,6 @@ function App() {
     category: string,
     hoveredOption: string
   ) => {
-
-    console.log(index, category, hoveredOption);
     setFilter((prevFilter) => {
       const newFilter = JSON.parse(JSON.stringify(prevFilter));
 
@@ -308,7 +223,11 @@ function App() {
       return newFilter;
     });
   };
-  const removeFilter = (indexToRemove: number, groupIndex: number) => {
+  const removeFilter = (
+    indexToRemove: number,
+    groupIndex: number,
+    filterType: string
+  ) => {
     setFilter((prevFilter) => {
       const newFilter = JSON.parse(JSON.stringify(prevFilter));
       if (
@@ -316,16 +235,35 @@ function App() {
           newFilter.group.members[0].group.members[groupIndex]?.group.members
         )
       ) {
-        newFilter.group.members[0].group.members[
+        newFilter.group.members[0].group.members[groupIndex].group.members.find(
+          (member: { rule: { resourceType: string } }) =>
+            member.rule.resourceType === filterType
+        ).rule.filter.filters = newFilter.group.members[0].group.members[
           groupIndex
-        ].group.members[0].rule.filter.filters =
-          newFilter.group.members[0].group.members[
-            groupIndex
-          ].group.members[0].rule.filter.filters.filter(
+        ].group.members
+          .find(
+            (member: { rule: { resourceType: string } }) =>
+              member.rule.resourceType === filterType
+          )
+          .rule.filter.filters.filter(
             (_: any, index: number) => index !== indexToRemove
           );
+        const members = newFilter.group.members[0].group.members[
+          groupIndex
+        ].group.members.find(
+          (member: { rule: { resourceType: string } }) =>
+            member.rule.resourceType === filterType
+        ).rule.filter.filters;
+        if (members.length === 0) {
+          newFilter.group.members[0].group.members[groupIndex].group.members =
+            newFilter.group.members[0].group.members[
+              groupIndex
+            ].group.members.filter(
+              (member: { rule: { resourceType: string } }) =>
+                member.rule.resourceType !== "contacts"
+            );
+        }
       }
-
       return newFilter;
     });
   };
@@ -344,6 +282,7 @@ function App() {
               cloneGroup={cloneGroup}
               addFilter={addFilter}
               removeFilter={removeFilter}
+              setRule={setRule}
             />
           </div>
         ))

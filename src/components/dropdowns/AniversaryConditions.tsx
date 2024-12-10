@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
@@ -58,9 +56,9 @@ const items = [
   },
 ];
 
-export function AniversaryConditionsDropdown() {
+export function AniversaryConditionsDropdown({ onSelect, defaultValue }: any) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("aniversary is in the next");
+  const [value, setValue] = React.useState(defaultValue ?? "exists");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -89,6 +87,7 @@ export function AniversaryConditionsDropdown() {
                   value={condition.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
+                    onSelect(currentValue);
                     setOpen(false);
                   }}
                 >

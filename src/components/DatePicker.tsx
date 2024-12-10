@@ -1,60 +1,57 @@
-import * as React from "react"
-import { addDays, format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
- 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+import * as React from "react";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
- 
-export function DatePickerWithPresets() {
-  const [date, setDate] = React.useState<Date>()
- 
+} from "@/components/ui/popover";
+
+interface DatePickerProps {
+  selected?: Date;
+  onChange?: any 
+}
+
+export function DatePicker({ selected, onChange }: DatePickerProps) {
+  const [internalDate, setInternalDate] = React.useState<Date | undefined>(selected);
+
+  const handleDateSelect = (date: Date | undefined) => {
+    setInternalDate(date);
+    if (onChange) {
+      onChange(date); 
+    }
+  };
+
+  React.useEffect(() => {
+    setInternalDate(selected); 
+  }, [selected]);
+
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal hover:bg-[#F27052] hover:text-white",
-            !date && "text-muted-foreground"
+            "w-[280px] justify-start text-left font-normal",
+            !internalDate && "text-muted-foreground"
           )}
         >
-          <CalendarIcon />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {internalDate ? format(internalDate, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="flex w-auto flex-col space-y-2 p-2">
-        <Select
-          onValueChange={(value) =>
-            setDate(addDays(new Date(), parseInt(value)))
-          }
-        >
-          <SelectTrigger className="">
-            <SelectValue placeholder="Select" />
-          </SelectTrigger>
-          <SelectContent position="popper">
-            <SelectItem className="hover:text-white" value="0">Today</SelectItem>
-            <SelectItem value="1">Tomorrow</SelectItem>
-            <SelectItem value="3">In 3 days</SelectItem>
-            <SelectItem value="7">In a week</SelectItem>
-          </SelectContent>
-        </Select>
-        <div className="rounded-md border">
-          <Calendar mode="single" selected={date} onSelect={setDate} />
-        </div>
+      <PopoverContent className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={internalDate}
+          onSelect={handleDateSelect}
+          initialFocus
+        />
       </PopoverContent>
     </Popover>
-  )
+  );
 }

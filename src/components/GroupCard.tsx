@@ -23,16 +23,27 @@ import ProductID from "./filters/Product/ProductID";
 import TotalPurchased from "./filters/Product/TotalPurchased";
 import OrderCurrency from "./filters/orders/OrderCurrency";
 import AutomationEmailStatus from "./filters/automation/AutomationEmailStatus";
+import EmailClick from "./filters/emailCampaign/EmailClick";
+import AbandonedDate from "./filters/abandonedCart/AbandonedDate";
+import AbandonedProductName from "./filters/abandonedCart/AbandonedProductName";
+import AbandonedProductId from "./filters/abandonedCart/AbandonedProductId";
+import AmountInEachAbandonedCart from "./filters/abandonedCart/AmountInEachAbandonedCart";
+import TotalAbandonedCarts from "./filters/abandonedCart/TotalAbandonedCarts";
+import PhoneNumber from "./filters/contacts/PhoneNumber";
+import City from "./filters/contacts/City";
+import State from "./filters/contacts/State";
+import Country from "./filters/contacts/Country";
 
 const getFilterComponent = (
   filter: any,
   filterIndex: number,
   removeFilter: any,
-  groupIndex: number
+  groupIndex: number,
+  setRule: any
 ) => {
   const filterItems = filter.rule.filter.filters;
   switch (filter.rule.resourceType) {
-    case "contacts":
+    case "contact":
       return (
         <div key={filterIndex} className="flex flex-col gap-2">
           {filterItems.map((rule: any, ruleIndex: number) => {
@@ -45,6 +56,8 @@ const getFilterComponent = (
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
               case "lastName":
@@ -55,6 +68,8 @@ const getFilterComponent = (
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
               case "email":
@@ -65,6 +80,8 @@ const getFilterComponent = (
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
               case "language":
@@ -75,6 +92,8 @@ const getFilterComponent = (
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
               case "birthdate":
@@ -85,6 +104,8 @@ const getFilterComponent = (
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
               case "dateOfAddition":
@@ -95,6 +116,8 @@ const getFilterComponent = (
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
               case "tag":
@@ -117,8 +140,56 @@ const getFilterComponent = (
                     groupIndex={groupIndex}
                   />
                 );
+              case "phoneNumber":
+                return (
+                  <PhoneNumber
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
+                  />
+                );
+              case "city":
+                return (
+                  <City
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
+                  />
+                );
+              case "state":
+                return (
+                  <State
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
+                  />
+                );
+              case "country":
+                return (
+                  <Country
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
+                  />
+                )
               default:
-                return null; // If no match, return null or a fallback component
+                return null;
             }
           })}
         </div>
@@ -274,7 +345,181 @@ const getFilterComponent = (
             }
           })}
         </div>
-      )
+      );
+    case "emailCampaign":
+      return (
+        <div key={filterIndex} className="flex flex-col gap-2">
+          {filterItems.map((rule: any, ruleIndex: number) => {
+            switch (rule.filterValue.property) {
+              case "EmailCampaignStatus":
+                return (
+                  // <EmailCampaignStatus
+                  //   key={ruleIndex}
+                  //   index={ruleIndex}
+                  //   className="filter-item"
+                  //   removeFilter={removeFilter}
+                  //   groupIndex={groupIndex}
+                  // />
+                  <>helllasdasdo</>
+                );
+              case "clickedOnMail":
+                return (
+                  <EmailClick
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              case "markedMailAsSpam":
+                return (
+                  <EmailClick
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              case "openedMail":
+                return (
+                  <EmailClick
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              case "mailDeliveryFailed":
+                return (
+                  <EmailClick
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              case "mailSent":
+                return (
+                  <EmailClick
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              case "optedIn":
+                return (
+                  <EmailClick
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              case "optedOut":
+                return (
+                  <EmailClick
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              case "ViewedPage":
+                return (
+                  <EmailClick
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              default:
+                return null;
+            }
+          })}
+        </div>
+      );
+
+    case "abandonedCart":
+      return (
+        <div key={filterIndex} className="flex flex-col gap-2">
+          {filterItems.map((rule: any, ruleIndex: number) => {
+            switch (rule.filterValue.property) {
+              case "abandonedDate":
+                return (
+                  <AbandonedDate
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              case "abandonedProductName":
+                return (
+                  <AbandonedProductName
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              case "abandonedProductID":
+                return (
+                  <AbandonedProductId
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              case "abandonedProductID":
+                return (
+                  <AbandonedProductId
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              case "amountInEachAbandonedCart":
+                return (
+                  <AmountInEachAbandonedCart
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              case "totalAbandonedCarts":
+                return (
+                  <TotalAbandonedCarts
+                    key={ruleIndex}
+                    index={ruleIndex}
+                    className="filter-item"
+                    removeFilter={removeFilter}
+                    groupIndex={groupIndex}
+                  />
+                );
+              default:
+                return null;
+            }
+          })}
+        </div>
+      );
     default:
       return null;
   }
@@ -289,36 +534,44 @@ const GroupCard = ({
   cloneGroup,
   addFilter,
   removeFilter,
+  setRule,
 }: any) => {
   return (
     <Card
-      className={`min-w-fit max-w-1/2 p-5 flex flex-col gap-4 relative hover:cursor-grab ${
+      className={`min-w-fit max-w-1/2 p-5 flex flex-col gap-4 relative  ${
         member.group.junction === "or" && members?.length - 1 !== index
           ? "mb-10"
           : ""
       }`}
-      draggable={true}
     >
       <div className="flex justify-between items-start gap-2">
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col w-full gap-5">
           {member.group.members.map((filter: any, filterIndex: number) => {
             const groupIndex = index;
             return (
-              <>
+              <div key={filterIndex}>
                 {filterIndex !== 0 && (
-                  <div className="h-4 w-full flex mb-3">
-                    <ConditionDropdown />
-                  </div>
+                  <>
+                    <div className="h-4 flex mb-3 mr-1 w-full">
+                      <ConditionDropdown />
+                    </div>
+                  </>
                 )}
                 {getFilterComponent(
                   filter,
                   filterIndex,
                   removeFilter,
-                  groupIndex
+                  groupIndex,
+                  setRule
                 )}
-              </>
+              </div>
             );
           })}
+          {/* <div className="flex gap-2 w-fit">
+            <DottedButton text="Add filter" onClick={() => addFilter(index)} />
+            <DottedButton text="Add filter" onClick={() => addFilter(index)} />
+            <DottedButton text="Add filter" onClick={() => addFilter(index)} />
+          </div> */}
         </div>
         <div className="flex items-center gap-4">
           <Button

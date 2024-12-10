@@ -10,14 +10,17 @@
     "State": "The state or province where the contact lives. This information helps in segmenting users based on regions or regulatory needs.",
     "Country": "The country where the contact is based. It is often essential for compliance with local laws and tailoring content for specific regions.",
     "Language": "The preferred language of the contact, which ensures communication is in a language the customer understands and feels comfortable with.",
-    "Amount spent in total": "The total monetary value that the customer has spent across all orders. This helps identify high-value customers for special offers or loyalty programs.",
-    "Number of orders": "This is the total count of orders placed by the customer, which can give insight into their buying frequency and loyalty.",
-    "Order status": "Indicates the current status of a customer’s order, such as pending, shipped, or completed, helping track the customer journey.",
-    "Amount spent per order": "The average amount the customer spends on each order. This helps assess the purchasing behavior and can inform upsell strategies.",
-    "Date of the order": "The date when a specific order was placed. This can help track order trends and the timing of purchases.",
-    "Last Order Date": "This represents the most recent order placed by the customer. It’s a useful metric for understanding customer activity and engagement.",
-    "Currency of the Order": "The currency used for the customer’s orders. This is important for international customers and financial reporting.",
-    "Customer's language": "This shows the language preference of the customer, helping ensure the customer receives communication in their preferred language.",
+    
+"Order canceld":
+      "The order was canceled either by the customer, due to inventory issues, or by the system for reasons like fraud detection.",
+    "Order fulfilled": "The order has been successfully processed, packaged, and shipped to the customer, completing the fulfillment stage.",
+    "Order refunded": "The customer has received a refund for the order, which could be due to returns, cancellations, or disputes.",
+    "Paid for order":
+      "The customer has successfully paid for the order, and payment confirmation has been received, allowing the order to be processed.",
+    "Placed order": "The customer has completed the purchase process and successfully placed an order, initiating the order workflow.",
+    "Last Order Date":
+      "The date of the most recent order placed by the customer.",
+    "Started checkout": "The customer has begun the checkout process, entering payment and shipping information but has not yet completed the purchase.",   
     "Name of the product": "The name of the product purchased by the customer. Knowing what products customers are buying helps personalize future marketing and recommendations.",
     "ID of the product": "A unique identifier for each product, which helps track inventory, sales, and customer preferences more accurately.",
     "Total purchased": "This refers to the total quantity of a specific product purchased by the customer. It helps in understanding product popularity and customer demand.",

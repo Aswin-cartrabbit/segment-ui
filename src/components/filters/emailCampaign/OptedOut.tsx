@@ -1,28 +1,58 @@
-import { DatePickerWithPresets } from "@/components/DatePickerWithPresets";
 import { Combobox } from "@/components/dropdowns/ComboBox";
 import ConditionDropdown from "@/components/dropdowns/ConditionDropdown";
+import Conditions from "@/components/dropdowns/Conditions";
 import { CustomDropdown } from "@/components/dropdowns/CustomDropdown";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
 
-const AbandonedDate = ({ index, removeFilter, groupIndex }: any) => {
+const OptedIn = ({ index, removeFilter, groupIndex }: any) => {
   return (
     <div className="min-w-fit flex gap-5 items-center">
       {index === 0 ? (
-        <span className="whitespace-nowrap">Abandoned Carts</span>
+        <span className="whitespace-nowrap">Who</span>
       ) : (
         <div className="mr-1">
           <ConditionDropdown />
         </div>
       )}
+      <CustomDropdown
+        items={[
+          {
+            value: "have",
+            label: "Have",
+          },
+          {
+            value: "haveNot",
+            label: "Have Not",
+          },
+        ]}
+        defaulValue={"have"}
+      />
       <Combobox
         key={index}
-        type="abandonedCart"
+        type="emailCampaign"
         defaultValue={{
-          value: "abandonedDate",
-          label: <>Abandoned Date</>,
+          value: "optedOut",
+          label: <>Opted out</>,
         }}
       />
+      <Conditions />
+      <CustomDropdown
+        items={[
+          {
+            value: "atLeast",
+            label: "at least",
+          },
+          {
+            value: "exactly",
+            label: "exactly",
+          },
+        ]}
+        defaulValue={"atLeast"}
+      />
+      <Input type="number" className="w-[100px]" />
+      <span>times</span>
       <CustomDropdown
         defaulValue="after"
         items={[
@@ -48,7 +78,6 @@ const AbandonedDate = ({ index, removeFilter, groupIndex }: any) => {
           },
         ]}
       />
-      <DatePickerWithPresets />
       <Button
         onClick={() => {
           removeFilter(index, groupIndex);
@@ -61,4 +90,4 @@ const AbandonedDate = ({ index, removeFilter, groupIndex }: any) => {
   );
 };
 
-export default AbandonedDate;
+export default OptedIn;

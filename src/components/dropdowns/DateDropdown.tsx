@@ -1,8 +1,8 @@
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -10,12 +10,12 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
 const days = [
   {
@@ -30,11 +30,11 @@ const days = [
     value: "months",
     label: "months",
   },
-]
+];
 
-export function DateDropdown() {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+export function DateDropdown({ defaultValue, onSelect }: any) {
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(defaultValue);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -62,8 +62,9 @@ export function DateDropdown() {
                   key={date.value}
                   value={date.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
+                    setValue(currentValue === value ? "" : currentValue);
+                    onSelect(currentValue === value ? "" : currentValue);
+                    setOpen(false);
                   }}
                 >
                   {date.label}
@@ -80,5 +81,5 @@ export function DateDropdown() {
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

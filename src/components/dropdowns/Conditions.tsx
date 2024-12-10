@@ -18,7 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-const Conditions = () => {
+const Conditions = ({onSelect,defaultValue}:any) => {
 
 
     const Conditions = [
@@ -32,7 +32,7 @@ const Conditions = () => {
         { value: "starts_with", label: "Starts With" },
       ]
       const [open, setOpen] = React.useState(false)
-      const [value, setValue] = React.useState(Conditions[0].value)
+      const [value, setValue] = React.useState(defaultValue ?? Conditions[0].value)
     
       return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -61,6 +61,7 @@ const Conditions = () => {
                       value={operator.value}
                       onSelect={(currentValue) => {
                         setValue(currentValue === value ? "" : currentValue)
+                        onSelect(currentValue)
                         setOpen(false)
                       }}
                     >

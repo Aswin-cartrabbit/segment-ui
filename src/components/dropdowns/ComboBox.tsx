@@ -29,6 +29,7 @@ export function Combobox({ type, onSelect, defaultValue }: any) {
     { value: "city", label: <>City</> },
     { value: "country", label: <>Country</> },
     { value: "language", label: <>Language</> },
+    { value: "state", label: <>State</> },
     { value: "subscription Status", label: <>SubscriptionStatus</> },
   ];
   const orderProperties = [
@@ -110,6 +111,44 @@ export function Combobox({ type, onSelect, defaultValue }: any) {
       label: "Automation Email Status",
     },
   ];
+  const emailCampaignProperties = [
+    {
+      value: "emailCampaignStatus",
+      label: "Email Campaign Status",
+    },
+    {
+      value: "clickedOnMail",
+      label: "Clicked on mail",
+    },
+    {
+      value: "markedMailAsSpam",
+      label: "Marked mail as spam",
+    },
+    {
+      value: "openedMail",
+      label: "Opened mail",
+    },
+    {
+      value: "mailDeliveryFailed",
+      label: "Mail delivery failed",
+    },
+    {
+      value: "mailSent",
+      label: "Mail sent",
+    },
+    {
+      value: "optedIn",
+      label: "Opted in",
+    },
+    {
+      value: "optedOut",
+      label: "Opted out",
+    },
+    {
+      value: "ViewedPage",
+      label: "Viewed page",
+    },
+  ];
 
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue?.value);
@@ -122,10 +161,12 @@ export function Combobox({ type, onSelect, defaultValue }: any) {
     options = orderProperties;
   } else if (type === "product") {
     options = productProperties;
-  }else if(type === "abandonedCart"){
-    options = abandonedCarts
-  }else if(type === "automation"){
-    options = automationProperties
+  } else if (type === "abandonedCart") {
+    options = abandonedCarts;
+  } else if (type === "automation") {
+    options = automationProperties;
+  } else if (type === "emailCampaign") {
+    options = emailCampaignProperties;
   }
   return (
     <Popover open={open} onOpenChange={setOpen}>

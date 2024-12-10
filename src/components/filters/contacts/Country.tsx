@@ -1,11 +1,11 @@
 import BooleanDropdown from "@/components/dropdowns/Boolean";
 import { Combobox } from "@/components/dropdowns/ComboBox";
 import ConditionDropdown from "@/components/dropdowns/ConditionDropdown";
-import { CountryPicker } from "@/components/dropdowns/CountryPicker";
+import CountryPicker from "@/components/dropdowns/CountryPicker";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 
-const Country = ({ index,removeFilter,groupIndex }: any) => {
+const Country = ({ index,removeFilter,groupIndex ,rule,setRule}: any) => {
   return (
     <div className="min-w-fit flex gap-5">
       {index === 0 ? (

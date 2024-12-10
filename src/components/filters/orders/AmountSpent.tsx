@@ -27,7 +27,7 @@ const AmountSpent = ({ index, removeFilter, groupIndex }: any) => {
       <Input className="w-[100px]" type="number" />
       <Button
         onClick={() => {
-          removeFilter(index, groupIndex);
+          removeFilter(index, groupIndex,"orders");
         }}
         className="p-2 bg-white hover:bg-[#F27052] group"
       >
