@@ -1,9 +1,8 @@
 import { useState } from "react";
 import GroupCard from "./components/GroupCard";
 import { Button } from "./components/ui/button";
-import { Plus } from "lucide-react";
+import { Contact, Plus, User } from "lucide-react";
 import { getFilter, getValue } from "./helper/common";
-
 function App() {
   const [filter, setFilter] = useState({
     type: "group",
@@ -14,14 +13,186 @@ function App() {
           type: "group",
           group: {
             junction: "and",
-            members: [
-              
-            ],
+            members: [],
           },
         },
       ],
     },
   });
+
+  const config = [
+    {
+      id: "contact",
+      displayName: "Contact Properties",
+      icon: <User className="mr-1 h-4 w-4" />,
+      filters: [
+        {
+          category: "firstName",
+          displayName: "First Name",
+          icon: <User className="mr-1 h-4 w-4" />,
+          description:
+            "The user's first name is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "contains",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "",
+              placeholder: "Enter valid First Name",
+              validate: () => {
+                return {
+                  pattern: {
+                    value: /^[a-zA-Z ]*$/,
+                    message: "Enter a valid name",
+                  },
+                };
+              },
+            },
+          ],
+        },
+        {
+          category: "lastName",
+          displayName: "Last Name",
+          icon: <User className="mr-1 h-4 w-4" />,
+          description:
+            "The user's last name is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "contains",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "",
+              placeholder: "Enter valid First Name",
+              validate: () => {
+                return {
+                  pattern: {
+                    value: /^[a-zA-Z ]*$/,
+                    message: "Enter a valid lastName",
+                  },
+                };
+              },
+            },
+          ],
+        },
+        {
+          category: "tag",
+          displayName: "Tag",
+          icon: <User className="mr-1 h-4 w-4" />,
+          description:
+            "Tags are keywords or labels assigned to a contact to categorize them based on attributes, behaviors, or interests. They help organize contacts for more targeted marketing.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "contains",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "",
+              placeholder: "Enter valid First Name",
+              validate: () => {
+                return {
+                  pattern: {
+                    value: /^[a-zA-Z ]*$/,
+                    message: "Enter a valid lastName",
+                  },
+                };
+              },
+            },
+          ],
+        },
+        {
+          category: "birthdate",
+          displayName: "Birthdate",
+          icon: <User className="mr-1 h-4 w-4" />,
+          description:
+            "The user's birthdate is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "after",
+              options: [
+                {
+                  value: "aniversary is in the next",
+                  label: "aniversary is in the next",
+                },
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "does not exist",
+                  label: "does not exist",
+                },
+                {
+                  value: "exists",
+                  label: "exists",
+                },
+                {
+                  value: "in the last",
+                  label: "in the last",
+                },
+                {
+                  value: "not in the last",
+                  label: "not in the last",
+                },
+                {
+                  value: "on the exact date",
+                  label: "on the exact date",
+                },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "",
+              placeholder: "Enter valid First Name",
+              validate: () => {
+                return {
+                  pattern: {
+                    value: /^[a-zA-Z ]*$/,
+                    message: "Enter a valid lastName",
+                  },
+                };
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ];
+
   const setRule = (
     rule: any,
     resourceType: string,
@@ -57,15 +228,14 @@ function App() {
     });
   };
 
-  console.log(filter);
   const addFilter = (
     index: number,
     category: string,
     hoveredOption: string
   ) => {
+    console.log(index, category, hoveredOption);
     setFilter((prevFilter) => {
       const newFilter = JSON.parse(JSON.stringify(prevFilter));
-
       // Access the group members array
       const groupMembers = newFilter.group.members[0]?.group?.members;
 
@@ -80,10 +250,10 @@ function App() {
           // Find the member where the category exists
           const targetMember = members.find((member: any) => {
             // Check if the category matches the resourceType or if it's the right condition
-            return member?.rule?.resourceType === getValue(category);
+            return member?.rule?.resourceType === category;
           });
           if (targetMember) {
-            targetMember.rule.resourceType = getValue(category);
+            targetMember.rule.resourceType = category;
             const newFilterToAdd = getFilter(hoveredOption);
             if (Array.isArray(targetMember.rule.filter.filters)) {
               targetMember.rule.filter.filters.push(newFilterToAdd);
@@ -94,7 +264,7 @@ function App() {
             const newFilterToAdd = {
               type: "rule",
               rule: {
-                resourceType: getValue(category),
+                resourceType: category,
                 filter: {
                   junction: "and",
                   filterType: "junction",
@@ -167,11 +337,13 @@ function App() {
       return newFilter;
     });
   };
+  console.log(filter);
   const removeFilter = (
     indexToRemove: number,
     groupIndex: number,
     filterType: string
   ) => {
+    console.log(indexToRemove, groupIndex, filterType);
     setFilter((prevFilter) => {
       const newFilter = JSON.parse(JSON.stringify(prevFilter));
       if (
@@ -227,6 +399,7 @@ function App() {
               addFilter={addFilter}
               removeFilter={removeFilter}
               setRule={setRule}
+              config={config}
             />
           </div>
         ))

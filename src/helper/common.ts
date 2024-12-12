@@ -56,7 +56,8 @@ export function getValue(string: string) {
 }
 
 export function getFilter(type: string) {
-  switch (getValue(type)) {
+  console.log(type);
+  switch (type) {
     case "firstName":
     case "lastName":
     case "email":
@@ -67,7 +68,7 @@ export function getFilter(type: string) {
       return {
         filterType: "filter",
         filterValue: {
-          property: getValue(type),
+          property: type,
           valueType: "string_list",
           operator: "contains",
           value: {
@@ -81,7 +82,7 @@ export function getFilter(type: string) {
       return {
         filterType: "filter",
         filterValue: {
-          property: getValue(type),
+          property: type,
           valueType: "string",
           operator: "",
           value: {
@@ -94,7 +95,7 @@ export function getFilter(type: string) {
       return {
         filterType: "filter",
         filterValue: {
-          property: getValue(type),
+          property: type,
           valueType: "string_list",
           operator: "",
           value: {
@@ -109,7 +110,7 @@ export function getFilter(type: string) {
       return {
         filterType: "filter",
         filterValue: {
-          property: "dateOfAddition",
+          property: type,
           valueType: "string_list",
           operator: "",
           value: {
@@ -128,7 +129,7 @@ export function getFilter(type: string) {
       return {
         filterType: "filter",
         filterValue: {
-          property: getValue(type),
+          property: type,
           valueType: "object",
           operator: "",
           value: {
@@ -140,7 +141,7 @@ export function getFilter(type: string) {
       return {
         filterType: "filter",
         filterValue: {
-          property: getValue(type),
+          property: type,
           valueType: "object",
           operator: "",
           value: {

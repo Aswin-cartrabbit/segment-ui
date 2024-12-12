@@ -17,21 +17,21 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-interface Item {
+interface Options {
   value: string;
   label: string;
 }
 export function CustomDropdown({
-  items,
-  defaulValue,
+  options,
+  defaultValue,
   onSelect,
 }: {
-  items: Item[];
-  defaulValue: string;
+  options: Options[];
+  defaultValue: string;
   onSelect: any;
 }) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(defaulValue);
+  const [value, setValue] = React.useState(defaultValue);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -43,7 +43,7 @@ export function CustomDropdown({
           className="w-[200px] justify-between"
         >
           {value
-            ? items.find((item) => item.value === value)?.label
+            ? options.find((item) => item.value === value)?.label
             : "Select item..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
@@ -54,7 +54,7 @@ export function CustomDropdown({
           <CommandList>
             <CommandEmpty>No item found.</CommandEmpty>
             <CommandGroup>
-              {items.map((item) => (
+              {options.map((item) => (
                 <CommandItem
                   key={item.value}
                   value={item.value}

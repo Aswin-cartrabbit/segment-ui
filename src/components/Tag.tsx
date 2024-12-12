@@ -1,6 +1,5 @@
 import {
   JSXElementConstructor,
-  Key,
   ReactElement,
   ReactNode,
   ReactPortal,
@@ -24,7 +23,7 @@ const TagsInput = ({ data, setData ,type}: any) => {
 
   return (
     <div className="flex items-centr">
-      {data.map(
+      {data && data.map(
         (
           tag:
             | string
