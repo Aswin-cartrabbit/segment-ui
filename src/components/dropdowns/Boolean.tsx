@@ -18,7 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-const BooleanDropdown = () => {
+const BooleanDropdown = ({onSelect}:any) => {
 
 
     const operators = [
@@ -54,6 +54,7 @@ const BooleanDropdown = () => {
                       value={operator.value}
                       onSelect={(currentValue) => {
                         setValue(currentValue === value ? "" : currentValue)
+                        onSelect(currentValue)
                         setOpen(false)
                       }}
                     >

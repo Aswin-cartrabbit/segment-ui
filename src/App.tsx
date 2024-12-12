@@ -2,7 +2,7 @@ import { useState } from "react";
 import GroupCard from "./components/GroupCard";
 import { Button } from "./components/ui/button";
 import { Plus } from "lucide-react";
-import { getValue } from "./helper/common";
+import { getFilter, getValue } from "./helper/common";
 
 function App() {
   const [filter, setFilter] = useState({
@@ -15,45 +15,13 @@ function App() {
           group: {
             junction: "and",
             members: [
-              {
-                type: "group",
-                group: {
-                  junction: "or",
-                  members: [
-                    {
-                      type: "rule",
-                      rule: {
-                        resourceType: "contact",
-                        filter: {
-                          junction: "and",
-                          filterType: "junction",
-                          filters: [
-                            {
-                              filterType: "filter",
-                              filterValue: {
-                                property: "firstName",
-                                valueType: "string_list",
-                                operator: "eq",
-                                value: {
-                                  operator: "any",
-                                  values: ["John", "Jane"],
-                                },
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
+              
             ],
           },
         },
       ],
     },
   });
-
   const setRule = (
     rule: any,
     resourceType: string,
@@ -71,7 +39,6 @@ function App() {
     });
   };
 
-  console.log(filter);
   const addGroup = (newMember: any) => {
     setFilter((prevFilter) => {
       const newFilter = JSON.parse(JSON.stringify(prevFilter));
@@ -90,6 +57,7 @@ function App() {
     });
   };
 
+  console.log(filter);
   const addFilter = (
     index: number,
     category: string,
@@ -116,18 +84,7 @@ function App() {
           });
           if (targetMember) {
             targetMember.rule.resourceType = getValue(category);
-            const newFilterToAdd = {
-              filterType: "filter",
-              filterValue: {
-                property: getValue(hoveredOption),
-                valueType: "string_list",
-                operator: "eq",
-                value: {
-                  operator: "any",
-                  values: [],
-                },
-              },
-            };
+            const newFilterToAdd = getFilter(hoveredOption);
             if (Array.isArray(targetMember.rule.filter.filters)) {
               targetMember.rule.filter.filters.push(newFilterToAdd);
             } else {
@@ -141,20 +98,7 @@ function App() {
                 filter: {
                   junction: "and",
                   filterType: "junction",
-                  filters: [
-                    {
-                      filterType: "filter",
-                      filterValue: {
-                        property: getValue(hoveredOption),
-                        valueType: "string_list",
-                        operator: "eq",
-                        value: {
-                          operator: "any",
-                          values: [],
-                        },
-                      },
-                    },
-                  ],
+                  filters: [getFilter(hoveredOption)],
                 },
               },
             };

@@ -59,7 +59,7 @@ const items = [
     category: "Placed Orders",
     options: [
       {
-        label: "Order canceld",
+        label: "Order canceled",
         icon: <DollarSign className="h-3 w-3" />,
       },
       { label: "Order fulfilled", icon: <ShoppingCart className="h-3 w-3" /> },
@@ -69,6 +69,10 @@ const items = [
         icon: <DollarSign className="h-3 w-3" />,
       },
       { label: "Placed order", icon: <Calendar className="h-3 w-3" /> },
+      {
+        label: "Started checkout",
+        icon: <ShoppingCart className="h-3 w-3" />,
+      }
     ],
     icon: <ShoppingCart className="mr-1 h-3 w-3" />,
   },
@@ -194,26 +198,25 @@ export function AddFilter({ index, addFilter }: any) {
                 >
                   {group.options.map((option) => (
                     <div className="hover:bg[#F27052]">
-                      
-                    <CommandItem
-                      key={option.label}
-                      value={option.label}
-                      onSelect={(currentValue) => {
-                        onSelect(currentValue, group.category);
-                      }}
-                      className="flex items-center space-x-2 ml-5"
-                      onMouseEnter={() => {
-                        setHoveredOption(option.label);
-                        setCategory(group.category);
-                      }}
-                      onMouseLeave={() => {
-                        setHoveredOption(null);
-                        setCategory(null);
-                      }}
-                    >
-                      {option.icon}
-                      <span>{option.label}</span>
-                    </CommandItem>
+                      <CommandItem
+                        key={option.label}
+                        value={option.label}
+                        onSelect={(currentValue) => {
+                          onSelect(currentValue, group.category);
+                        }}
+                        className="flex items-center space-x-2 ml-5"
+                        onMouseEnter={() => {
+                          setHoveredOption(option.label);
+                          setCategory(group.category);
+                        }}
+                        onMouseLeave={() => {
+                          setHoveredOption(null);
+                          setCategory(null);
+                        }}
+                      >
+                        {option.icon}
+                        <span>{option.label}</span>
+                      </CommandItem>
                     </div>
                   ))}
                 </CommandGroup>

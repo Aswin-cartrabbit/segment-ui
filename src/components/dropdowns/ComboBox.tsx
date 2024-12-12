@@ -34,37 +34,28 @@ export function Combobox({ type, onSelect, defaultValue }: any) {
   ];
   const orderProperties = [
     {
-      value: "totalSpend",
-      label: <>Amount spend in total</>,
+      value:"orderCanceled",
+      label:"Order Canceled"
     },
     {
-      value: "numberOfOrders",
-      label: "Number of orders",
+      value:"orderFulfilled",
+      label:"Order Fulfilled"
     },
     {
-      value: "orderStatus",
-      label: "Order status",
+      value:"orderRefunded",
+      label:"Order Refunded"
     },
     {
-      value: "amountSpentPerOrder",
-      label: "Amount spent per order",
+      value:"paidForOrder",
+      label:"Paid For Order"
+    },{
+      value:"placedOrder",
+      label:"Placed Order"
     },
     {
-      value: "dateOfOrder",
-      label: "Date of the order",
-    },
-    {
-      value: "lastOrderDate",
-      label: "Last Order Date",
-    },
-    {
-      value: "currencyOfTheOrder",
-      label: "Currency of the Order",
-    },
-    {
-      value: "customerLanguage",
-      label: "Customer's language",
-    },
+      value:"startedCheckout",
+      label:"Started Checkout"
+    }
   ];
 
   const productProperties = [

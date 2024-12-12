@@ -13,16 +13,14 @@ export function getValue(string: string) {
     Country: "country",
     Language: "language",
 
-
     "Placed Orders": "order",
-    "Amount spent in total": "amountSpent",
-    "Number of orders": "noOfOrders",
-    "Order status": "orderStatus",
-    "Amount spent per order": "amountSpentPerOrder",
-    "Date of the order": "dateOfOrder",
-    "Last Order Date": "lastOrderDate",
-    "Currency of the Order": "currencyOfOrder",
-    "Customer's language": "customerLanguage",
+    "Order canceled": "orderCanceled",
+    "Order fulfilled": "orderFulfilled",
+    "Order refunded": "orderRefunded",
+    "Paid for order": "paidForOrder",
+    "Placed order": "placedOrder",
+    "Started checkout": "startedCheckout",
+
     "Subscription Status": "subscriptionStatus",
 
     "Purchased Product Property": "product",
@@ -55,4 +53,102 @@ export function getValue(string: string) {
   };
 
   return keys[string] || "";
+}
+
+export function getFilter(type: string) {
+  switch (getValue(type)) {
+    case "firstName":
+    case "lastName":
+    case "email":
+    case "phoneNumber":
+    case "tag":
+    case "city":
+    case "state":
+      return {
+        filterType: "filter",
+        filterValue: {
+          property: getValue(type),
+          valueType: "string_list",
+          operator: "contains",
+          value: {
+            operator: "any",
+            values: [],
+          },
+        },
+      };
+    case "country":
+    case "language":
+      return {
+        filterType: "filter",
+        filterValue: {
+          property: getValue(type),
+          valueType: "string",
+          operator: "",
+          value: {
+            operator: "any",
+            values: "",
+          },
+        },
+      };
+    case "subscriptionStatus":
+      return {
+        filterType: "filter",
+        filterValue: {
+          property: getValue(type),
+          valueType: "string_list",
+          operator: "",
+          value: {
+            operator: "any",
+            values: [],
+            status: "",
+          },
+        },
+      };
+    case "dateOfAddition":
+    case "birthdate":
+      return {
+        filterType: "filter",
+        filterValue: {
+          property: "dateOfAddition",
+          valueType: "string_list",
+          operator: "",
+          value: {
+            operator: "any",
+            values: [],
+          },
+        },
+      };
+
+    case "orderCanceled":
+    case "orderFulfilled":
+    case "orderRefunded":
+    case "paidForOrder":
+    case "placedOrder":
+    case "startedCheckout":
+      return {
+        filterType: "filter",
+        filterValue: {
+          property: getValue(type),
+          valueType: "object",
+          operator: "",
+          value: {
+            operator: "any",
+          },
+        },
+      };
+    case "clickedOnMail":
+      return {
+        filterType: "filter",
+        filterValue: {
+          property: getValue(type),
+          valueType: "object",
+          operator: "",
+          value: {
+            operator: "any",
+          },
+        },
+      };
+    default:
+      return null;
+  }
 }

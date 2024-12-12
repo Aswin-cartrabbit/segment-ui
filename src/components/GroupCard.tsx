@@ -8,20 +8,12 @@ import Language from "./filters/contacts/Language";
 import BirthDate from "./filters/contacts/BirthDate";
 import DateofAdd from "./filters/contacts/DateOfAdd";
 import Tag from "./filters/contacts/Tag";
-import AmountSpent from "./filters/orders/AmountSpent";
 import ConditionDropdown from "./dropdowns/ConditionDropdown";
 import { AddFilter } from "./addFilter";
-import NoOfOrders from "./filters/orders/NoOfOrders";
-import OrderStatus from "./filters/orders/OrderStatus";
-import AmountSpentPerOrder from "./filters/orders/AmountSpentPerOrder";
-import DateOfOrder from "./filters/orders/DateOfOrder";
-import LastOrderDate from "./filters/orders/LastOrderDate";
-import CustomerLanguage from "./filters/orders/CustomerLanguage";
 import SubscriptionStatus from "./filters/contacts/SubscriptionStatus";
 import NameOfProduct from "./filters/Product/NameOfProduct";
 import ProductID from "./filters/Product/ProductID";
 import TotalPurchased from "./filters/Product/TotalPurchased";
-import OrderCurrency from "./filters/orders/OrderCurrency";
 import AutomationEmailStatus from "./filters/automation/AutomationEmailStatus";
 import EmailClick from "./filters/emailCampaign/EmailClick";
 import AbandonedDate from "./filters/abandonedCart/AbandonedDate";
@@ -33,6 +25,12 @@ import PhoneNumber from "./filters/contacts/PhoneNumber";
 import City from "./filters/contacts/City";
 import State from "./filters/contacts/State";
 import Country from "./filters/contacts/Country";
+import OrderCancled from "./filters/orders/OrderCancled";
+import OrderFulfilled from "./filters/orders/OrderFulfilled";
+import OrderRefund from "./filters/orders/OrderRefund";
+import PaidForOrder from "./filters/orders/PaidForOrder";
+import PlacedOrder from "./filters/orders/PlacedOrder";
+import StartedCheckout from "./filters/orders/StartedCheckout";
 
 const getFilterComponent = (
   filter: any,
@@ -128,6 +126,8 @@ const getFilterComponent = (
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
               case "subscriptionStatus":
@@ -135,9 +135,10 @@ const getFilterComponent = (
                   <SubscriptionStatus
                     key={ruleIndex}
                     index={ruleIndex}
-                    className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
               case "phoneNumber":
@@ -187,96 +188,88 @@ const getFilterComponent = (
                     rule={rule}
                     setRule={setRule}
                   />
-                )
+                );
               default:
                 return null;
             }
           })}
         </div>
       );
-    case "orders":
+    case "order":
       return (
         <div key={filterIndex} className="flex flex-col gap-2">
           {filterItems.map((rule: any, ruleIndex: number) => {
             switch (rule.filterValue.property) {
-              case "amountSpent":
+              case "orderCanceled":
                 return (
-                  <AmountSpent
+                  <OrderCancled
                     key={ruleIndex}
                     index={ruleIndex}
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
-              case "noOfOrders":
+              case "orderFulfilled":
                 return (
-                  <NoOfOrders
+                  <OrderFulfilled
                     key={ruleIndex}
                     index={ruleIndex}
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
-              case "orderStatus":
+              case "orderRefunded":
                 return (
-                  <OrderStatus
+                  <OrderRefund
                     key={ruleIndex}
                     index={ruleIndex}
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
-              case "amountSpentPerOrder":
+              case "paidForOrder":
                 return (
-                  <AmountSpentPerOrder
+                  <PaidForOrder
                     key={ruleIndex}
                     index={ruleIndex}
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
-              case "dateOfOrder":
+              case "placedOrder":
                 return (
-                  <DateOfOrder
+                  <PlacedOrder
                     key={ruleIndex}
                     index={ruleIndex}
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
-              case "lastOrderDate":
+              case "startedCheckout":
                 return (
-                  <LastOrderDate
+                  <StartedCheckout
                     key={ruleIndex}
                     index={ruleIndex}
                     className="filter-item"
                     removeFilter={removeFilter}
                     groupIndex={groupIndex}
-                  />
-                );
-              case "currencyOfOrder":
-                return (
-                  <OrderCurrency
-                    key={ruleIndex}
-                    index={ruleIndex}
-                    className="filter-item"
-                    removeFilter={removeFilter}
-                    groupIndex={groupIndex}
-                  />
-                );
-              case "customerLanguage":
-                return (
-                  <CustomerLanguage
-                    key={ruleIndex}
-                    index={ruleIndex}
-                    className="filter-item"
-                    removeFilter={removeFilter}
-                    groupIndex={groupIndex}
+                    rule={rule}
+                    setRule={setRule}
                   />
                 );
               default:

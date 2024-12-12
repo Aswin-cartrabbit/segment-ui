@@ -32,7 +32,7 @@ const ConditionDropdown = () => {
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="justify-between hover:bg-[#F27052] hover:text-white"
+              className="justify-between hover:bg-[#F27052]  hover:text-white"
             >
               {value
                 ? operators.find((operator) => operator.value === value)?.label

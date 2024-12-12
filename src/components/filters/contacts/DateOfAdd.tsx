@@ -171,8 +171,8 @@ const between = (filterData: any, handleValueChange: any) => {
         startDate={filterData?.filterValue?.value?.startdate}
         endDate={filterData?.filterValue?.value?.enddate}
         onChange={(range: { start: string; end: string }) => {
-          handleValueChange("startdate", range.start);
-          handleValueChange("enddate", range.end);
+          handleValueChange("startDate", range.start);
+          handleValueChange("endDate", range.end);
         }}
       />
     </>

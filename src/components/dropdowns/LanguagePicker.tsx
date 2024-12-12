@@ -212,7 +212,7 @@ const languages = [
   { value: "zu", label: "Zulu" },
 ];
 
-export function LanguagePicker() {
+export function LanguagePicker({onSelect}:any) {
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
    
@@ -243,6 +243,7 @@ export function LanguagePicker() {
                     value={language.value}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue)
+                      onSelect(currentValue===value ? "" : currentValue)
                       setOpen(false)
                     }}
                   >

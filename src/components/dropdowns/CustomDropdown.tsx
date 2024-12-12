@@ -24,9 +24,11 @@ interface Item {
 export function CustomDropdown({
   items,
   defaulValue,
+  onSelect,
 }: {
   items: Item[];
   defaulValue: string;
+  onSelect: any;
 }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaulValue);
@@ -58,6 +60,7 @@ export function CustomDropdown({
                   value={item.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
+                    onSelect(currentValue);
                     setOpen(false);
                   }}
                 >

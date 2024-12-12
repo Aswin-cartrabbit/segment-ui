@@ -19,7 +19,7 @@ import {
 
 import countries from "../../data/countries.json";
 
-export default function CountryPicker() {
+export default function CountryPicker({onSelect}:any) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const country = countries.map((country) => ({
@@ -60,6 +60,7 @@ export default function CountryPicker() {
                   className="min-w-[500px]"
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
+                    onSelect(currentValue);
                     setOpen(false);
                   }}
                 >
