@@ -30,7 +30,7 @@ const BirthDate = ({ index, removeFilter, groupIndex, rule, setRule }: any) => {
     };
   
     // Reset values based on operator
-    if (["aniversary is in the next", "in the last", "not in the last"].includes(operator)) {
+    if (["aniversary is in the next", "in_the_last", "not_in_the_last"].includes(operator)) {
       newFilterData.filterValue.value = {
         input: "",  // Reset input for other operators
         inputType: "",  // Reset inputType
@@ -119,9 +119,9 @@ const getComponent = (
       return before(filterData, handleValueChange);
     case "between":
       return between(filterData, handleValueChange);
-    case "in the last":
+    case "in_the_last":
       return inTheLast(filterData, handleValueChange);
-    case "not in the last":
+    case "not_in_the_last":
       return notInTheLast(filterData, handleValueChange);
     case "on the exact date":
       return onTheExactDay(filterData, handleValueChange);

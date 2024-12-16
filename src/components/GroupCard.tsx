@@ -1,36 +1,8 @@
 import { Copy, Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
-import LastName from "./filters/contacts/LastName";
-import Email from "./filters/contacts/Email";
-import FirstName from "./filters/contacts/firstName";
-import Language from "./filters/contacts/Language";
-import BirthDate from "./filters/contacts/BirthDate";
-import DateofAdd from "./filters/contacts/DateOfAdd";
-import Tag from "./filters/contacts/Tag";
 import ConditionDropdown from "./dropdowns/ConditionDropdown";
 import { AddFilter } from "./addFilter";
-import SubscriptionStatus from "./filters/contacts/SubscriptionStatus";
-import NameOfProduct from "./filters/Product/NameOfProduct";
-import ProductID from "./filters/Product/ProductID";
-import TotalPurchased from "./filters/Product/TotalPurchased";
-import AutomationEmailStatus from "./filters/automation/AutomationEmailStatus";
-import EmailClick from "./filters/emailCampaign/EmailClick";
-import AbandonedDate from "./filters/abandonedCart/AbandonedDate";
-import AbandonedProductName from "./filters/abandonedCart/AbandonedProductName";
-import AbandonedProductId from "./filters/abandonedCart/AbandonedProductId";
-import AmountInEachAbandonedCart from "./filters/abandonedCart/AmountInEachAbandonedCart";
-import TotalAbandonedCarts from "./filters/abandonedCart/TotalAbandonedCarts";
-import PhoneNumber from "./filters/contacts/PhoneNumber";
-import City from "./filters/contacts/City";
-import State from "./filters/contacts/State";
-import Country from "./filters/contacts/Country";
-import OrderCancled from "./filters/orders/OrderCancled";
-import OrderFulfilled from "./filters/orders/OrderFulfilled";
-import OrderRefund from "./filters/orders/OrderRefund";
-import PaidForOrder from "./filters/orders/PaidForOrder";
-import PlacedOrder from "./filters/orders/PlacedOrder";
-import StartedCheckout from "./filters/orders/StartedCheckout";
 import FilterCard from "./FilterCard";
 
 const getFilterComponent = (
@@ -44,15 +16,13 @@ const getFilterComponent = (
   // Extract the resourceType from the rule
   const resourceType = filter.rule.resourceType;
   const configIds = config.map((item: any) => item.id);
-   if (configIds.includes(resourceType)) {
+  if (configIds.includes(resourceType)) {
     const configItem: any =
       config.find((item: any) => item.id === resourceType) || {};
     const filterItems = filter.rule.filter.filters;
-    console.log(filter);
     return (
       <div key={`group-${groupIndex}`}>
         {filterItems.map((rule: any, ruleIndex: number) => {
-          console.log(filterItems, rule);
           const matchedFilter = configItem.filters.find(
             (item: any) => item.category === rule.filterValue.property
           );
@@ -67,6 +37,7 @@ const getFilterComponent = (
                 rule={rule}
                 setRule={setRule}
                 matchedFilter={matchedFilter}
+                configItem={configItem}
               />
             );
           }
@@ -575,16 +546,16 @@ const GroupCard = ({
       }`}
     >
       <div className="flex justify-between items-start gap-2">
-        <div className="flex flex-col w-full gap-5">
+        <div className="flex flex-col w-full gap-2">
           {member.group.members.map((filter: any, filterIndex: number) => {
+            console.log(filter)
             const groupIndex = index;
-             return (
+            return (
               <div key={filterIndex}>
                 {filterIndex !== 0 && (
                   <>
-                    <div className="h-4 flex mb-3 mr-1 w-full">
-                      <ConditionDropdown />
-                    </div>
+                    <ConditionDropdown />
+                    <br />
                   </>
                 )}
                 {getFilterComponent(

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,11 +23,13 @@ interface Options {
 export function CustomDropdown({
   options,
   defaultValue,
-  onSelect,
+  onChange,
+  id = "",
 }: {
   options: Options[];
   defaultValue: string;
-  onSelect: any;
+  onChange: any;
+  id: string;
 }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue);
@@ -60,7 +61,7 @@ export function CustomDropdown({
                   value={item.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
-                    onSelect(currentValue);
+                    onChange(id,currentValue);
                     setOpen(false);
                   }}
                 >

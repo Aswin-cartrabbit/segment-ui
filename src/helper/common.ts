@@ -56,7 +56,6 @@ export function getValue(string: string) {
 }
 
 export function getFilter(type: string) {
-  console.log(type);
   switch (type) {
     case "firstName":
     case "lastName":
@@ -138,6 +137,8 @@ export function getFilter(type: string) {
         },
       };
     case "clickedOnMail":
+    case "optedIn":
+    case "optedOut":
       return {
         filterType: "filter",
         filterValue: {

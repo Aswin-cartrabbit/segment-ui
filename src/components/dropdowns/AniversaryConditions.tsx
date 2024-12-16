@@ -43,12 +43,12 @@ const items = [
     label: "exists",
   },
   {
-    value: "in the last",
-    label: "in the last",
+    value: "in_the_last",
+    label: "in_the_last",
   },
   {
-    value: "not in the last",
-    label: "not in the last",
+    value: "not_in_the_last",
+    label: "not_in_the_last",
   },
   {
     value: "on the exact date",

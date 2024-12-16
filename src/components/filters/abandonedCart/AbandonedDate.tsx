@@ -24,7 +24,7 @@ const AbandonedDate = ({ index, removeFilter, groupIndex }: any) => {
         }}
       />
       <CustomDropdown
-        defaulValue="after"
+        defaultValue="after"
         items={[
           {
             value: "after",

@@ -1,7 +1,7 @@
 import { Combobox } from "@/components/dropdowns/ComboBox";
 import ConditionDropdown from "@/components/dropdowns/ConditionDropdown";
 import Conditions from "@/components/dropdowns/Conditions";
-import TagsInput from "@/components/Tag";
+import TagsInput from "@/components/MultiInput";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";

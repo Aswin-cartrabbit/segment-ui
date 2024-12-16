@@ -1,5 +1,6 @@
 import * as React from "react";
 import { X } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import {
   Command,
@@ -9,28 +10,33 @@ import {
 } from "@/components/ui/command";
 import { Command as CommandPrimitive } from "cmdk";
 
-type items = Record<"value" | "label", string>;
-export function MultiSelectDropdown({
-  items,
-  selected,
-  setSelected,
-  setItems,
-}: {
-  items: items[];
-  selected: any;
-  setSelected: any;
-  setItems: any;
-}) {
+type Options = Record<"value" | "label", string>;
+
+type FancyMultiSelectProps = {
+  options: Options[];
+  defaultValue?: Options[];
+  onChange?: (selected: Options[]) => void;
+};
+
+export function MultiSelect({
+  options,
+  defaultValue = [],
+  onChange,
+}: FancyMultiSelectProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState<Options[]>(defaultValue);
   const [inputValue, setInputValue] = React.useState("");
 
   const handleUnselect = React.useCallback(
-    (item: items) => {
-      setSelected((prev: any[]) => prev.filter((s) => s.value !== item.value));
-      setItems((prev: any[]) => [...prev, item]); // Add back to items
+    (Options: Options) => {
+      setSelected((prev) => {
+        const newSelected = prev.filter((s) => s.value !== Options.value);
+        onChange?.(newSelected);
+        return newSelected;
+      });
     },
-    [setItems, setSelected]
+    [onChange]
   );
 
   const handleKeyDown = React.useCallback(
@@ -39,10 +45,10 @@ export function MultiSelectDropdown({
       if (input) {
         if (e.key === "Delete" || e.key === "Backspace") {
           if (input.value === "") {
-            setSelected((prev: any) => {
+            setSelected((prev) => {
               const newSelected = [...prev];
-              const removed = newSelected.pop();
-              if (removed) setItems((prev: any[]) => [...prev, removed]);
+              newSelected.pop();
+              onChange?.(newSelected);
               return newSelected;
             });
           }
@@ -52,79 +58,78 @@ export function MultiSelectDropdown({
         }
       }
     },
-    [setItems, setSelected]
+    [onChange]
   );
 
-  const handleSelect = React.useCallback(
-    (item: items) => {
-      setInputValue("");
-      setSelected((prev: any[]) => [...prev, item]); // Add to selected
-      setItems((prev: any[]) => prev.filter((i) => i.value !== item.value)); // Remove from items
-    },
-    [setItems, setSelected]
+  const selectables = options.filter(
+    (Options) => !selected.some((s) => s.value === Options.value)
   );
-
-  const selectables = items;
 
   return (
     <Command
       onKeyDown={handleKeyDown}
-      className="overflow-visible bg-transparent w-fit mt-2"
+      className="overflow-visible bg-transparent max-w-fit"
     >
-      <div className="group w-[400px] rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+      <div className="group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
         <div className="flex flex-wrap gap-1">
-          {selected.map((item: items) => (
+          {selected.map((Options) => (
             <Badge
-              key={item.value}
-              variant="secondary"
-              className="bg-[#FFEDD5] hover:bg-[#F27052] text-[#F6997D] hover:text-white"
+              key={Options.value}
+              variant="outline"
+              className="inline-flex border-none hover:bg-none items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-[#F27052] ring-1 ring-inset ring-red-600/10"
             >
-              {item.label}
+              {Options.label}
               <button
-                className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                className="ml-1   rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    handleUnselect(item);
+                    handleUnselect(Options);
                   }
                 }}
                 onMouseDown={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                 }}
-                onClick={() => handleUnselect(item)}
+                onClick={() => handleUnselect(Options)}
               >
-                <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+                <X className="h-4 w-4 text-[#F27052] hover:bg-[#F27052] rounded-full hover:text-white transition ease-in-out duration-300" />
               </button>
             </Badge>
           ))}
-
           <CommandPrimitive.Input
             ref={inputRef}
             value={inputValue}
             onValueChange={setInputValue}
             onBlur={() => setOpen(false)}
             onFocus={() => setOpen(true)}
-            placeholder="Select items..."
-            className="ml-2 max-w-[400px] flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
+            placeholder="Select Optionss..."
+            className="ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
           />
         </div>
       </div>
-      <div className="relative mt-2">
+      <div className="relative  ">
         <CommandList>
           {open && selectables.length > 0 ? (
-            <div className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
+            <div className="absolute mt-2 top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
               <CommandGroup className="h-full overflow-auto">
-                {selectables.map((item) => (
+                {selectables.map((Options) => (
                   <CommandItem
-                    key={item.value}
+                    key={Options.value}
                     onMouseDown={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                     }}
-                    onSelect={() => handleSelect(item)}
-                    className="cursor-pointer"
+                    onSelect={() => {
+                      setInputValue("");
+                      setSelected((prev) => {
+                        const newSelected = [...prev, Options];
+                        onChange?.(newSelected);
+                        return newSelected;
+                      });
+                    }}
+                    className={"cursor-pointer"}
                   >
-                    {item.label}
+                    {Options.label}
                   </CommandItem>
                 ))}
               </CommandGroup>

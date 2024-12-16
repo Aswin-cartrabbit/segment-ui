@@ -121,8 +121,8 @@ const dropdownOptions = {
     { value: "after", label: "after" },
     { value: "before", label: "before" },
     { value: "between", label: "between" },
-    { value: "in the last", label: "in the last" },
-    { value: "not in the last", label: "not in the last" },
+    { value: "in_the_last", label: "in_the_last" },
+    { value: "not_in_the_last", label: "not_in_the_last" },
     { value: "on the exact date", label: "on the exact date" },
     { value: "in total", label: "in total" },
   ],
@@ -130,8 +130,8 @@ const dropdownOptions = {
 
 const getDefaultValueByOperator = (operator: string) => {
   switch (operator) {
-    case "in the last":
-    case "not in the last":
+    case "in_the_last":
+    case "not_in_the_last":
       return { count: "", operator, input: "", inputType: "" };
     case "after":
     case "before":
@@ -166,8 +166,8 @@ const renderValueComponent = (
       return <DatePickerComponent {...valueProps} dateKey="date" />;
     case "between":
       return <DateRangePickerComponent {...valueProps} />;
-    case "in the last":
-    case "not in the last":
+    case "in_the_last":
+    case "not_in_the_last":
       return <InputWithDropdownComponent {...valueProps} />;
     case "on the exact date":
       return <DatePickerComponent {...valueProps} dateKey="startdate" />;
