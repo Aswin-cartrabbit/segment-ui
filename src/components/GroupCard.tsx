@@ -4,6 +4,7 @@ import { Card } from "./ui/card";
 import ConditionDropdown from "./dropdowns/ConditionDropdown";
 import { AddFilter } from "./addFilter";
 import FilterCard from "./FilterCard";
+import DottedButton from "./DottedButton";
 
 const getFilterComponent = (
   filter: any,
@@ -20,25 +21,29 @@ const getFilterComponent = (
     const configItem: any =
       config.find((item: any) => item.id === resourceType) || {};
     const filterItems = filter.rule.filter.filters;
+    console.log(resourceType);
     return (
       <div key={`group-${groupIndex}`}>
         {filterItems.map((rule: any, ruleIndex: number) => {
           const matchedFilter = configItem.filters.find(
-            (item: any) => item.category === rule.filterValue.property
+            (item: any) => item.category === rule.filterValue?.property
           );
           if (matchedFilter) {
             return (
-              <FilterCard
-                key={ruleIndex}
-                index={ruleIndex}
-                className="filter-item"
-                removeFilter={removeFilter}
-                groupIndex={groupIndex}
-                rule={rule}
-                setRule={setRule}
-                matchedFilter={matchedFilter}
-                configItem={configItem}
-              />
+              <>
+                <FilterCard
+                  key={ruleIndex}
+                  index={ruleIndex}
+                  className="filter-item"
+                  removeFilter={removeFilter}
+                  groupIndex={groupIndex}
+                  rule={rule}
+                  setRule={setRule}
+                  matchedFilter={matchedFilter}
+                  configItem={configItem}
+                  resourceType={resourceType}
+                />
+              </>
             );
           }
         })}
@@ -548,15 +553,18 @@ const GroupCard = ({
       <div className="flex justify-between items-start gap-2">
         <div className="flex flex-col w-full gap-2">
           {member.group.members.map((filter: any, filterIndex: number) => {
-            console.log(filter)
             const groupIndex = index;
+            const configItem: any =
+              config.find(
+                (item: any) => item.id === filter.rule.resourceType
+              ) || {};
             return (
               <div key={filterIndex}>
                 {filterIndex !== 0 && (
-                  <>
+                  <div className="w-full">
                     <ConditionDropdown />
                     <br />
-                  </>
+                  </div>
                 )}
                 {getFilterComponent(
                   filter,
@@ -566,6 +574,21 @@ const GroupCard = ({
                   setRule,
                   config
                 )}
+                <div className="flex gap-2 ml-20">
+                  {configItem.recommendations.map((item: any) => {
+                    const displayName = configItem.filters.find(
+                      (i: any) => i.category === item
+                    ).displayName;
+                    return (
+                      <DottedButton
+                        index={index}
+                        addFilter={addFilter}
+                        config={config}
+                        text={displayName}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             );
           })}

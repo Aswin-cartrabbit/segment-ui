@@ -4,6 +4,7 @@ import { Button } from "./components/ui/button";
 import {
   Calendar,
   Mail,
+  MailIcon,
   MapPin,
   Phone,
   Plus,
@@ -26,40 +27,90 @@ function App() {
                 group: {
                   junction: "and",
                   members: [
-                    {
-                      type: "rule",
-                      rule: {
-                        resourceType: "contact",
-                        filter: {
-                          junction: "and",
-                          filters: [
-                            {
-                              filterType: "filter",
-                              filterValue: {
-                                property: "firstName",
-                                valueType: "string_list",
-                                operator: "does_not_contain",
-                                values: [
-                                  "welcome to the use",
-                                  "asdv",
-                                  "dfffase",
-                                  "grftgvd",
-                                ],
-                              },
-                            },
-                            {
-                              filterType: "filter",
-                              filterValue: {
-                                property: "firstName",
-                                valueType: "string_list",
-                                operator: "ends_with",
-                                values: ["use", "ash"],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    },
+                    // {
+                    //   type: "rule",
+                    //   rule: {
+                    //     resourceType: "contact",
+                    //     filter: {
+                    //       junction: "and",
+                    //       filterType: "junction",
+                    //       filters: [
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "firstName",
+                    //             valueType: "string_list",
+                    //             operator: "contains",
+                    //             values: ["aswins"],
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "firstName",
+                    //             valueType: "string_list",
+                    //             operator: "does_not_contain",
+                    //             values: ["sdesdf", "dfe"],
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "firstName",
+                    //             valueType: "string_list",
+                    //             operator: "does_not_exist",
+                    //             values: [],
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "firstName",
+                    //             valueType: "string_list",
+                    //             operator: "ends_with",
+                    //             values: ["llk", "iio"],
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "firstName",
+                    //             valueType: "string_list",
+                    //             operator: "exists",
+                    //             values: [],
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "firstName",
+                    //             valueType: "string_list",
+                    //             operator: "is",
+                    //             values: ["asddfwsaa"],
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "firstName",
+                    //             valueType: "string_list",
+                    //             operator: "is_not",
+                    //             values: ["asdasd", "dwerfv"],
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "firstName",
+                    //             valueType: "string_list",
+                    //             operator: "starts_with",
+                    //             values: ["asdasd", "asdasdasd"],
+                    //           },
+                    //         },
+                    //       ],
+                    //     },
+                    //   },
+                    // },
                   ],
                 },
               },
@@ -69,7 +120,6 @@ function App() {
       ],
     },
   });
-  console.log(filter)
   const config = [
     {
       id: "contact",
@@ -113,20 +163,18 @@ function App() {
               },
             },
           ],
-          data: [
-            {
-              type: "normal",
-              value: {
-                filterType: "filter",
-                filterValue: {
-                  property: "firstName",
-                  valueType: "string_list",
-                  operator: "contains",
-                  values: [],
-                },
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "firstName",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
               },
             },
-          ],
+          },
         },
         {
           category: "lastName",
@@ -165,20 +213,18 @@ function App() {
               },
             },
           ],
-          data: [
-            {
-              type: "normal",
-              value: {
-                filterType: "filter",
-                filterValue: {
-                  property: "firstName",
-                  valueType: "string_list",
-                  operator: "contains",
-                  values: [],
-                },
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "lastName",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
               },
             },
-          ],
+          },
         },
         {
           category: "tag",
@@ -209,20 +255,18 @@ function App() {
               id: "values",
             },
           ],
-          data: [
-            {
-              type: "normal",
-              value: {
-                filterType: "filter",
-                filterValue: {
-                  property: "firstName",
-                  valueType: "string_list",
-                  operator: "contains",
-                  values: [],
-                },
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "tag",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
               },
             },
-          ],
+          },
         },
         {
           category: "birthDate",
@@ -234,7 +278,7 @@ function App() {
             {
               type: "dropdown",
               defaultValue: "operator",
-              id:"operator",
+              id: "operator",
               options: [
                 {
                   value: "anniversary_is_in_the_next",
@@ -265,29 +309,6 @@ function App() {
                 },
               ],
             },
-            // {
-            //   type: "input",
-            //   defaultValue: "",
-            //   placeholder: "Enter valid First Name",
-            //   validate: () => {
-            //     return {
-            //       pattern: {
-            //         value: /^[a-zA-Z ]*$/,
-            //         message: "Enter a valid lastName",
-            //       },
-            //     };
-            //   },
-            // },
-            // {
-            //   type: "date",
-            //   defaultValue: "",
-            //   placeholder: "Enter valid date",
-            // },
-            // {
-            //   type: "input",
-            //   defaultValue: "",
-            //   placeholder: "Enter valid First Name",
-            // },
           ],
           order: (option: string) => {
             switch (option) {
@@ -321,33 +342,9 @@ function App() {
                     type: "dropdown",
                     defaultValue: "after",
                     options: [
-                      {
-                        value: "aniversary is in the next",
-                        label: "aniversary is in the next",
-                      },
-                      { value: "after", label: "after" },
-                      { value: "before", label: "before" },
-                      { value: "between", label: "between" },
-                      {
-                        value: "does not exist",
-                        label: "does not exist",
-                      },
-                      {
-                        value: "exists",
-                        label: "exists",
-                      },
-                      {
-                        value: "in_the_last",
-                        label: "in_the_last",
-                      },
-                      {
-                        value: "not_in_the_last",
-                        label: "not_in_the_last",
-                      },
-                      {
-                        value: "on the exact date",
-                        label: "on the exact date",
-                      },
+                      { value: "days", label: "days" },
+                      { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                     ],
                   },
                 ];
@@ -365,6 +362,20 @@ function App() {
                   filterValue: {
                     property: "birthDate",
                     valueType: "object",
+                    operator: "before",
+                    value: {
+                      date: "",
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "birthDate",
+                    valueType: "object",
                     operator: "after",
                     value: {
                       date: "",
@@ -372,27 +383,71 @@ function App() {
                   },
                 },
               },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "birthDate",
+                    valueType: "object",
+                    operator: "between",
+                    value: {
+                      startDate: "",
+                      endDate: "",
+                    },
+                  },
+                },
+              },
+              {
+                for: "anniversary_is_in_the_next",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "birthDate",
+                    valueType: "object",
+                    operator: "anniversary_is_in_the_next",
+                    value: {
+                      unit: "",
+                      value: 0,
+                    },
+                  },
+                },
+              },
+              {
+                for: "not_exists",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "birthDate",
+                    valueType: "object",
+                    operator: "not_exists",
+                    value: null,
+                  },
+                },
+              },
             ],
           },
         },
         {
-          category: "subscriptionStatus",
-          displayName: "Subscription Status",
+          category: "subscribedChannels",
+          displayName: "subscribedChannels",
           icon: <Mail className="h-3 w-3" />,
           description:
             "The user's subscription status is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
             {
               type: "dropdown",
-              defaultValue: "is",
+              defaultValue: "operator",
+              id: "operator",
               options: [
-                { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
+                { value: "list_value_eq", label: "Is" },
+                { value: "list_value_not_eq", label: "Is Not" },
               ],
             },
             {
               type: "dropdown",
-              defaultValue: "not_subscribed",
+              defaultValue: "status",
+              id: "status",
               options: [
                 { value: "not_subscribed", label: "Not Subscribed" },
                 { value: "subscribed", label: "Subscribed" },
@@ -401,12 +456,8 @@ function App() {
             },
             {
               type: "multiSelect",
-              defaultValue: [
-                {
-                  value: "email",
-                  label: "Email",
-                },
-              ],
+              defaultValue: "values",
+              id: "values",
               placeholder: "Enter valid First Name",
               options: [
                 {
@@ -434,17 +485,33 @@ function App() {
               index: 2,
             },
           ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "subscribedChannels",
+                valueType: "object",
+                operator: "list_value_eq",
+                value: {
+                  status: "",
+                  values: [],
+                },
+              },
+            },
+          },
         },
         {
           category: "email",
           displayName: "Email",
-          icon: <User className="mr-1 h-4 w-4" />,
+          icon: <MailIcon className="mr-1 h-4 w-4" />,
           description:
             "The user's email is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
             {
               type: "dropdown",
-              defaultValue: "contains",
+              defaultValue: "operator",
+              id: "operator",
               options: [
                 { value: "contains", label: "Contains" },
                 { value: "does_not_contain", label: "Does Not Contain" },
@@ -458,10 +525,23 @@ function App() {
             },
             {
               type: "multiInput",
-              defaultValue: "",
-              placeholder: "",
+              defaultValue: "values",
+              placeholder: "Enter email",
+              id: "values",
             },
           ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "email",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
         },
         {
           category: "phone",
@@ -472,7 +552,8 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "contains",
+              defaultValue: "operator",
+              id: "operator",
               options: [
                 { value: "contains", label: "Contains" },
                 { value: "does_not_contain", label: "Does Not Contain" },
@@ -486,10 +567,23 @@ function App() {
             },
             {
               type: "multiInput",
-              defaultValue: "",
+              defaultValue: "values",
               placeholder: "",
+              id: "values",
             },
           ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "phone",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
         },
         {
           category: "dateOfAddition",
@@ -623,7 +717,8 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "contains",
+              defaultValue: "operator",
+              id: "operator",
               options: [
                 { value: "contains", label: "Contains" },
                 { value: "does_not_contain", label: "Does Not Contain" },
@@ -637,7 +732,8 @@ function App() {
             },
             {
               type: "multiInput",
-              defaultValue: "",
+              id: "values",
+              defaultValue: "values",
               placeholder: "Enter valid city name",
               validate: () => {
                 return {
@@ -649,6 +745,18 @@ function App() {
               },
             },
           ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "city",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
         },
         {
           category: "state",
@@ -659,7 +767,8 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "contains",
+              defaultValue: "operator",
+              id: "operator",
               options: [
                 { value: "contains", label: "Contains" },
                 { value: "does_not_contain", label: "Does Not Contain" },
@@ -672,11 +781,24 @@ function App() {
               ],
             },
             {
+              id: "values",
+              defaultValue: "values",
               type: "multiInput",
-              defaultValue: "",
               placeholder: "",
             },
           ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "state",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
         },
         {
           category: "language",
@@ -687,24 +809,32 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "contains",
+              defaultValue: "operator",
+              id: "operator",
               options: [
-                { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
-                { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
                 { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
               ],
             },
             {
+              id: "value",
               type: "languageDropdown",
-              defaultValue: "",
+              defaultValue: "value",
               placeholder: "",
             },
           ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "language",
+                valueType: "string",
+                operator: "is",
+                value: "",
+              },
+            },
+          },
         },
         {
           category: "country",
@@ -715,26 +845,35 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "contains",
+              defaultValue: "operator",
+              id: "operator",
               options: [
-                { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
-                { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
                 { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
               ],
             },
             {
               type: "countryDropdown",
-              defaultValue: "",
+              defaultValue: "value",
               placeholder: "",
+              id: "value",
             },
           ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "country",
+                valueType: "string",
+                operator: "",
+                value: "",
+              },
+            },
+          },
         },
       ],
+      recommendations: ["subscribedChannels", "email", "phone"],
     },
     {
       id: "orders",
@@ -750,15 +889,8 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "have",
-              options: [
-                { value: "have", label: "have" },
-                { value: "have_not", label: "have not" },
-              ],
-            },
-            {
-              type: "dropdown",
-              defaultValue: "have",
+              defaultValue: "counterOperator",
+              id: "counterOperator",
               options: [
                 { value: "at_least", label: "at least" },
                 { value: "exactly", label: "exactly" },
@@ -766,12 +898,14 @@ function App() {
             },
             {
               type: "input",
-              defaultValue: "",
+              defaultValue: "input",
               placeholder: "0",
+              id: "input",
             },
             {
               type: "dropdown",
-              defaultValue: "after",
+              defaultValue: "operator",
+              id: "operator",
               options: [
                 { value: "after", label: "after" },
                 { value: "before", label: "before" },
@@ -801,6 +935,138 @@ function App() {
               index: 2,
             },
           ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderCanceled",
+                    valueType: "object",
+                    operator: "before",
+                    value: {
+                      date: "",
+                      counter: {
+                        input: "",
+                        counterOperator: "",
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderCanceled",
+                    valueType: "object",
+                    operator: "after",
+                    value: {
+                      date: "",
+                      counter: {
+                        input: "",
+                        counterOperator: "",
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderCanceled",
+                    valueType: "object",
+                    operator: "between",
+                    value: {
+                      startDate: "",
+                      endDate: "",
+                      counter: {
+                        input: "",
+                        counterOperator: "",
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderCanceled",
+                    valueType: "object",
+                    operator: "in_the_last",
+                    value: {
+                      unit: "",
+                      type: "",
+                      counter: {
+                        input: "",
+                        counterOperator: "",
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                for: "not_in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderCanceled",
+                    valueType: "object",
+                    operator: "not_in_the_last",
+                    value: {
+                      unit: "",
+                      type: "",
+                      counter: {
+                        input: "",
+                        counterOperator: "",
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                for: "in_total",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderCanceled",
+                    valueType: "object",
+                    operator: "in_total",
+                    value: {
+                      count: "",
+                      counterOperator: "",
+                    },
+                  },
+                },
+              },
+              {
+                for: "on the exact date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderCanceled",
+                    valueType: "object",
+                    operator: "on_the_exact_date",
+                    value: {
+                      date: "",
+                      counter: {
+                        input: "",
+                        counterOperator: "",
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+
           order: (option: string) => {
             switch (option) {
               case "after":
@@ -1357,6 +1623,7 @@ function App() {
           },
         },
       ],
+      recommendations: ["orderCanceled", "orderFulfilled", "orderRefunded"],
     },
     {
       id: "products",
@@ -2613,11 +2880,22 @@ function App() {
     filterIndex: number
   ) => {
     setFilter((prevFilter) => {
+      // Create a deep clone of the previous filter
       const newFilter = JSON.parse(JSON.stringify(prevFilter));
-      newFilter.group.members[0].group.members[groupIndex].group.members.find(
+
+      // Safely navigate and find the target member
+      const targetMember = newFilter.group?.members?.[0]?.group?.members?.[
+        groupIndex
+      ]?.group?.members?.find(
         (member: { rule: { resourceType: string } }) =>
-          member.rule.resourceType === resourceType
-      ).rule.filter.filters[filterIndex] = rule;
+          member?.rule?.resourceType === resourceType
+      );
+      if (
+        targetMember?.rule?.filter?.filters &&
+        targetMember.rule.filter.filters[filterIndex] !== undefined
+      ) {
+        targetMember.rule.filter.filters[filterIndex] = rule;
+      }
 
       return newFilter;
     });
@@ -2640,13 +2918,12 @@ function App() {
       return newFilter;
     });
   };
-
+  console.log(filter);
   const addFilter = (
     index: number,
     category: string,
     hoveredOption: string
   ) => {
-    console.log(index, category, hoveredOption);
     const filter: any = config.find((f) => f.id === category);
     let data =
       filter?.filters.find(
@@ -2654,11 +2931,9 @@ function App() {
       )?.data ?? null;
     if (data.type === "dynamic") {
       data = data.values[0].value;
-    } else {
-      data = data[0].value;
+    } else if (data.type === "normal") {
+      data = data.value;
     }
-    console.log(data);
-
     setFilter((prevFilter) => {
       const newFilter = JSON.parse(JSON.stringify(prevFilter));
       // Access the group members array
@@ -2767,44 +3042,45 @@ function App() {
     groupIndex: number,
     filterType: string
   ) => {
-    setFilter((prevFilter) => {
-      const newFilter = JSON.parse(JSON.stringify(prevFilter));
-      if (
-        Array.isArray(
-          newFilter.group.members[0].group.members[groupIndex]?.group.members
-        )
-      ) {
-        newFilter.group.members[0].group.members[groupIndex].group.members.find(
-          (member: { rule: { resourceType: string } }) =>
-            member.rule.resourceType === filterType
-        ).rule.filter.filters = newFilter.group.members[0].group.members[
-          groupIndex
-        ].group.members
-          .find(
-            (member: { rule: { resourceType: string } }) =>
-              member.rule.resourceType === filterType
-          )
-          .rule.filter.filters.filter(
-            (_: any, index: number) => index !== indexToRemove
-          );
-        const members = newFilter.group.members[0].group.members[
-          groupIndex
-        ].group.members.find(
-          (member: { rule: { resourceType: string } }) =>
-            member.rule.resourceType === filterType
-        ).rule.filter.filters;
-        if (members.length === 0) {
-          newFilter.group.members[0].group.members[groupIndex].group.members =
-            newFilter.group.members[0].group.members[
-              groupIndex
-            ].group.members.filter(
-              (member: { rule: { resourceType: string } }) =>
-                member.rule.resourceType !== "contacts"
-            );
-        }
-      }
-      return newFilter;
-    });
+    // console.log(indexToRemove, groupIndex, filterType);
+    // setFilter((prevFilter) => {
+    //   const newFilter = JSON.parse(JSON.stringify(prevFilter));
+    //   if (
+    //     Array.isArray(
+    //       newFilter.group.members[0].group.members[groupIndex]?.group.members
+    //     )
+    //   ) {
+    //     newFilter.group.members[0].group.members[groupIndex].group.members.find(
+    //       (member: { rule: { resourceType: string } }) =>
+    //         member.rule.resourceType === filterType
+    //     ).rule.filter.filters = newFilter.group.members[0].group.members[
+    //       groupIndex
+    //     ].group.members
+    //       .find(
+    //         (member: { rule: { resourceType: string } }) =>
+    //           member.rule.resourceType === filterType
+    //       )
+    //       .rule.filter.filters.filter(
+    //         (_: any, index: number) => index !== indexToRemove
+    //       );
+    //     const members = newFilter.group.members[0].group.members[
+    //       groupIndex
+    //     ].group.members.find(
+    //       (member: { rule: { resourceType: string } }) =>
+    //         member.rule.resourceType === filterType
+    //     ).rule.filter.filters;
+    //     if (members.length === 0) {
+    //       newFilter.group.members[0].group.members[groupIndex].group.members =
+    //         newFilter.group.members[0].group.members[
+    //           groupIndex
+    //         ].group.members.filter(
+    //           (member: { rule: { resourceType: string } }) =>
+    //             member.rule.resourceType !== "contacts"
+    //         );
+    //     }
+    //   }
+    //   return newFilter;
+    // });
   };
 
   return (
@@ -2862,3 +3138,4 @@ function App() {
 }
 
 export default App;
+// select * from order where (selct count(id) where appId = 1) and  now() <= date("7days")

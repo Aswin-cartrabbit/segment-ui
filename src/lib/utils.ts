@@ -5,7 +5,6 @@ import { ComponentFactory } from "../factories/ComponentFactory";
 export function getFilterRow(field: any, order: any) {
   if (typeof order === "function") {
     const result = order(field.operator);
-    console.log(field, result);
   }
   return ComponentFactory.createComponent(field.type, { ...field });
 }

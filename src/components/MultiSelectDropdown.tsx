@@ -27,7 +27,6 @@ export function MultiSelect({
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<Options[]>(defaultValue);
   const [inputValue, setInputValue] = React.useState("");
-
   const handleUnselect = React.useCallback(
     (Options: Options) => {
       setSelected((prev) => {

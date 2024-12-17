@@ -41,12 +41,12 @@ export function CustomDropdown({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[200px] justify-between hover:bg-[#F27052] hover:text-white"
         >
           {value
             ? options.find((item) => item.value === value)?.label
             : "Select item..."}
-          <ChevronsUpDown className="opacity-50" />
+          <ChevronsUpDown className="group-hover:text-white" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
@@ -61,7 +61,7 @@ export function CustomDropdown({
                   value={item.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
-                    onChange(id,currentValue);
+                    onChange(id, currentValue);
                     setOpen(false);
                   }}
                 >

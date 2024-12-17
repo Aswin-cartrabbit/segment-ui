@@ -1,25 +1,31 @@
-import { CountryPickerCreater } from './creators/CountryPickerCreater';
-import { datePickerCreater } from './creators/datePickerCreater';
-import { dropdownCreator } from './creators/dropdownCreator';
-import { LanguagePickerCreater } from './creators/LanguagePickerCreater';
-import { multiInputCreator } from './creators/multiInputCreator';
-import { MultiSelectCreater } from './creators/MultiSelectCreater';
+import { CountryPickerCreater } from "./creators/CountryPickerCreater";
+import { datePickerCreater } from "./creators/datePickerCreater";
+import { dateRangePickerCreater } from "./creators/DateRangePickerCreater";
+import { dropdownCreator } from "./creators/dropdownCreator";
+import { InputCreater } from "./creators/InputCreater";
+import { LanguagePickerCreater } from "./creators/LanguagePickerCreater";
+import { multiInputCreator } from "./creators/multiInputCreator";
+import { MultiSelectCreater } from "./creators/MultiSelectCreater";
 
 export class ComponentFactory {
   static createComponent(type: string, field: any) {
-     switch (type) {
-      case 'dropdown':
+    switch (type) {
+      case "dropdown":
         return dropdownCreator(field);
-      case 'multiInput':
+      case "multiInput":
         return multiInputCreator(field);
-      case 'date':
+      case "date":
         return datePickerCreater(field);
-      case 'languageDropdown':
+      case "dateRange":
+        return dateRangePickerCreater(field);
+      case "languageDropdown":
         return LanguagePickerCreater(field);
-      case 'countryDropdown':
+      case "countryDropdown":
         return CountryPickerCreater(field);
-      case 'multiSelect':
+      case "multiSelect":
         return MultiSelectCreater(field);
+      case "input":
+        return InputCreater(field);
       default:
         return null;
     }
