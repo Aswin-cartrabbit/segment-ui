@@ -1,13 +1,4 @@
 import { Card } from "@/components/ui/card";
-import {
-  Box,
-  Contact,
-  List,
-  Mail,
-  Repeat,
-  ShoppingBag,
-  ShoppingCart,
-} from "lucide-react";
 
 export default function InfoCard({
   description,

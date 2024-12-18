@@ -32,8 +32,7 @@ export function CustomDropdown({
   id: string;
 }) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(defaultValue);
-
+  const [value, setValue] = React.useState(defaultValue ?? "");
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -41,11 +40,12 @@ export function CustomDropdown({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between hover:bg-[#F27052] hover:text-white"
+          className="w-[200px] border-[#F27052] justify-between hover:bg-[#F27052] hover:text-white"
         >
           {value
             ? options.find((item) => item.value === value)?.label
             : "Select item..."}
+
           <ChevronsUpDown className="group-hover:text-white" />
         </Button>
       </PopoverTrigger>

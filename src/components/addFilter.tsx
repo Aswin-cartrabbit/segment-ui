@@ -46,8 +46,11 @@ export function AddFilter({ index, addFilter, config }: any) {
     return stored ? JSON.parse(stored) : [];
   };
 
-  const onSelect = (currentValue: React.SetStateAction<string>, category: React.SetStateAction<string>) => {
-    setFilterData((prevData:any) => ({
+  const onSelect = (
+    currentValue: React.SetStateAction<string>,
+    category: React.SetStateAction<string>
+  ) => {
+    setFilterData((prevData: any) => ({
       ...prevData,
       value: currentValue === filterData.value ? "" : currentValue,
     }));
@@ -58,7 +61,10 @@ export function AddFilter({ index, addFilter, config }: any) {
 
     if (updatedRecentlyUsed.length > 5) updatedRecentlyUsed.shift();
 
-    sessionStorage.setItem("recentlyUsedFilters", JSON.stringify(updatedRecentlyUsed));
+    sessionStorage.setItem(
+      "recentlyUsedFilters",
+      JSON.stringify(updatedRecentlyUsed)
+    );
     addFilter(groupIndex, category, currentValue);
   };
 
@@ -66,7 +72,11 @@ export function AddFilter({ index, addFilter, config }: any) {
     <>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="ghost" className="h-8 justify-start px-2 text-zinc-400" aria-expanded={open}>
+          <Button
+            variant="ghost"
+            className="h-8 justify-start px-2 text-[#F27052] hover:bg-[#F27052] hover:text-white"
+            aria-expanded={open}
+          >
             <span className="text-sm">+ Filter</span>
           </Button>
         </PopoverTrigger>
@@ -75,21 +85,23 @@ export function AddFilter({ index, addFilter, config }: any) {
             <CommandInput placeholder="Search filter..." />
             <CommandList>
               <CommandEmpty>No filters found.</CommandEmpty>
-              {items.map((group:any) => (
+              {items.map((group: any) => (
                 <CommandGroup
                   key={group.category}
                   heading={
                     <div className="flex items-center space-x-2">
                       <div className="text-[#F27052]">{group.icon}</div>
-                      <div className="font-bold text-[#F27052]">{group.category}</div>
+                      <div className="font-bold text-[#F27052]">
+                        {group.category}
+                      </div>
                     </div>
                   }
                 >
-                  {group.options.map((option:any) => (
+                  {group.options.map((option: any) => (
                     <div className="hover:bg-[#F27052]" key={option.label}>
                       <CommandItem
                         value={option.label}
-                        onSelect={() => onSelect(hoveredOption??"", group.id)}
+                        onSelect={() => onSelect(hoveredOption ?? "", group.id)}
                         className="flex items-center space-x-2 ml-5"
                         onMouseEnter={() => {
                           setHoveredOption(option.fieldId);

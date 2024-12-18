@@ -4,7 +4,7 @@ import { Card } from "./ui/card";
 import ConditionDropdown from "./dropdowns/ConditionDropdown";
 import { AddFilter } from "./addFilter";
 import FilterCard from "./FilterCard";
-import DottedButton from "./DottedButton";
+import RecommendationsList from "./RecomendationList";
 
 const getFilterComponent = (
   filter: any,
@@ -21,18 +21,18 @@ const getFilterComponent = (
     const configItem: any =
       config.find((item: any) => item.id === resourceType) || {};
     const filterItems = filter.rule.filter.filters;
-    console.log(resourceType);
     return (
       <div key={`group-${groupIndex}`}>
         {filterItems.map((rule: any, ruleIndex: number) => {
           const matchedFilter = configItem.filters.find(
             (item: any) => item.category === rule.filterValue?.property
           );
+          filterIndex;
           if (matchedFilter) {
             return (
               <>
                 <FilterCard
-                  key={ruleIndex}
+                  key={`rule-${ruleIndex}`}
                   index={ruleIndex}
                   className="filter-item"
                   removeFilter={removeFilter}
@@ -50,484 +50,7 @@ const getFilterComponent = (
       </div>
     );
   }
-  return <div>hello</div>;
-
-  // switch (filter.rule.resourceType) {
-  //   case "contact":
-  //     return (
-  //       <div key={filterIndex} className="flex flex-col gap-2">
-  //         {filterItems.map((rule: any, ruleIndex: number) => {
-  //           switch (rule.filterValue.property) {
-  //             case "firstName":
-  //               return (
-  //                 <FirstName
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "lastName":
-  //               return (
-  //                 <LastName
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "email":
-  //               return (
-  //                 <Email
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "language":
-  //               return (
-  //                 <Language
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "birthdate":
-  //               return (
-  //                 <BirthDate
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "dateOfAddition":
-  //               return (
-  //                 <DateofAdd
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "tag":
-  //               return (
-  //                 <Tag
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "subscriptionStatus":
-  //               return (
-  //                 <SubscriptionStatus
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "phoneNumber":
-  //               return (
-  //                 <PhoneNumber
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "city":
-  //               return (
-  //                 <City
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "state":
-  //               return (
-  //                 <State
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "country":
-  //               return (
-  //                 <Country
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             default:
-  //               return null;
-  //           }
-  //         })}
-  //       </div>
-  //     );
-  //   case "order":
-  //     return (
-  //       <div key={filterIndex} className="flex flex-col gap-2">
-  //         {filterItems.map((rule: any, ruleIndex: number) => {
-  //           switch (rule.filterValue.property) {
-  //             case "orderCanceled":
-  //               return (
-  //                 <OrderCancled
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "orderFulfilled":
-  //               return (
-  //                 <OrderFulfilled
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "orderRefunded":
-  //               return (
-  //                 <OrderRefund
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "paidForOrder":
-  //               return (
-  //                 <PaidForOrder
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "placedOrder":
-  //               return (
-  //                 <PlacedOrder
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             case "startedCheckout":
-  //               return (
-  //                 <StartedCheckout
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                   rule={rule}
-  //                   setRule={setRule}
-  //                 />
-  //               );
-  //             default:
-  //               return null;
-  //           }
-  //         })}
-  //       </div>
-  //     );
-  //   case "product":
-  //     return (
-  //       <div key={filterIndex} className="flex flex-col gap-2">
-  //         {filterItems.map((rule: any, ruleIndex: number) => {
-  //           switch (rule.filterValue.property) {
-  //             case "nameOfProduct":
-  //               return (
-  //                 <NameOfProduct
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "idOfProduct":
-  //               return (
-  //                 <ProductID
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "totalPurchased":
-  //               return (
-  //                 <TotalPurchased
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             default:
-  //               return null;
-  //           }
-  //         })}
-  //       </div>
-  //     );
-  //   case "automation":
-  //     return (
-  //       <div key={filterIndex} className="flex flex-col gap-2">
-  //         {filterItems.map((rule: any, ruleIndex: number) => {
-  //           switch (rule.filterValue.property) {
-  //             case "automationEmailStatus":
-  //               return (
-  //                 <AutomationEmailStatus
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             default:
-  //               return null;
-  //           }
-  //         })}
-  //       </div>
-  //     );
-  //   case "emailCampaign":
-  //     return (
-  //       <div key={filterIndex} className="flex flex-col gap-2">
-  //         {filterItems.map((rule: any, ruleIndex: number) => {
-  //           switch (rule.filterValue.property) {
-  //             case "EmailCampaignStatus":
-  //               return (
-  //                 // <EmailCampaignStatus
-  //                 //   key={ruleIndex}
-  //                 //   index={ruleIndex}
-  //                 //   className="filter-item"
-  //                 //   removeFilter={removeFilter}
-  //                 //   groupIndex={groupIndex}
-  //                 // />
-  //                 <>helllasdasdo</>
-  //               );
-  //             case "clickedOnMail":
-  //               return (
-  //                 <EmailClick
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "markedMailAsSpam":
-  //               return (
-  //                 <EmailClick
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "openedMail":
-  //               return (
-  //                 <EmailClick
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "mailDeliveryFailed":
-  //               return (
-  //                 <EmailClick
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "mailSent":
-  //               return (
-  //                 <EmailClick
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "optedIn":
-  //               return (
-  //                 <EmailClick
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "optedOut":
-  //               return (
-  //                 <EmailClick
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "ViewedPage":
-  //               return (
-  //                 <EmailClick
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             default:
-  //               return null;
-  //           }
-  //         })}
-  //       </div>
-  //     );
-
-  //   case "abandonedCart":
-  //     return (
-  //       <div key={filterIndex} className="flex flex-col gap-2">
-  //         {filterItems.map((rule: any, ruleIndex: number) => {
-  //           switch (rule.filterValue.property) {
-  //             case "abandonedDate":
-  //               return (
-  //                 <AbandonedDate
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "abandonedProductName":
-  //               return (
-  //                 <AbandonedProductName
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "abandonedProductID":
-  //               return (
-  //                 <AbandonedProductId
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "abandonedProductID":
-  //               return (
-  //                 <AbandonedProductId
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "amountInEachAbandonedCart":
-  //               return (
-  //                 <AmountInEachAbandonedCart
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             case "totalAbandonedCarts":
-  //               return (
-  //                 <TotalAbandonedCarts
-  //                   key={ruleIndex}
-  //                   index={ruleIndex}
-  //                   className="filter-item"
-  //                   removeFilter={removeFilter}
-  //                   groupIndex={groupIndex}
-  //                 />
-  //               );
-  //             default:
-  //               return null;
-  //           }
-  //         })}
-  //       </div>
-  //     );
-  //   default:
-  //     return null;
-  // }
+  return <div></div>;
 };
 
 const GroupCard = ({
@@ -563,6 +86,7 @@ const GroupCard = ({
                 {filterIndex !== 0 && (
                   <div className="w-full">
                     <ConditionDropdown />
+
                     <br />
                   </div>
                 )}
@@ -574,21 +98,14 @@ const GroupCard = ({
                   setRule,
                   config
                 )}
-                <div className="flex gap-2 ml-20">
-                  {configItem.recommendations.map((item: any) => {
-                    const displayName = configItem.filters.find(
-                      (i: any) => i.category === item
-                    ).displayName;
-                    return (
-                      <DottedButton
-                        index={index}
-                        addFilter={addFilter}
-                        config={config}
-                        text={displayName}
-                      />
-                    );
-                  })}
-                </div>
+                {/* <div className="flex gap-2 ml-20"> */}
+                <RecommendationsList
+                  addFilter={addFilter}
+                  configItem={configItem}
+                  key={index}
+                  groupIndex={groupIndex}
+                />
+                {/* </div> */}
               </div>
             );
           })}

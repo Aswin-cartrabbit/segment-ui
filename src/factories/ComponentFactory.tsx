@@ -2,7 +2,7 @@ import { CountryPickerCreater } from "./creators/CountryPickerCreater";
 import { datePickerCreater } from "./creators/datePickerCreater";
 import { dateRangePickerCreater } from "./creators/DateRangePickerCreater";
 import { dropdownCreator } from "./creators/dropdownCreator";
-import { InputCreater } from "./creators/InputCreater";
+import { InputCreator } from "./creators/InputCreater";
 import { LanguagePickerCreater } from "./creators/LanguagePickerCreater";
 import { multiInputCreator } from "./creators/multiInputCreator";
 import { MultiSelectCreater } from "./creators/MultiSelectCreater";
@@ -25,7 +25,7 @@ export class ComponentFactory {
       case "multiSelect":
         return MultiSelectCreater(field);
       case "input":
-        return InputCreater(field);
+        return InputCreator(field);
       default:
         return null;
     }

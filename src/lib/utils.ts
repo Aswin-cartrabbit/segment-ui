@@ -2,10 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ComponentFactory } from "../factories/ComponentFactory";
 
-export function getFilterRow(field: any, order: any) {
-  if (typeof order === "function") {
-    const result = order(field.operator);
-  }
+export function getFilterRow(field: any) {
   return ComponentFactory.createComponent(field.type, { ...field });
 }
 

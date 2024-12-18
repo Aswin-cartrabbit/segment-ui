@@ -13,22 +13,25 @@ import {
 
 interface DatePickerProps {
   selected?: Date;
-  onChange?: any 
+  onChange?: any;
+  id: string;
+  defaultValue?: Date;
 }
 
-export function DatePicker({ selected, onChange }: DatePickerProps) {
-  const [internalDate, setInternalDate] = React.useState<Date | undefined>(selected);
+export function DatePicker({ defaultValue, onChange, id }: DatePickerProps) {
+  const [internalDate, setInternalDate] = React.useState<Date | undefined>(
+    defaultValue
+  );
 
   const handleDateSelect = (date: Date | undefined) => {
     setInternalDate(date);
-    if (onChange) {
-      onChange(date); 
-    }
+    onChange(id, date);
+    onChange(date);
   };
 
   React.useEffect(() => {
-    setInternalDate(selected); 
-  }, [selected]);
+    setInternalDate(defaultValue);
+  }, [defaultValue]);
 
   return (
     <Popover>
@@ -41,7 +44,11 @@ export function DatePicker({ selected, onChange }: DatePickerProps) {
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {internalDate ? format(internalDate, "PPP") : <span>Pick a date</span>}
+          {internalDate ? (
+            format(internalDate, "PPP")
+          ) : (
+            <span>Pick a {id} date</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
