@@ -25,11 +25,13 @@ export function CustomDropdown({
   defaultValue,
   onChange,
   id = "",
+  disabled,
 }: {
   options: Options[];
   defaultValue: string;
   onChange: any;
   id: string;
+  disabled?: boolean;
 }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue ?? "");
@@ -39,8 +41,9 @@ export function CustomDropdown({
         <Button
           variant="outline"
           role="combobox"
+          disabled={disabled}
           aria-expanded={open}
-          className="w-[200px] border-[#F27052] justify-between hover:bg-[#F27052] hover:text-white"
+          className="w-fit border-[#F27052] justify-between hover:bg-[#F27052] hover:text-white"
         >
           {value
             ? options.find((item) => item.value === value)?.label
@@ -61,6 +64,7 @@ export function CustomDropdown({
                   value={item.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
+                    console.log(currentValue);
                     onChange(id, currentValue);
                     setOpen(false);
                   }}

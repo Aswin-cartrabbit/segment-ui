@@ -21,19 +21,17 @@ function App() {
           group: {
             junction: "and",
             members: [
-              //groups array
               {
                 type: "group",
                 group: {
                   junction: "and",
                   members: [
-                    // filter array
                     {
                       type: "rule",
                       rule: {
                         resourceType: "orders",
                         filter: {
-                          junction: "and",
+                          junction: "or",
                           filterType: "junction",
                           filters: [
                             {
@@ -41,30 +39,19 @@ function App() {
                               filterValue: {
                                 property: "orderCanceled",
                                 valueType: "object",
-                                operator: "before",
-                                value: {
-                                  returnType: "have",
-                                  date: "",
-                                  counter: {
-                                    input: "",
-                                    counterOperator: "at_least",
-                                  },
-                                },
-                              },
-                            },
-                            {
-                              filterType: "filter",
-                              filterValue: {
-                                property: "paidForOrder",
-                                valueType: "object",
-                                operator: "before",
-                                value: {
-                                  returnType: "have",
-                                  date: "2024-12-08T18:30:00.000Z",
-                                  counter: {
-                                    input: "",
-                                    counterOperator: "at_least",
-                                  },
+                                returnType: "have",
+                                condition: {
+                                  junction: "and",
+                                  value: [
+                                    {
+                                      operator: "after",
+                                      date: "2024-12-09T18:30:00.000Z",
+                                    },
+                                    {
+                                      operator: "at_least",
+                                      unit: "",
+                                    },
+                                  ],
                                 },
                               },
                             },
@@ -72,34 +59,148 @@ function App() {
                         },
                       },
                     },
-                    {
-                      type: "rule",
-                      rule: {
-                        resourceType: "engagement",
-                        filter: {
-                          junction: "and",
-                          filterType: "junction",
-                          filters: [
-                            {
-                              filterType: "filter",
-                              filterValue: {
-                                property: "clickedOnMail",
-                                valueType: "object",
-                                operator: "before",
-                                value: {
-                                  returnType: "have",
-                                  date: "",
-                                  counter: {
-                                    input: "",
-                                    counterOperator: "at_least",
-                                  },
-                                },
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    },
+                    // {
+                    //   type: "rule",
+                    //   rule: {
+                    //     resourceType: "orders",
+                    //     filter: {
+                    //       junction: "and",
+                    //       filterType: "junction",
+                    //       filters: [
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "orderCanceled",
+                    //             valueType: "object",
+                    //             operator: "before",
+                    //             value: {
+                    //               returnType: "have_not",
+                    //               date: "2024-12-03T18:30:00.000Z",
+                    //               counter: {
+                    //                 input: "5",
+                    //                 counterOperator: "at_least",
+                    //               },
+                    //             },
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "orderRefunded",
+                    //             valueType: "object",
+                    //             operator: "in_total",
+                    //             value: {
+                    //               returnType: "have",
+                    //               date: "",
+                    //               counter: {
+                    //                 input: "5",
+                    //                 counterOperator: "at_least",
+                    //               },
+                    //             },
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "paidForOrder",
+                    //             valueType: "object",
+                    //             operator: "in_the_last",
+                    //             value: {
+                    //               returnType: "have",
+                    //               unit: "6",
+                    //               type: "weeks",
+                    //               counter: {
+                    //                 input: "3",
+                    //                 counterOperator: "at_least",
+                    //               },
+                    //             },
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "placedOrder",
+                    //             valueType: "object",
+                    //             operator: "not_in_the_last",
+                    //             value: {
+                    //               returnType: "have_not",
+                    //               unit: "6",
+                    //               type: "days",
+                    //               counter: {
+                    //                 input: "3",
+                    //                 counterOperator: "at_least",
+                    //               },
+                    //             },
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "placedOrder",
+                    //             valueType: "object",
+                    //             operator: "in_the_last",
+                    //             value: {
+                    //               returnType: "have",
+                    //               unit: "6",
+                    //               type: "year",
+                    //               counter: {
+                    //                 input: "3",
+                    //                 counterOperator: "at_least",
+                    //               },
+                    //             },
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "checkoutStarted",
+                    //             valueType: "object",
+                    //             operator: "after",
+                    //             value: {
+                    //               returnType: "have",
+                    //               date: "2024-12-25T18:30:00.000Z",
+                    //               counter: {
+                    //                 input: "5",
+                    //                 counterOperator: "exactly",
+                    //               },
+                    //             },
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "orderRefunded",
+                    //             valueType: "object",
+                    //             operator: "on_the_exact_date",
+                    //             value: {
+                    //               returnType: "have",
+                    //               date: "2024-12-27T18:30:00.000Z",
+                    //               counter: {
+                    //                 input: "3",
+                    //                 counterOperator: "at_least",
+                    //               },
+                    //             },
+                    //           },
+                    //         },
+                    //         {
+                    //           filterType: "filter",
+                    //           filterValue: {
+                    //             property: "orderFullfilled",
+                    //             valueType: "object",
+                    //             operator: "in_total",
+                    //             value: {
+                    //               returnType: "have",
+                    //               counter: {
+                    //                 input: "9",
+                    //                 counterOperator: "at_least",
+                    //               },
+                    //             },
+                    //           },
+                    //         },
+                    //       ],
+                    //     },
+                    //   },
+                    // },
                   ],
                 },
               },
@@ -124,8 +225,8 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
                 { value: "does_not_contain", label: "Does Not Contain" },
@@ -139,10 +240,10 @@ function App() {
             },
             {
               type: "multiInput",
-              defaultValue: "values",
+              defaultValue: "filterValue.values",
               placeholder: "Enter valid First Name",
               inputType: "text",
-              id: "values",
+              id: "filterValue.values",
               validate: () => {
                 return {
                   pattern: {
@@ -175,8 +276,8 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
                 { value: "does_not_contain", label: "Does Not Contain" },
@@ -190,10 +291,10 @@ function App() {
             },
             {
               type: "multiInput",
-              defaultValue: "values",
-              inputType: "text",
+              defaultValue: "filterValue.values",
               placeholder: "Enter valid First Name",
-              id: "values",
+              inputType: "text",
+              id: "filterValue.values",
               validate: () => {
                 return {
                   pattern: {
@@ -307,7 +408,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -505,8 +606,8 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
                 { value: "does_not_contain", label: "Does Not Contain" },
@@ -520,10 +621,18 @@ function App() {
             },
             {
               type: "multiInput",
-              defaultValue: "values",
-              placeholder: "Enter email",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
               inputType: "text",
-              id: "values",
+              id: "filterValue.values",
+              validate: () => {
+                return {
+                  pattern: {
+                    value: /^[a-zA-Z ]*$/,
+                    message: "Enter a valid name",
+                  },
+                };
+              },
             },
           ],
           data: {
@@ -548,8 +657,8 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
                 { value: "does_not_contain", label: "Does Not Contain" },
@@ -563,11 +672,10 @@ function App() {
             },
             {
               type: "multiInput",
-              defaultValue: "values",
-              placeholder: "",
-              inputType: "number",
-              min: 0,
-              id: "values",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
+              inputType: "text",
+              id: "filterValue.values",
             },
           ],
           data: {
@@ -715,8 +823,8 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
                 { value: "does_not_contain", label: "Does Not Contain" },
@@ -730,10 +838,10 @@ function App() {
             },
             {
               type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
               inputType: "text",
-              id: "values",
-              defaultValue: "values",
-              placeholder: "Enter valid city name",
+              id: "filterValue.values",
               validate: () => {
                 return {
                   pattern: {
@@ -766,8 +874,8 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
                 { value: "does_not_contain", label: "Does Not Contain" },
@@ -780,11 +888,11 @@ function App() {
               ],
             },
             {
-              id: "values",
-              defaultValue: "values",
               type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
               inputType: "text",
-              placeholder: "",
+              id: "filterValue.values",
             },
           ],
           data: {
@@ -809,17 +917,17 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
               options: [
                 { value: "is", label: "Is" },
                 { value: "is_not", label: "Is Not" },
               ],
             },
             {
-              id: "value",
+              id: "filterValue.value",
               type: "languageDropdown",
-              defaultValue: "value",
+              defaultValue: "filterValue.value",
               placeholder: "",
             },
           ],
@@ -845,8 +953,8 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
               options: [
                 { value: "is", label: "Is" },
                 { value: "is_not", label: "Is Not" },
@@ -854,9 +962,9 @@ function App() {
             },
             {
               type: "countryDropdown",
-              defaultValue: "value",
+              defaultValue: "filterValue.value",
               placeholder: "",
-              id: "value",
+              id: "filterValue.value",
             },
           ],
           data: {
@@ -889,8 +997,8 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "returnType",
-              id: "returnType",
+              defaultValue: "filterValue.returnType",
+              id: "filterValue.returnType",
               options: [
                 { value: "have", label: "have" },
                 { value: "have_not", label: "have not" },
@@ -898,8 +1006,8 @@ function App() {
             },
             {
               type: "dropdown",
-              defaultValue: "counterOperator",
-              id: "counterOperator",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
               options: [
                 { value: "at_least", label: "at least" },
                 { value: "exactly", label: "exactly" },
@@ -907,16 +1015,16 @@ function App() {
             },
             {
               type: "input",
-              defaultValue: "input",
+              defaultValue: "filterValue.condition.value[1].unit",
               placeholder: 0,
-              id: "input",
+              id: "filterValue.condition.value[1].unit",
               min: 0,
               inputType: "number",
             },
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
               options: [
                 { value: "after", label: "after" },
                 { value: "before", label: "before" },
@@ -930,11 +1038,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -956,14 +1064,19 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     valueType: "object",
-                    operator: "before",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "at_least",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -975,14 +1088,19 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     valueType: "object",
-                    operator: "after",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -994,15 +1112,20 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     valueType: "object",
-                    operator: "between",
-                    value: {
-                      returnType: "have",
-                      startDate: "",
-                      endDate: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -1014,15 +1137,20 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     valueType: "object",
-                    operator: "in_the_last",
-                    value: {
-                      returnType: "have",
-                      unit: "",
-                      type: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          unit: 6,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: 3,
+                        },
+                      ],
                     },
                   },
                 },
@@ -1034,15 +1162,20 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     valueType: "object",
-                    operator: "not_in_the_last",
-                    value: {
-                      returnType: "have",
-                      unit: "",
-                      type: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "not_in_the_last",
+                          unit: 6,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: 3,
+                        },
+                      ],
                     },
                   },
                 },
@@ -1054,30 +1187,42 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     valueType: "object",
-                    operator: "in_total",
-                    value: {
-                      returnType: "have",
-                      count: "",
-                      counterOperator: "",
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_total",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
                     property: "orderCanceled",
                     valueType: "object",
-                    operator: "on_the_exact_date",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -1089,12 +1234,12 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
-                    defaultValue: "date",
-                    id: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -1111,12 +1256,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "filterValue.condition.value[0].unit",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "filterValue.condition.value[0].type",
+                    id: "filterValue.condition.value[0].type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -1130,16 +1278,16 @@ function App() {
           },
         },
         {
-          category: "orderFullfilled",
-          displayName: "Order Fullfilled",
+          category: "orderFulfilled",
+          displayName: "Order Fulfilled",
           icon: <ShoppingCart className="mr-1 h-4 w-4" />,
           description:
-            "This filter can be used to filter orders that have been fullfilled.",
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
             {
               type: "dropdown",
-              defaultValue: "returnType",
-              id: "returnType",
+              defaultValue: "filterValue.returnType",
+              id: "filterValue.returnType",
               options: [
                 { value: "have", label: "have" },
                 { value: "have_not", label: "have not" },
@@ -1147,8 +1295,8 @@ function App() {
             },
             {
               type: "dropdown",
-              defaultValue: "counterOperator",
-              id: "counterOperator",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
               options: [
                 { value: "at_least", label: "at least" },
                 { value: "exactly", label: "exactly" },
@@ -1156,16 +1304,16 @@ function App() {
             },
             {
               type: "input",
-              defaultValue: "input",
-              placeholder: "0",
+              defaultValue: "filterValue.condition.value[1].unit",
+              placeholder: 0,
+              id: "filterValue.condition.value[1].unit",
               min: 0,
               inputType: "number",
-              id: "input",
             },
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
               options: [
                 { value: "after", label: "after" },
                 { value: "before", label: "before" },
@@ -1179,11 +1327,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -1203,16 +1351,21 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "orderFullfilled",
+                    property: "orderFulfilled",
                     valueType: "object",
-                    operator: "before",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "at_least",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -1222,16 +1375,21 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "orderFullfilled",
+                    property: "orderFulfilled",
                     valueType: "object",
-                    operator: "after",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -1241,17 +1399,22 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "orderFullfilled",
+                    property: "orderFulfilled",
                     valueType: "object",
-                    operator: "between",
-                    value: {
-                      returnType: "have",
-                      startDate: "",
-                      endDate: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -1261,17 +1424,22 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "orderFullfilled",
+                    property: "orderFulfilled",
                     valueType: "object",
-                    operator: "in_the_last",
-                    value: {
-                      returnType: "have",
-                      unit: "",
-                      type: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          unit: 6,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: 3,
+                        },
+                      ],
                     },
                   },
                 },
@@ -1281,17 +1449,22 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "orderFullfilled",
+                    property: "orderFulfilled",
                     valueType: "object",
-                    operator: "not_in_the_last",
-                    value: {
-                      returnType: "have",
-                      unit: "",
-                      type: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "not_in_the_last",
+                          unit: 6,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: 3,
+                        },
+                      ],
                     },
                   },
                 },
@@ -1301,32 +1474,44 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "orderFullfilled",
+                    property: "orderFulfilled",
                     valueType: "object",
-                    operator: "in_total",
-                    value: {
-                      returnType: "have",
-                      count: "",
-                      counterOperator: "",
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_total",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "orderFullfilled",
+                    property: "orderFulfilled",
                     valueType: "object",
-                    operator: "on_the_exact_date",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -1338,12 +1523,12 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
-                    defaultValue: "date",
-                    id: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -1360,12 +1545,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "filterValue.condition.value[0].unit",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "filterValue.condition.value[0].type",
+                    id: "filterValue.condition.value[0].type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -1383,12 +1571,12 @@ function App() {
           displayName: "Order Refunded",
           icon: <ShoppingCart className="mr-1 h-4 w-4" />,
           description:
-            "This filter can be used to filter orders that have been refunded.",
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
             {
               type: "dropdown",
-              defaultValue: "returnType",
-              id: "returnType",
+              defaultValue: "filterValue.returnType",
+              id: "filterValue.returnType",
               options: [
                 { value: "have", label: "have" },
                 { value: "have_not", label: "have not" },
@@ -1396,8 +1584,8 @@ function App() {
             },
             {
               type: "dropdown",
-              defaultValue: "counterOperator",
-              id: "counterOperator",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
               options: [
                 { value: "at_least", label: "at least" },
                 { value: "exactly", label: "exactly" },
@@ -1405,16 +1593,16 @@ function App() {
             },
             {
               type: "input",
-              defaultValue: "input",
-              placeholder: "0",
+              defaultValue: "filterValue.condition.value[1].unit",
+              placeholder: 0,
+              id: "filterValue.condition.value[1].unit",
               min: 0,
               inputType: "number",
-              id: "input",
             },
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
               options: [
                 { value: "after", label: "after" },
                 { value: "before", label: "before" },
@@ -1428,11 +1616,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -1454,14 +1642,19 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     valueType: "object",
-                    operator: "before",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "at_least",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -1473,14 +1666,19 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     valueType: "object",
-                    operator: "after",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -1492,15 +1690,20 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     valueType: "object",
-                    operator: "between",
-                    value: {
-                      returnType: "have",
-                      startDate: "",
-                      endDate: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -1512,15 +1715,20 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     valueType: "object",
-                    operator: "in_the_last",
-                    value: {
-                      returnType: "have",
-                      unit: "",
-                      type: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          unit: 6,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: 3,
+                        },
+                      ],
                     },
                   },
                 },
@@ -1532,15 +1740,20 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     valueType: "object",
-                    operator: "not_in_the_last",
-                    value: {
-                      returnType: "have",
-                      unit: "",
-                      type: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "not_in_the_last",
+                          unit: 6,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: 3,
+                        },
+                      ],
                     },
                   },
                 },
@@ -1552,30 +1765,42 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     valueType: "object",
-                    operator: "in_total",
-                    value: {
-                      returnType: "have",
-                      count: "",
-                      counterOperator: "",
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_total",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
                     property: "orderRefunded",
                     valueType: "object",
-                    operator: "on_the_exact_date",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -1587,12 +1812,12 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
-                    defaultValue: "date",
-                    id: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -1609,12 +1834,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "filterValue.condition.value[0].unit",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "filterValue.condition.value[0].type",
+                    id: "filterValue.condition.value[0].type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -1632,261 +1860,12 @@ function App() {
           displayName: "Paid For Order",
           icon: <ShoppingCart className="mr-1 h-4 w-4" />,
           description:
-            "The order has been paid for. The order has been paid for.",
-          fields: [
-            {
-              type: "dropdown",
-              defaultValue: "returnType",
-              id: "returnType",
-              options: [
-                { value: "have", label: "have" },
-                { value: "have_not", label: "have not" },
-              ],
-            },
-            {
-              type: "dropdown",
-              defaultValue: "counterOperator",
-              id: "counterOperator",
-              options: [
-                { value: "at_least", label: "at least" },
-                { value: "exactly", label: "exactly" },
-              ],
-            },
-            {
-              type: "input",
-              defaultValue: "input",
-              placeholder: "0",
-              min: 0,
-              inputType: "number",
-              id: "input",
-            },
-            {
-              type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
-              options: [
-                { value: "after", label: "after" },
-                { value: "before", label: "before" },
-                { value: "between", label: "between" },
-                {
-                  value: "in_the_last",
-                  label: "in_the_last",
-                },
-                {
-                  value: "not_in_the_last",
-                  label: "not in the last",
-                },
-                {
-                  value: "on the exact date",
-                  label: "on the exact date",
-                },
-                {
-                  value: "in total",
-                  label: "in total",
-                },
-              ],
-            },
-          ],
-          labels: [
-            {
-              text: "times",
-              index: 2,
-            },
-          ],
-          data: {
-            type: "dynamic",
-            values: [
-              {
-                for: "after",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "paidForOrder",
-                    valueType: "object",
-                    operator: "before",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "at_least",
-                      },
-                    },
-                  },
-                },
-              },
-              {
-                for: "before",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "paidForOrder",
-                    valueType: "object",
-                    operator: "after",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
-                    },
-                  },
-                },
-              },
-              {
-                for: "between",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "paidForOrder",
-                    valueType: "object",
-                    operator: "between",
-                    value: {
-                      returnType: "have",
-                      startDate: "",
-                      endDate: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
-                    },
-                  },
-                },
-              },
-              {
-                for: "in_the_last",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "paidForOrder",
-                    valueType: "object",
-                    operator: "in_the_last",
-                    value: {
-                      returnType: "have",
-                      unit: "",
-                      type: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
-                    },
-                  },
-                },
-              },
-              {
-                for: "not_in_the_last",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "paidForOrder",
-                    valueType: "object",
-                    operator: "not_in_the_last",
-                    value: {
-                      returnType: "have",
-                      unit: "",
-                      type: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
-                    },
-                  },
-                },
-              },
-              {
-                for: "in_total",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "paidForOrder",
-                    valueType: "object",
-                    operator: "in_total",
-                    value: {
-                      returnType: "have",
-                      count: "",
-                      counterOperator: "",
-                    },
-                  },
-                },
-              },
-              {
-                for: "on the exact date",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "paidForOrder",
-                    valueType: "object",
-                    operator: "on_the_exact_date",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
-                    },
-                  },
-                },
-              },
-            ],
-          },
-
-          order: (option: string) => {
-            switch (option) {
-              case "after":
-              case "before":
-              case "on the exact date":
-                return [
-                  {
-                    type: "date",
-                    defaultValue: "date",
-                    id: "date",
-                    placeholder: "Enter valid date",
-                  },
-                ];
-              case "between":
-                return [
-                  {
-                    type: "dateRange",
-                    defaultValue: "",
-                    placeholder: "Enter valid date",
-                  },
-                ];
-              case "in_the_last":
-              case "not_in_the_last":
-                return [
-                  {
-                    type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
-                  },
-                  {
-                    type: "dropdown",
-                    defaultValue: "after",
-                    options: [
-                      { value: "days", label: "days" },
-                      { value: "weeks", label: "weeks" },
-                      { value: "year", label: "year" },
-                    ],
-                  },
-                ];
-              default:
-                return [];
-            }
-          },
-        },
-        {
-          category: "placedOrder",
-          displayName: "Placed Order",
-          icon: <ShoppingCart className="mr-1 h-4 w-4" />,
-          description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
             {
               type: "dropdown",
-              defaultValue: "returnType",
-              id: "returnType",
+              defaultValue: "filterValue.returnType",
+              id: "filterValue.returnType",
               options: [
                 { value: "have", label: "have" },
                 { value: "have_not", label: "have not" },
@@ -1894,8 +1873,8 @@ function App() {
             },
             {
               type: "dropdown",
-              defaultValue: "counterOperator",
-              id: "counterOperator",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
               options: [
                 { value: "at_least", label: "at least" },
                 { value: "exactly", label: "exactly" },
@@ -1903,16 +1882,16 @@ function App() {
             },
             {
               type: "input",
-              defaultValue: "input",
-              placeholder: "0",
+              defaultValue: "filterValue.condition.value[1].unit",
+              placeholder: 0,
+              id: "filterValue.condition.value[1].unit",
               min: 0,
               inputType: "number",
-              id: "input",
             },
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
               options: [
                 { value: "after", label: "after" },
                 { value: "before", label: "before" },
@@ -1926,11 +1905,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -1950,16 +1929,21 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "placedOrder",
+                    property: "paidForOrder",
                     valueType: "object",
-                    operator: "before",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "at_least",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -1969,16 +1953,21 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "placedOrder",
+                    property: "paidForOrder",
                     valueType: "object",
-                    operator: "after",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -1988,17 +1977,22 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "placedOrder",
+                    property: "paidForOrder",
                     valueType: "object",
-                    operator: "between",
-                    value: {
-                      returnType: "have",
-                      startDate: "",
-                      endDate: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -2008,17 +2002,22 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "placedOrder",
+                    property: "paidForOrder",
                     valueType: "object",
-                    operator: "in_the_last",
-                    value: {
-                      returnType: "have",
-                      unit: "",
-                      type: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          unit: 6,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: 3,
+                        },
+                      ],
                     },
                   },
                 },
@@ -2028,17 +2027,22 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "placedOrder",
+                    property: "paidForOrder",
                     valueType: "object",
-                    operator: "not_in_the_last",
-                    value: {
-                      returnType: "have",
-                      unit: "",
-                      type: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "not_in_the_last",
+                          unit: 6,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: 3,
+                        },
+                      ],
                     },
                   },
                 },
@@ -2048,32 +2052,44 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "placedOrder",
+                    property: "paidForOrder",
                     valueType: "object",
-                    operator: "in_total",
-                    value: {
-                      returnType: "have",
-                      count: "",
-                      counterOperator: "",
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_total",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "placedOrder",
+                    property: "paidForOrder",
                     valueType: "object",
-                    operator: "on_the_exact_date",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -2085,12 +2101,12 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
-                    defaultValue: "date",
-                    id: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -2107,12 +2123,304 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "filterValue.condition.value[0].unit",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "filterValue.condition.value[0].type",
+                    id: "filterValue.condition.value[0].type",
+                    options: [
+                      { value: "days", label: "days" },
+                      { value: "weeks", label: "weeks" },
+                      { value: "year", label: "year" },
+                    ],
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          category: "orderPlaced",
+          displayName: "Order Placed",
+          icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.returnType",
+              id: "filterValue.returnType",
+              options: [
+                { value: "have", label: "have" },
+                { value: "have_not", label: "have not" },
+              ],
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
+              options: [
+                { value: "at_least", label: "at least" },
+                { value: "exactly", label: "exactly" },
+              ],
+            },
+            {
+              type: "input",
+              defaultValue: "filterValue.condition.value[1].unit",
+              placeholder: 0,
+              id: "filterValue.condition.value[1].unit",
+              min: 0,
+              inputType: "number",
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "in_the_last",
+                  label: "in the last",
+                },
+                {
+                  value: "not_in_the_last",
+                  label: "not in the last",
+                },
+                {
+                  value: "on_the_exact_date",
+                  label: "on the exact date",
+                },
+                {
+                  value: "in_total",
+                  label: "in total",
+                },
+              ],
+            },
+          ],
+          labels: [
+            {
+              text: "times",
+              index: 2,
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderPlaced",
+                    valueType: "object",
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderPlaced",
+                    valueType: "object",
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderPlaced",
+                    valueType: "object",
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderPlaced",
+                    valueType: "object",
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          unit: 6,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: 3,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "not_in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderPlaced",
+                    valueType: "object",
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "not_in_the_last",
+                          unit: 6,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: 3,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "in_total",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderPlaced",
+                    valueType: "object",
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_total",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "on_the_exact_date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderPlaced",
+                    valueType: "object",
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+
+          order: (option: string) => {
+            switch (option) {
+              case "after":
+              case "before":
+              case "on_the_exact_date":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "dateRange",
+                    defaultValue: "",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "in_the_last":
+              case "not_in_the_last":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].unit",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].unit",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "dropdown",
+                    defaultValue: "filterValue.condition.value[0].type",
+                    id: "filterValue.condition.value[0].type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -2127,15 +2435,15 @@ function App() {
         },
         {
           category: "checkoutStarted",
-          displayName: "Checkout Started",
+          displayName: "Checkout started",
           icon: <ShoppingCart className="mr-1 h-4 w-4" />,
           description:
-            " This filter is used to filter the orders that have been checked out.",
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
             {
               type: "dropdown",
-              defaultValue: "returnType",
-              id: "returnType",
+              defaultValue: "filterValue.returnType",
+              id: "filterValue.returnType",
               options: [
                 { value: "have", label: "have" },
                 { value: "have_not", label: "have not" },
@@ -2143,8 +2451,8 @@ function App() {
             },
             {
               type: "dropdown",
-              defaultValue: "counterOperator",
-              id: "counterOperator",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
               options: [
                 { value: "at_least", label: "at least" },
                 { value: "exactly", label: "exactly" },
@@ -2152,16 +2460,16 @@ function App() {
             },
             {
               type: "input",
-              defaultValue: "input",
-              placeholder: "0",
+              defaultValue: "filterValue.condition.value[1].unit",
+              placeholder: 0,
+              id: "filterValue.condition.value[1].unit",
               min: 0,
               inputType: "number",
-              id: "input",
             },
             {
               type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
               options: [
                 { value: "after", label: "after" },
                 { value: "before", label: "before" },
@@ -2175,11 +2483,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -2201,14 +2509,19 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    operator: "before",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "at_least",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -2220,14 +2533,19 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    operator: "after",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -2239,15 +2557,20 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    operator: "between",
-                    value: {
-                      returnType: "have",
-                      startDate: "",
-                      endDate: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -2259,15 +2582,20 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    operator: "in_the_last",
-                    value: {
-                      returnType: "have",
-                      unit: "",
-                      type: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          unit: 6,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: 3,
+                        },
+                      ],
                     },
                   },
                 },
@@ -2279,15 +2607,20 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    operator: "not_in_the_last",
-                    value: {
-                      returnType: "have",
-                      unit: "",
-                      type: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "not_in_the_last",
+                          unit: 6,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: 3,
+                        },
+                      ],
                     },
                   },
                 },
@@ -2299,30 +2632,42 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    operator: "in_total",
-                    value: {
-                      returnType: "have",
-                      count: "",
-                      counterOperator: "",
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_total",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    operator: "on_the_exact_date",
-                    value: {
-                      returnType: "have",
-                      date: "",
-                      counter: {
-                        input: "",
-                        counterOperator: "",
-                      },
+                    returnType: "have_not",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                        {
+                          operator: "at_least",
+                          unit: "",
+                        },
+                      ],
                     },
                   },
                 },
@@ -2334,12 +2679,12 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
-                    defaultValue: "date",
-                    id: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -2356,12 +2701,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "filterValue.condition.value[0].unit",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "filterValue.condition.value[0].type",
+                    id: "filterValue.condition.value[0].type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -2433,11 +2781,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -2567,7 +2915,7 @@ function App() {
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -2592,7 +2940,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -2614,12 +2962,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "unit",
+                    inputType: "number",
+                    id: "unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "type",
+                    id: "type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -2682,11 +3033,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -2816,7 +3167,7 @@ function App() {
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -2841,7 +3192,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -2863,12 +3214,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "unit",
+                    inputType: "number",
+                    id: "unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "type",
+                    id: "type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -2931,11 +3285,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -3065,7 +3419,7 @@ function App() {
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -3090,7 +3444,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -3112,12 +3466,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "unit",
+                    inputType: "number",
+                    id: "unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "type",
+                    id: "type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -3180,11 +3537,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -3314,7 +3671,7 @@ function App() {
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -3339,7 +3696,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -3361,12 +3718,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "unit",
+                    inputType: "number",
+                    id: "unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "type",
+                    id: "type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -3442,11 +3802,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -3576,7 +3936,7 @@ function App() {
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -3601,7 +3961,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -3623,12 +3983,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "unit",
+                    inputType: "number",
+                    id: "unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "type",
+                    id: "type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -3691,11 +4054,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -3825,7 +4188,7 @@ function App() {
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -3850,7 +4213,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -3872,12 +4235,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "unit",
+                    inputType: "number",
+                    id: "unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "type",
+                    id: "type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -3940,11 +4306,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -4074,7 +4440,7 @@ function App() {
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -4099,7 +4465,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -4121,12 +4487,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "unit",
+                    inputType: "number",
+                    id: "unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "type",
+                    id: "type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -4189,11 +4558,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -4323,7 +4692,7 @@ function App() {
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -4348,7 +4717,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -4370,12 +4739,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "unit",
+                    inputType: "number",
+                    id: "unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "type",
+                    id: "type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -4438,11 +4810,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -4572,7 +4944,7 @@ function App() {
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -4597,7 +4969,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -4619,12 +4991,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "unit",
+                    inputType: "number",
+                    id: "unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "type",
+                    id: "type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -4687,11 +5062,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -4821,7 +5196,7 @@ function App() {
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -4846,7 +5221,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -4868,12 +5243,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "unit",
+                    inputType: "number",
+                    id: "unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "type",
+                    id: "type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -4936,11 +5314,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -5070,7 +5448,7 @@ function App() {
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -5095,7 +5473,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -5117,12 +5495,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "unit",
+                    inputType: "number",
+                    id: "unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "type",
+                    id: "type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -5185,11 +5566,11 @@ function App() {
                   label: "not in the last",
                 },
                 {
-                  value: "on the exact date",
+                  value: "on_the_exact_date",
                   label: "on the exact date",
                 },
                 {
-                  value: "in total",
+                  value: "in_total",
                   label: "in total",
                 },
               ],
@@ -5319,7 +5700,7 @@ function App() {
                 },
               },
               {
-                for: "on the exact date",
+                for: "on_the_exact_date",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -5344,7 +5725,7 @@ function App() {
             switch (option) {
               case "after":
               case "before":
-              case "on the exact date":
+              case "on_the_exact_date":
                 return [
                   {
                     type: "date",
@@ -5366,12 +5747,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "",
-                    placeholder: "Enter valid First Name",
+                    defaultValue: "unit",
+                    inputType: "number",
+                    id: "unit",
+                    placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "after",
+                    defaultValue: "type",
+                    id: "type",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -5581,6 +5965,40 @@ function App() {
     });
   };
   console.log(filter);
+  const updateFilterRowJunction = (
+    groupIndex: string | number,
+    resourceType: any,
+    value: any
+  ) => {
+    console.log(groupIndex, resourceType, value);
+    setFilter((prevFilter) => {
+      const newFilter = JSON.parse(JSON.stringify(prevFilter));
+      newFilter.group.members[0].group.members[
+        groupIndex
+      ].group.members.forEach((member: any) => {
+        if (member.rule.resourceType === resourceType) {
+          member.rule.filter.junction = value;
+        }
+      });
+      return newFilter;
+    });
+  };
+
+  const updateFilterJunction = (
+    groupIndex: string | number,
+    resourceType: any,
+    value: any
+  ) => {
+    const newFilter = JSON.parse(JSON.stringify(filter));
+
+    console.log(newFilter.group.members[0].group.members[groupIndex].group);
+    // setFilter((prevFilter) => {
+    //   newFilter.group.members[0].group.members[
+    //     groupIndex
+    //   ].group
+    //   return newFilter;
+    // });
+  };
   return (
     <div className="flex h-screen p-5 flex-col">
       {filter.type === "group" ? (
@@ -5594,6 +6012,8 @@ function App() {
             updateJunction={updateJunction}
             cloneGroup={cloneGroup}
             addFilter={addFilter}
+            updateFilterRowJunction={updateFilterRowJunction}
+            updateFilterJunction={updateFilterJunction}
             removeFilter={removeFilter}
             setRule={setRule}
             config={config}

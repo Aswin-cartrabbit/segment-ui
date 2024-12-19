@@ -1,8 +1,9 @@
 import { Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
-import { findValueByKey, getFilterRow } from "@/lib/utils";
+import { getFilterRow, getKeys, getNestedValue } from "@/lib/utils";
 import { CustomDropdown } from "./dropdowns/CustomDropdown";
 import { useEffect, useState, useMemo, useCallback } from "react";
+import { Separator } from "./ui/separator";
 
 const FilterCard = ({
   index,
@@ -13,6 +14,10 @@ const FilterCard = ({
   matchedFilter,
   configItem,
   resourceType,
+  filterIndex,
+  updateFilterRowJunction,
+  junction,
+  filterItemsLength,
 }: any) => {
   // Use useMemo to memoize the filter options based on configItem
   // const filterDropdownOptions = useMemo(
@@ -23,8 +28,6 @@ const FilterCard = ({
   //     })),
   //   [configItem.filters]
   // );
-
-  
 
   // const getDefaultValue = useMemo(() => {
   //   const matchedFilterData =
@@ -50,85 +53,104 @@ const FilterCard = ({
   // }, [matchedFilter, rule]);
 
   const filterDropdownOptions = useMemo(() => {
-  console.log("filterDropdownOptions - configItem.filters:", configItem.filters);
-  
-  const options = configItem.filters.map((item: any) => ({
-    value: item.category,
-    label: item.displayName,
-  }));
+    const options = configItem.filters.map((item: any) => ({
+      value: item.category,
+      label: item.displayName,
+    }));
+    return options;
+  }, [configItem.filters]);
 
-  console.log("filterDropdownOptions - result:", options);
-  return options;
-}, [configItem.filters]);
+  const getDefaultValue = useMemo(() => {
+    // Find matched filter data based on the operator
+    const matchedFilterData =
+      matchedFilter.data.type === "dynamic"
+        ? matchedFilter.data.values.find(
+            (item: any) => item.for === rule.filterValue.operator
+          )
+        : matchedFilter.data.value;
 
-const getDefaultValue = useMemo(() => {
-  console.log("getDefaultValue - matchedFilter.data:", matchedFilter.data);
-  
-  // Find matched filter data based on the operator
-  const matchedFilterData =
-    matchedFilter.data.type === "dynamic"
-      ? matchedFilter.data.values.find(
-          (item: any) => item.for === rule.filterValue.operator
-        )
-      : matchedFilter.data.value;
+    const areKeysMatching =
+      matchedFilterData &&
+      Object.keys(matchedFilterData).every(
+        (key) => key in rule && matchedFilterData[key] === rule[key]
+      );
 
-  console.log("getDefaultValue - matchedFilterData before key comparison:", matchedFilterData);
+    const isMatched =
+      areKeysMatching &&
+      JSON.stringify(rule) === JSON.stringify(matchedFilterData);
+    // If matched, return matchedFilter data value; otherwise, return the rule
+    const defaultValue = isMatched ? matchedFilter.data.value || {} : rule;
 
-  const areKeysMatching =
-    matchedFilterData &&
-    Object.keys(matchedFilterData).every(
-      (key) => key in rule && matchedFilterData[key] === rule[key]
-    );
-  console.log("getDefaultValue - areKeysMatching:", areKeysMatching);
-
-  const isMatched =
-    areKeysMatching &&
-    JSON.stringify(rule) === JSON.stringify(matchedFilterData);
-  console.log("getDefaultValue - isMatched:", isMatched);
-
-  // If matched, return matchedFilter data value; otherwise, return the rule
-  const defaultValue = isMatched ? matchedFilter.data.value || {} : rule;
-  console.log("getDefaultValue - final defaultValue:", defaultValue);
-  
-  return defaultValue;
-}, [matchedFilter, rule]);
-
+    return defaultValue;
+  }, [matchedFilter, rule]);
 
   const [filterData, setFilterData] = useState(getDefaultValue);
 
   const onChange = useCallback(
-    (key: string, value: any) => {
+    (path: string, value: any) => {
       let updatedObj = { ...filterData };
-
+      console.log(path, value);
       const updateNestedValue = (
-        obj: { [x: string]: any },
-        key: string,
+        obj: { [key: string]: any },
+        keys: string[],
         value: any
       ) => {
-        for (let k in obj) {
-          if (!obj.hasOwnProperty(k)) continue;
-          if (k === key) {
-            obj[k] = value;
-          } else if (typeof obj[k] === "object" && obj[k] !== null) {
-            updateNestedValue(obj[k], key, value);
+        const [currentKey, ...remainingKeys] = keys;
+
+        if (Array.isArray(obj)) {
+          const index = parseInt(currentKey, 10);
+          if (!isNaN(index) && index >= 0 && index < obj.length) {
+            obj[index] = updateNestedValue(obj[index], remainingKeys, value);
           }
+        } else if (remainingKeys.length === 0) {
+          obj[currentKey] = value;
+        } else {
+          if (!obj[currentKey]) {
+            obj[currentKey] = isNaN(parseInt(remainingKeys[0], 10)) ? {} : [];
+          }
+          obj[currentKey] = updateNestedValue(
+            obj[currentKey],
+            remainingKeys,
+            value
+          );
         }
+        return obj;
       };
-      updateNestedValue(updatedObj, key, value);
+
+      const keys = path
+        .split(".")
+        .map((key) =>
+          key.includes("[") ? key.replace("]", "").split("[") : key
+        )
+        .flat();
+
+      updateNestedValue(updatedObj, keys, value);
+
       setFilterData(updatedObj);
     },
-    [filterData]
+    [filterData, setFilterData]
   );
+  const keys = getKeys("filterValue.values");
 
+  console.log(getNestedValue(filterData, keys));
   useEffect(() => {
     setRule(filterData, resourceType, groupIndex, index);
   }, [filterData]);
 
   const filterArray = useMemo(() => {
+    console.log(
+      rule.filterValue.operator === undefined
+        ? rule.filterValue.condition.value[0].operator
+        : rule.filterValue.operator
+    );
     return [
       ...(matchedFilter.fields || []),
       ...(typeof matchedFilter?.order === "function"
-        ? matchedFilter.order(rule.filterValue.operator)
+        ? matchedFilter.order(
+            rule.filterValue.operator === undefined
+              ? rule.filterValue.condition.value[0].operator
+              : rule.filterValue.operator
+          )
         : []),
     ];
   }, [matchedFilter, rule]);
@@ -136,34 +158,65 @@ const getDefaultValue = useMemo(() => {
   const showFilterSelectAt = configItem?.showFilterSelectAt ?? 0;
 
   return (
-    <div key={index} className="min-w-fit flex gap-5 items-center mb-5">
-      {index === 0 ? (
-        <span className="whitespace-nowrap">
-          {configItem.id === "contact" ? "All contacts whose" : "who"}
-        </span>
-      ) : (
-        <div className="mr-1 mt-4">
-          <CustomDropdown
-            options={[
-              { value: "and", label: "and" },
-              { value: "or", label: "or" },
-            ]}
-            defaultValue={"and"}
-            onChange={undefined}
-            id={""}
-          />
-        </div>
-      )}
+    <div key={index} className="min-w-fit flex gap-5 items-center">
+      <div className="w-[150px] text-right">
+        {index === 0 ? (
+          <span className="whitespace-nowrap ">
+            {groupIndex === 0 && filterIndex === 0 && index === 0 && (
+              <span className="whitespace-nowrap mr-3">All contacts</span>
+            )}
+            {configItem.id === "contact" ? "whose" : "who"}
+          </span>
+        ) : (
+          <div className="mr-1 mt-0">
+            {filterItemsLength === index ? (
+              <CustomDropdown
+                options={[
+                  { value: "and", label: "and" },
+                  { value: "or", label: "or" },
+                ]}
+                defaultValue={junction ?? "and"}
+                onChange={(id: string, currentValue: string) => {
+                  console.log(id, currentValue);
+                  updateFilterRowJunction(
+                    groupIndex,
+                    resourceType,
+                    currentValue
+                  );
+                }}
+                id=""
+              />
+            ) : (
+              <span>{junction}</span>
+            )}
+          </div>
+        )}
+      </div>
+      <div className="w-full flex flex-wrap gap-5 mb-[8px]">
+        {filterArray.map((field: any, fieldIndex: number) => {
+          const labels = matchedFilter.labels ?? [];
+          const defaultValue = field.defaultValue;
+          const keys = getKeys(defaultValue);
+          const value = getNestedValue(rule, keys);
 
-      {filterArray.map((field: any, fieldIndex: number) => {
-        const labels = matchedFilter.labels ?? [];
-        const defaultValue = field.defaultValue;
-        const value = findValueByKey(rule, defaultValue);
-
-        if (matchedFilter) {
-          if (matchedFilter.data.type === "dynamic") {
+          if (matchedFilter) {
+            if (matchedFilter.data.type === "dynamic") {
+              return (
+                <>
+                  {showFilterSelectAt === fieldIndex && (
+                    <CustomDropdown
+                      options={filterDropdownOptions}
+                      defaultValue={matchedFilter.category}
+                      onChange={() => {}}
+                      id={""}
+                    />
+                  )}
+                  {getFilterRow({ ...field, onChange, defaultValue: value })}
+                </>
+              );
+            }
             return (
-              <>
+              <div key={fieldIndex} className="flex items-center gap-3">
                 {showFilterSelectAt === fieldIndex && (
                   <CustomDropdown
                     options={filterDropdownOptions}
@@ -173,29 +226,16 @@ const getDefaultValue = useMemo(() => {
                   />
                 )}
                 {getFilterRow({ ...field, onChange, defaultValue: value })}
-              </>
+                {labels.map((item: { index: number; text: string }) => {
+                  return fieldIndex === item.index ? (
+                    <span className="text-[#F27052]"> {item.text}</span>
+                  ) : null;
+                })}
+              </div>
             );
           }
-          return (
-            <div key={fieldIndex} className="flex items-center gap-3">
-              {showFilterSelectAt === fieldIndex && (
-                <CustomDropdown
-                  options={filterDropdownOptions}
-                  defaultValue={matchedFilter.category}
-                  onChange={() => {}}
-                  id={""}
-                />
-              )}
-              {getFilterRow({ ...field, onChange, defaultValue: value })}
-              {labels.map((item: { index: number; text: string }) => {
-                return fieldIndex === item.index ? (
-                  <span className="text-[#F27052]"> {item.text}</span>
-                ) : null;
-              })}
-            </div>
-          );
-        }
-      })}
+        })}
+      </div>
 
       <Button
         onClick={() => removeFilter(index, groupIndex, configItem.id)}

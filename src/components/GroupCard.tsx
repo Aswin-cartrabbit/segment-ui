@@ -5,6 +5,8 @@ import ConditionDropdown from "./dropdowns/ConditionDropdown";
 import { AddFilter } from "./addFilter";
 import FilterCard from "./FilterCard";
 import RecommendationsList from "./RecomendationList";
+import { Separator } from "./ui/separator";
+import { CustomDropdown } from "./dropdowns/CustomDropdown";
 
 const getFilterComponent = (
   filter: any,
@@ -12,7 +14,8 @@ const getFilterComponent = (
   removeFilter: any,
   groupIndex: number,
   setRule: any,
-  config: []
+  config: [],
+  updateFilterRowJunction: any
 ) => {
   // Extract the resourceType from the rule
   const resourceType = filter.rule.resourceType;
@@ -22,12 +25,13 @@ const getFilterComponent = (
       config.find((item: any) => item.id === resourceType) || {};
     const filterItems = filter.rule.filter.filters;
     return (
-      <div key={`group-${groupIndex}`}>
+      <div key={`group-${groupIndex}`} className="flex w-fit items-center  justify-left flex-wrap ">
         {filterItems.map((rule: any, ruleIndex: number) => {
           const matchedFilter = configItem.filters.find(
             (item: any) => item.category === rule.filterValue?.property
           );
           filterIndex;
+          const filterItemsLength = filterItems.length;
           if (matchedFilter) {
             return (
               <>
@@ -37,12 +41,17 @@ const getFilterComponent = (
                   className="filter-item"
                   removeFilter={removeFilter}
                   groupIndex={groupIndex}
+                  filterIndex={filterIndex}
                   rule={rule}
+                  updateFilterRowJunction={updateFilterRowJunction}
                   setRule={setRule}
                   matchedFilter={matchedFilter}
                   configItem={configItem}
                   resourceType={resourceType}
+                  junction={filter.rule.filter.junction}
+                  filterItemsLength={filterItemsLength - 1}
                 />
+                asdfdf
               </>
             );
           }
@@ -64,6 +73,8 @@ const GroupCard = ({
   removeFilter,
   setRule,
   config,
+  updateFilterRowJunction,
+  updateFilterJunction,
 }: any) => {
   return (
     <Card
@@ -84,10 +95,31 @@ const GroupCard = ({
             return (
               <div key={filterIndex}>
                 {filterIndex !== 0 && (
-                  <div className="w-full">
-                    <ConditionDropdown />
+                  <div className="w-full flex items-center mb-5">
+                    {/* <CustomDropdown
+                      options={[
+                        {
+                          value: "and",
+                          label: "and",
+                        },
+                        {
+                          value: "or",
+                          label: "or",
+                        },
+                      ]}
+                      onChange={(id: any,value: string) => {
+                        id
+                        updateFilterJunction(groupIndex, filterIndex, value);
+                      }}
+                      disabled
+                      defaultValue="and"
+                      id=""
+                      key={filterIndex}
+                    />
+                    <Separator className="mb- text-[#F27052] bg-[#F27052]" />
+                    <br /> */}
+                    <Separator className="mb- text-[#F27052] bg-[#F27052]" />
 
-                    <br />
                   </div>
                 )}
                 {getFilterComponent(
@@ -96,16 +128,17 @@ const GroupCard = ({
                   removeFilter,
                   groupIndex,
                   setRule,
-                  config
+                  config,
+                  updateFilterRowJunction
                 )}
-                {/* <div className="flex gap-2 ml-20"> */}
-                <RecommendationsList
-                  addFilter={addFilter}
-                  configItem={configItem}
-                  key={index}
-                  groupIndex={groupIndex}
-                />
-                {/* </div> */}
+                <div className="flex mt-3 mb-3">
+                  <RecommendationsList
+                    addFilter={addFilter}
+                    configItem={configItem}
+                    key={index}
+                    groupIndex={groupIndex}
+                  />
+                </div>
               </div>
             );
           })}

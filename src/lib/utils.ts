@@ -49,3 +49,34 @@ export const findValueByKey = (
   }
   return undefined;
 };
+
+export const getNestedValue = (
+  obj: { [key: string]: any },
+  keys: string[]
+): any => {
+  const [currentKey, ...remainingKeys] = keys;
+
+  if (Array.isArray(obj)) {
+    const index = parseInt(currentKey, 10);
+    if (!isNaN(index) && index >= 0 && index < obj.length) {
+      return getNestedValue(obj[index], remainingKeys);
+    }
+  }
+
+  if (remainingKeys.length === 0) {
+    return obj[currentKey];
+  }
+
+  if (obj[currentKey] === undefined) {
+    return undefined; // Key path doesn't exist
+  }
+
+  return getNestedValue(obj[currentKey], remainingKeys);
+};
+
+export const getKeys = (path: string): string[] => {
+  return path
+    .split(".")
+    .map((key) => (key.includes("[") ? key.replace("]", "").split("[") : key))
+    .flat();
+};

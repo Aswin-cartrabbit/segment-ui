@@ -47,7 +47,7 @@ export function DatePicker({ defaultValue, onChange, id }: DatePickerProps) {
           {internalDate ? (
             format(internalDate, "PPP")
           ) : (
-            <span>Pick a {id} date</span>
+            <span>Pick a date</span>
           )}
         </Button>
       </PopoverTrigger>
