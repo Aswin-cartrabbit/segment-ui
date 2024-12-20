@@ -1,0 +1,140 @@
+{
+    "type": "group",
+    "group": {
+      "junction": "or",
+      "members": [
+        {
+          "type": "group",
+          "group": {
+            "junction": "and",
+            "members": [
+              {
+                "type": "group",
+                "group": {
+                  "junction": "and",
+                  "members": [
+                    {
+                      "type": "rule",
+                      "rule": {
+                        "resourceType": "contact",
+                        "filter": {
+                          "junction": "and",
+                          "filterType": "junction",
+                          "filters": [
+                            {
+                              "filterType": "filter",
+                              "filterValue": {
+                                "property": "firstName",
+                                "valueType": "string_list",
+                                "operator": "contains",
+                                "values": [
+                                  "welad",
+                                  "asd"
+                                ]
+                              }
+                            },
+                            {
+                              "filterType": "filter",
+                              "filterValue": {
+                                "property": "firstName",
+                                "valueType": "string_list",
+                                "operator": "does_not_contain",
+                                "values": [
+                                  "asdasd",
+                                  "rtge",
+                                  "sdv",
+                                  "fdg"
+                                ]
+                              }
+                            },
+                            {
+                              "filterType": "filter",
+                              "filterValue": {
+                                "property": "firstName",
+                                "valueType": "string_list",
+                                "operator": "does_not_exist",
+                                "values": []
+                              }
+                            },
+                            {
+                              "filterType": "filter",
+                              "filterValue": {
+                                "property": "firstName",
+                                "valueType": "string_list",
+                                "operator": "exists",
+                                "values": []
+                              }
+                            },
+                            {
+                              "filterType": "filter",
+                              "filterValue": {
+                                "property": "firstName",
+                                "valueType": "string_list",
+                                "operator": "ends_with",
+                                "values": [
+                                  "win",
+                                  "rosh",
+                                  "esh"
+                                ]
+                              }
+                            },
+                            {
+                              "filterType": "filter",
+                              "filterValue": {
+                                "property": "firstName",
+                                "valueType": "string_list",
+                                "operator": "exists",
+                                "values": []
+                              }
+                            },
+                            {
+                              "filterType": "filter",
+                              "filterValue": {
+                                "property": "firstName",
+                                "valueType": "string_list",
+                                "operator": "is",
+                                "values": [
+                                  "kumar",
+                                  "uu"
+                                ]
+                              }
+                            },
+                            {
+                              "filterType": "filter",
+                              "filterValue": {
+                                "property": "firstName",
+                                "valueType": "string_list",
+                                "operator": "is_not",
+                                "values": [
+                                  "ttr",
+                                  "kjg",
+                                  "kjh"
+                                ]
+                              }
+                            },
+                            {
+                              "filterType": "filter",
+                              "filterValue": {
+                                "property": "firstName",
+                                "valueType": "string_list",
+                                "operator": "starts_with",
+                                "values": [
+                                  "asw",
+                                  "ni",
+                                  "din"
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }

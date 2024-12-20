@@ -1,0 +1,29 @@
+{
+    "type": "group",
+    "group": {
+        "junction": "and",
+        "members": [
+            {
+                "type": "rule",
+                "rule": {
+                    "resourceType": "contact",
+                    "filter": {
+                        "junction": "and",
+                        "filterType": "junction",
+                        "filters": [
+                            {
+                                "filterType": "filter",
+                                "filterValue": {
+                                    "property": "country",
+                                    "valueType": "string",
+                                    "operator": "is_not",
+                                    "value": "India"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

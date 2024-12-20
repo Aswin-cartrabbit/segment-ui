@@ -14,37 +14,37 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import InfoCard from "./InfoCard";
+import { CheckCircle } from "lucide-react";
 
 export function AddFilter({ index, addFilter, config }: any) {
   const [hoveredOption, setHoveredOption] = React.useState<string | null>(null);
   const [open, setOpen] = React.useState(false);
   const [filterData, setFilterData] = React.useState({
-    category: null,
+    category: "",
     icon: "",
     value: "",
     description: "",
   });
 
-  const groupIndex = index;
-
-  const items = React.useMemo(() => {
-    return config?.map((item: any) => ({
-      category: item.displayName,
-      id: item.id,
-      options: item.filters.map((field: any) => ({
-        label: field.displayName,
-        icon: item.icon,
+  const items = React.useMemo(
+    () =>
+      config?.map((item: any) => ({
+        category: item.displayName,
         id: item.id,
-        fieldId: field.category,
-        description: field.description,
+        options: item.filters.map((field: any) => ({
+          label: field.displayName,
+          icon: field.icon,
+          fieldId: field.category,
+          description: field.description,
+        })),
       })),
-    }));
-  }, [config]);
+    [config]
+  );
 
-  const getRecentlyUsed = () => {
+  const getRecentlyUsed = React.useCallback(() => {
     const stored = sessionStorage.getItem("recentlyUsedFilters");
     return stored ? JSON.parse(stored) : [];
-  };
+  }, []);
 
   const onSelect = (
     currentValue: React.SetStateAction<string>,
@@ -65,74 +65,72 @@ export function AddFilter({ index, addFilter, config }: any) {
       "recentlyUsedFilters",
       JSON.stringify(updatedRecentlyUsed)
     );
-    addFilter(groupIndex, category, currentValue);
+    addFilter(index, category, currentValue);
   };
 
   return (
-    <>
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="ghost"
-            className="h-8 justify-start px-2 text-[#F27052] hover:bg-[#F27052] hover:text-white"
-            aria-expanded={open}
-          >
-            <span className="text-sm">+ Filter</span>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-[300px] p-0 flex ml-10">
-          <Command>
-            <CommandInput placeholder="Search filter..." />
-            <CommandList>
-              <CommandEmpty>No filters found.</CommandEmpty>
-              {items.map((group: any) => (
-                <CommandGroup
-                  key={group.category}
-                  heading={
-                    <div className="flex items-center space-x-2">
-                      <div className="text-[#F27052]">{group.icon}</div>
-                      <div className="font-bold text-[#F27052]">
-                        {group.category}
-                      </div>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="ghost"
+          className="h-8 justify-start px-2 text-[#F27052] hover:bg-[#F27052] hover:text-white"
+        >
+          <span className="text-sm">+ Filter</span>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[300px] p-0 flex ml-10">
+        <Command>
+          <CommandInput placeholder="Search filter..." />
+          <CommandList>
+            <CommandEmpty>No filters found.</CommandEmpty>
+            {items.map((group: any) => (
+              <CommandGroup
+                key={group.category}
+                heading={
+                  <div className="flex items-center space-x-2">
+                    <div className="font-bold text-[#F27052]">
+                      {group.category}
                     </div>
-                  }
-                >
-                  {group.options.map((option: any) => (
-                    <div className="hover:bg-[#F27052]" key={option.label}>
-                      <CommandItem
-                        value={option.label}
-                        onSelect={() => onSelect(hoveredOption ?? "", group.id)}
-                        className="flex items-center space-x-2 ml-5"
-                        onMouseEnter={() => {
-                          setHoveredOption(option.fieldId);
-                          setFilterData({
-                            category: group.category,
-                            icon: option.icon,
-                            value: option.label,
-                            description: option.description,
-                          });
-                        }}
-                        onMouseLeave={() => setHoveredOption(null)}
-                      >
-                        {option.icon}
-                        <span>{option.label}</span>
-                      </CommandItem>
-                    </div>
-                  ))}
-                </CommandGroup>
-              ))}
-            </CommandList>
-          </Command>
-          {open && hoveredOption && (
-            <InfoCard
-              hoveredOption={hoveredOption}
-              icon={filterData.icon}
-              category={filterData.category}
-              description={filterData.description}
-            />
-          )}
-        </PopoverContent>
-      </Popover>
-    </>
+                  </div>
+                }
+              >
+                {group.options.map((option: any) => {
+                  console.log(option);
+                  return (
+                    <CommandItem
+                      key={option.label}
+                      value={option.label}
+                      onSelect={() => onSelect(option.fieldId, group.id)}
+                      className="flex items-center space-x-2 ml-5 hover:bg-[#F27052]"
+                      onMouseEnter={() => {
+                        setHoveredOption(option.fieldId);
+                        setFilterData({
+                          category: group.category,
+                          icon: option.icon,
+                          value: option.label,
+                          description: option.description,
+                        });
+                      }}
+                      onMouseLeave={() => setHoveredOption(null)}
+                    >
+                      {option.icon}
+                      <span>{option.label}</span>
+                    </CommandItem>
+                  );
+                })}
+              </CommandGroup>
+            ))}
+          </CommandList>
+        </Command>
+        {open && hoveredOption && (
+          <InfoCard
+            hoveredOption={hoveredOption}
+            icon={filterData.icon}
+            category={filterData.category}
+            description={filterData.description}
+          />
+        )}
+      </PopoverContent>
+    </Popover>
   );
 }

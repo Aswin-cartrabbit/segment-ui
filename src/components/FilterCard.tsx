@@ -89,7 +89,6 @@ const FilterCard = ({
   const onChange = useCallback(
     (path: string, value: any) => {
       let updatedObj = { ...filterData };
-      console.log(path, value);
       const updateNestedValue = (
         obj: { [key: string]: any },
         keys: string[],
@@ -130,19 +129,12 @@ const FilterCard = ({
     },
     [filterData, setFilterData]
   );
-  const keys = getKeys("filterValue.values");
 
-  console.log(getNestedValue(filterData, keys));
   useEffect(() => {
     setRule(filterData, resourceType, groupIndex, index);
   }, [filterData]);
 
   const filterArray = useMemo(() => {
-    console.log(
-      rule.filterValue.operator === undefined
-        ? rule.filterValue.condition.value[0].operator
-        : rule.filterValue.operator
-    );
     return [
       ...(matchedFilter.fields || []),
       ...(typeof matchedFilter?.order === "function"
@@ -158,7 +150,10 @@ const FilterCard = ({
   const showFilterSelectAt = configItem?.showFilterSelectAt ?? 0;
 
   return (
-    <div key={index} className="min-w-fit flex gap-5 items-center">
+    <div
+      key={index}
+      className="box-border gap-5 items-center flex min-h-[40px] relative w-[1679px] z-0 text-[rgb(33,37,41)] text-[16px] font-light leading-[24px] text-start bg-white mb-[8px]"
+    >
       <div className="w-[150px] text-right">
         {index === 0 ? (
           <span className="whitespace-nowrap ">
@@ -177,7 +172,6 @@ const FilterCard = ({
                 ]}
                 defaultValue={junction ?? "and"}
                 onChange={(id: string, currentValue: string) => {
-                  console.log(id, currentValue);
                   updateFilterRowJunction(
                     groupIndex,
                     resourceType,
@@ -192,7 +186,7 @@ const FilterCard = ({
           </div>
         )}
       </div>
-      <div className="w-full flex flex-wrap gap-5 mb-[8px]">
+      <div className="w-full flex flex-wrap justify-start items-center gap-5 mb-[8px] mr-0">
         {filterArray.map((field: any, fieldIndex: number) => {
           const labels = matchedFilter.labels ?? [];
           const defaultValue = field.defaultValue;
@@ -212,6 +206,11 @@ const FilterCard = ({
                     />
                   )}
                   {getFilterRow({ ...field, onChange, defaultValue: value })}
+                  {labels.map((item: { index: number; text: string }) => {
+                    return fieldIndex === item.index ? (
+                      <span className="text-[#F27052]"> {item.text}</span>
+                    ) : null;
+                  })}
                 </>
               );
             }
@@ -226,6 +225,7 @@ const FilterCard = ({
                   />
                 )}
                 {getFilterRow({ ...field, onChange, defaultValue: value })}
+
                 {labels.map((item: { index: number; text: string }) => {
                   return fieldIndex === item.index ? (
                     <span className="text-[#F27052]"> {item.text}</span>
@@ -235,14 +235,13 @@ const FilterCard = ({
             );
           }
         })}
+        <Button
+          onClick={() => removeFilter(index, groupIndex, configItem.id)}
+          className="p-2 bg-white hover:bg-[#F27052] group"
+        >
+          <Trash2 className="h-4 w-4 text-[#F27052] group-hover:text-white" />
+        </Button>
       </div>
-
-      <Button
-        onClick={() => removeFilter(index, groupIndex, configItem.id)}
-        className="p-2 bg-white hover:bg-[#F27052] group"
-      >
-        <Trash2 className="h-4 w-4 text-[#F27052] group-hover:text-white" />
-      </Button>
     </div>
   );
 };

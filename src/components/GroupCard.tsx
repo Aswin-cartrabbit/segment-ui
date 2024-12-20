@@ -25,7 +25,10 @@ const getFilterComponent = (
       config.find((item: any) => item.id === resourceType) || {};
     const filterItems = filter.rule.filter.filters;
     return (
-      <div key={`group-${groupIndex}`} className="flex w-fit items-center  justify-left flex-wrap ">
+      <div
+        key={`group-${groupIndex}`}
+        className="flex w-fit items-center justify-left flex-wrap "
+      >
         {filterItems.map((rule: any, ruleIndex: number) => {
           const matchedFilter = configItem.filters.find(
             (item: any) => item.category === rule.filterValue?.property
@@ -51,7 +54,6 @@ const getFilterComponent = (
                   junction={filter.rule.filter.junction}
                   filterItemsLength={filterItemsLength - 1}
                 />
-                asdfdf
               </>
             );
           }
@@ -119,7 +121,6 @@ const GroupCard = ({
                     <Separator className="mb- text-[#F27052] bg-[#F27052]" />
                     <br /> */}
                     <Separator className="mb- text-[#F27052] bg-[#F27052]" />
-
                   </div>
                 )}
                 {getFilterComponent(
@@ -137,6 +138,7 @@ const GroupCard = ({
                     configItem={configItem}
                     key={index}
                     groupIndex={groupIndex}
+                    resourceType={filter.rule.resourceType}
                   />
                 </div>
               </div>

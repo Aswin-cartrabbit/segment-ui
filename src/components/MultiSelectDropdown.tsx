@@ -89,7 +89,7 @@ export function MultiSelect({
                   e.preventDefault();
                   e.stopPropagation();
                 }}
-                onClick={() => handleUnselect(Options)}
+              onClick={() => handleUnselect(Options)}
               >
                 <X className="h-4 w-4 text-[#F27052] hover:bg-[#F27052] rounded-full hover:text-white transition ease-in-out duration-300" />
               </button>

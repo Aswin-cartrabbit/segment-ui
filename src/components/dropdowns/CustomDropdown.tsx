@@ -45,6 +45,7 @@ export function CustomDropdown({
           aria-expanded={open}
           className="w-fit border-[#F27052] justify-between hover:bg-[#F27052] hover:text-white"
         >
+
           {value
             ? options.find((item) => item.value === value)?.label
             : "Select item..."}
@@ -64,7 +65,6 @@ export function CustomDropdown({
                   value={item.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
-                    console.log(currentValue);
                     onChange(id, currentValue);
                     setOpen(false);
                   }}

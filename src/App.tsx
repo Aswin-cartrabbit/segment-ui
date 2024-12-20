@@ -2,11 +2,15 @@ import { useState } from "react";
 import GroupCard from "./components/GroupCard";
 import { Button } from "./components/ui/button";
 import {
+  CheckCircle,
+  CreditCard,
   Mail,
   MailIcon,
   MapPin,
+  Package,
   Phone,
   Plus,
+  RefreshCcw,
   ShoppingCart,
   User,
 } from "lucide-react";
@@ -316,212 +320,6 @@ function App() {
                 values: [],
               },
             },
-          },
-        },
-        // {
-        //   category: "tag",
-        //   displayName: "Tag",
-        //   icon: <User className="mr-1 h-4 w-4" />,
-        //   description:
-        //     "Tags are keywords or labels assigned to a contact to categorize them based on attributes, behaviors, or interests. They help organize contacts for more targeted marketing.",
-        //   fields: [
-        //     {
-        //       type: "dropdown",
-        //       defaultValue: "operator",
-        //       id: "operator",
-        //       options: [
-        //         { value: "contains", label: "Contains" },
-        //         { value: "does_not_contain", label: "Does Not Contain" },
-        //         { value: "does_not_exist", label: "Does Not Exist" },
-        //         { value: "ends_with", label: "Ends With" },
-        //         { value: "exists", label: "Exists" },
-        //         { value: "is", label: "Is" },
-        //         { value: "is_not", label: "Is Not" },
-        //         { value: "starts_with", label: "Starts With" },
-        //       ],
-        //     },
-        //     {
-        //       type: "multiInput",
-        //       defaultValue: "values",
-        //       inputType:"text",
-
-        //       placeholder: "Enter tags",
-        //       id: "values",
-        //     },
-        //   ],
-        //   data: {
-        //     type: "normal",
-        //     value: {
-        //       filterType: "filter",
-        //       filterValue: {
-        //         property: "tag",
-        //         valueType: "string_list",
-        //         operator: "contains",
-        //         values: [],
-        //       },
-        //     },
-        //   },
-        // },
-        {
-          category: "birthDate",
-          displayName: "Birthdate",
-          icon: <User className="mr-1 h-4 w-4" />,
-          description:
-            "The user's birthdate is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
-          fields: [
-            {
-              type: "dropdown",
-              defaultValue: "operator",
-              id: "operator",
-              options: [
-                {
-                  value: "anniversary_is_in_the_next",
-                  label: "aniversary is in the next",
-                },
-                { value: "after", label: "after" },
-                { value: "before", label: "before" },
-                { value: "between", label: "between" },
-                {
-                  value: "does_not_exist",
-                  label: "does not exist",
-                },
-                {
-                  value: "exists",
-                  label: "exists",
-                },
-                {
-                  value: "in_the_last",
-                  label: "in_the_last",
-                },
-                {
-                  value: "not_in_the_last",
-                  label: "not_in_the_last",
-                },
-                {
-                  value: "on_the_exact_date",
-                  label: "on the exact date",
-                },
-              ],
-            },
-          ],
-          order: (option: string) => {
-            switch (option) {
-              case "after":
-              case "before":
-              case "on_the_exact_date":
-                return [
-                  {
-                    type: "date",
-                    defaultValue: "date",
-                    id: "date",
-                    placeholder: "Enter valid date",
-                  },
-                ];
-              case "between":
-                return [
-                  {
-                    type: "dateRange",
-                    defaultValue: "",
-                    placeholder: "Enter valid date",
-                  },
-                ];
-              case "in_the_last":
-              case "not_in_the_last":
-                return [
-                  {
-                    type: "input",
-                    defaultValue: "",
-                    inputType: "number",
-                    placeholder: "Enter valid First Name",
-                  },
-                  {
-                    type: "dropdown",
-                    defaultValue: "after",
-                    options: [
-                      { value: "days", label: "days" },
-                      { value: "weeks", label: "weeks" },
-                      { value: "months", label: "months" },
-                    ],
-                  },
-                ];
-              default:
-                return [];
-            }
-          },
-          data: {
-            type: "dynamic",
-            values: [
-              {
-                for: "after",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "birthDate",
-                    valueType: "object",
-                    operator: "before",
-                    value: {
-                      date: "",
-                    },
-                  },
-                },
-              },
-              {
-                for: "before",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "birthDate",
-                    valueType: "object",
-                    operator: "after",
-                    value: {
-                      date: "",
-                    },
-                  },
-                },
-              },
-              {
-                for: "between",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "birthDate",
-                    valueType: "object",
-                    operator: "between",
-                    value: {
-                      startDate: "",
-                      endDate: "",
-                    },
-                  },
-                },
-              },
-              {
-                for: "anniversary_is_in_the_next",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "birthDate",
-                    valueType: "object",
-                    operator: "anniversary_is_in_the_next",
-                    value: {
-                      unit: "",
-                      value: 0,
-                    },
-                  },
-                },
-              },
-              {
-                for: "not_exists",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "birthDate",
-                    valueType: "object",
-                    operator: "not_exists",
-                    value: null,
-                  },
-                },
-              },
-            ],
           },
         },
         {
@@ -981,7 +779,18 @@ function App() {
           },
         },
       ],
-      recommendations: ["subscribedChannels", "email", "phone"],
+      recommendations: [
+        "subscribedChannels",
+        "email",
+        "phone",
+        "country",
+        "state",
+        "city",
+        "language",
+        "phone",
+        "firstName",
+        "lastName",
+      ],
     },
     {
       id: "orders",
@@ -1063,6 +872,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderCanceled",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1071,6 +883,7 @@ function App() {
                         {
                           operator: "after",
                           date: "",
+                          params: {},
                         },
                         {
                           operator: "at_least",
@@ -1089,6 +902,9 @@ function App() {
                     property: "orderCanceled",
                     valueType: "object",
                     returnType: "have_not",
+                    params: {
+                      property: "cart_type",
+                    },
                     condition: {
                       junction: "and",
                       value: [
@@ -1111,6 +927,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderCanceled",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1136,6 +955,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderCanceled",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1161,6 +983,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderCanceled",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1186,6 +1011,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderCanceled",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1209,6 +1037,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderCanceled",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1280,7 +1111,7 @@ function App() {
         {
           category: "orderFulfilled",
           displayName: "Order Fulfilled",
-          icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+          icon: <CheckCircle className="mr-1 h-4 w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -1354,6 +1185,9 @@ function App() {
                     property: "orderFulfilled",
                     valueType: "object",
                     returnType: "have_not",
+                    params: {
+                      property: "cart_type",
+                    },
                     condition: {
                       junction: "and",
                       value: [
@@ -1376,6 +1210,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderFulfilled",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1400,6 +1237,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderFulfilled",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1425,6 +1265,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderFulfilled",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1450,6 +1293,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderFulfilled",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1475,6 +1321,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderFulfilled",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1498,6 +1347,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderFulfilled",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1569,7 +1421,7 @@ function App() {
         {
           category: "orderRefunded",
           displayName: "Order Refunded",
-          icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+          icon: <RefreshCcw className="mr-1 h-4 w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -1642,6 +1494,9 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     valueType: "object",
+                    params: {
+                      property: "cart_type",
+                    },
                     returnType: "have_not",
                     condition: {
                       junction: "and",
@@ -1665,6 +1520,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderRefunded",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1689,6 +1547,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderRefunded",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1714,6 +1575,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderRefunded",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1739,6 +1603,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderRefunded",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1764,6 +1631,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderRefunded",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1787,6 +1657,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderRefunded",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1858,7 +1731,7 @@ function App() {
         {
           category: "paidForOrder",
           displayName: "Paid For Order",
-          icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+          icon: <CreditCard className="mr-1 h-4 w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -1930,6 +1803,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "paidForOrder",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1954,6 +1830,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "paidForOrder",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -1978,6 +1857,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "paidForOrder",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -2003,6 +1885,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "paidForOrder",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -2028,6 +1913,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "paidForOrder",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -2053,6 +1941,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "paidForOrder",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -2076,6 +1967,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "paidForOrder",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -2147,7 +2041,7 @@ function App() {
         {
           category: "orderPlaced",
           displayName: "Order Placed",
-          icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+          icon: <Package className="mr-1 h-4 w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -2219,6 +2113,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderPlaced",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -2243,6 +2140,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderPlaced",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -2267,6 +2167,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderPlaced",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -2292,6 +2195,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderPlaced",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -2317,6 +2223,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderPlaced",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -2342,6 +2251,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderPlaced",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -2365,6 +2277,9 @@ function App() {
                   filterType: "filter",
                   filterValue: {
                     property: "orderPlaced",
+                    params: {
+                      property: "cart_type",
+                    },
                     valueType: "object",
                     returnType: "have_not",
                     condition: {
@@ -2723,7 +2638,14 @@ function App() {
           },
         },
       ],
-      recommendations: ["orderCanceled", "orderFulfilled", "orderRefunded"],
+      recommendations: [
+        "orderCanceled",
+        "orderFulfilled",
+        "orderRefunded",
+        "checkoutStarted",
+        "orderPlaced",
+        "paidForOrder",
+      ],
       showFilterSelectAt: 1,
     },
     {
@@ -3742,8 +3664,9 @@ function App() {
       ],
       recommendations: [
         "addedProductToCart",
-        "orderFulfilled",
-        "orderRefunded",
+        "viewedProduct",
+        "submittedProductReview",
+        "addedProductToCart",
       ],
       showFilterSelectAt: 1,
     },
@@ -5769,11 +5692,19 @@ function App() {
           },
         },
       ],
-      recommendations: ["viewdMail", "optedOut", "mailSent"],
+      recommendations: [
+        "viewdMail",
+        "clickedOnMail",
+        "optedOut",
+        "optedIn",
+        "mailOpened",
+        "mailSent",
+        "mailDeliveryFailed",
+        "markedMailAsSpam",
+      ],
       showFilterSelectAt: 1,
     },
   ];
-  console.log(filter);
   const setRule = (
     rule: any,
     resourceType: string,
@@ -5801,7 +5732,7 @@ function App() {
       return newFilter;
     });
   };
-
+  console.log();
   const addGroup = (newMember: any) => {
     setFilter((prevFilter) => {
       const newFilter = JSON.parse(JSON.stringify(prevFilter));
@@ -5824,6 +5755,7 @@ function App() {
     category: string,
     hoveredOption: string
   ) => {
+    console.log(index, category, hoveredOption);
     const filter: any = config.find((f) => f.id === category);
     let data =
       filter?.filters.find(
@@ -5964,13 +5896,11 @@ function App() {
       return newFilter;
     });
   };
-  console.log(filter);
   const updateFilterRowJunction = (
     groupIndex: string | number,
     resourceType: any,
     value: any
   ) => {
-    console.log(groupIndex, resourceType, value);
     setFilter((prevFilter) => {
       const newFilter = JSON.parse(JSON.stringify(prevFilter));
       newFilter.group.members[0].group.members[
@@ -5983,7 +5913,7 @@ function App() {
       return newFilter;
     });
   };
-
+  console.log(filter.group.members[0].group.members[0]);
   const updateFilterJunction = (
     groupIndex: string | number,
     resourceType: any,
@@ -5991,7 +5921,6 @@ function App() {
   ) => {
     const newFilter = JSON.parse(JSON.stringify(filter));
 
-    console.log(newFilter.group.members[0].group.members[groupIndex].group);
     // setFilter((prevFilter) => {
     //   newFilter.group.members[0].group.members[
     //     groupIndex
