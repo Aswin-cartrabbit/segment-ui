@@ -3,7 +3,6 @@ import { Button } from "./ui/button";
 import { getFilterRow, getKeys, getNestedValue } from "@/lib/utils";
 import { CustomDropdown } from "./dropdowns/CustomDropdown";
 import { useEffect, useState, useMemo, useCallback } from "react";
-import { Separator } from "./ui/separator";
 
 const FilterCard = ({
   index,
@@ -18,6 +17,7 @@ const FilterCard = ({
   updateFilterRowJunction,
   junction,
   filterItemsLength,
+  setFilterValueByOperator,
 }: any) => {
   // Use useMemo to memoize the filter options based on configItem
   // const filterDropdownOptions = useMemo(
@@ -42,7 +42,6 @@ const FilterCard = ({
   //     Object.keys(matchedFilterData).every(
   //       (key) => key in rule && matchedFilterData[key] === rule[key]
   //     );
-  //     console.log("matchedFilterData", areKeysMatching)
 
   //     const isMatched =
   //     areKeysMatching &&
@@ -88,6 +87,7 @@ const FilterCard = ({
 
   const onChange = useCallback(
     (path: string, value: any) => {
+      console.log(path, value);
       let updatedObj = { ...filterData };
       const updateNestedValue = (
         obj: { [key: string]: any },
@@ -152,18 +152,18 @@ const FilterCard = ({
   return (
     <div
       key={index}
-      className="box-border gap-5 items-center flex min-h-[40px] relative w-[1679px] z-0 text-[rgb(33,37,41)] text-[16px] font-light leading-[24px] text-start bg-white mb-[8px]"
+      className="tw-box-border tw-gap-5 tw-items-center tw-flex tw-min-h-[40px] tw-relative w-[1679px] tw-z-0 tw-text-[rgb(33,37,41)] tw-text-[16px] tw-font-light tw-leading-[24px] tw-text-start tw-bg-white tw-mb-[8px]"
     >
-      <div className="w-[150px] text-right">
+      <div className="tw-w-[150px] tw-text-right">
         {index === 0 ? (
-          <span className="whitespace-nowrap ">
+          <span className="tw-whitespace-nowrap ">
             {groupIndex === 0 && filterIndex === 0 && index === 0 && (
-              <span className="whitespace-nowrap mr-3">All contacts</span>
+              <span className="tw-whitespace-nowrap tw-mr-3">All contacts</span>
             )}
             {configItem.id === "contact" ? "whose" : "who"}
           </span>
         ) : (
-          <div className="mr-1 mt-0">
+          <div className="tw-mr-1 tw-mt-0">
             {filterItemsLength === index ? (
               <CustomDropdown
                 options={[
@@ -171,7 +171,7 @@ const FilterCard = ({
                   { value: "or", label: "or" },
                 ]}
                 defaultValue={junction ?? "and"}
-                onChange={(id: string, currentValue: string) => {
+                onChange={(_id: string, currentValue: string) => {
                   updateFilterRowJunction(
                     groupIndex,
                     resourceType,
@@ -186,12 +186,28 @@ const FilterCard = ({
           </div>
         )}
       </div>
-      <div className="w-full flex flex-wrap justify-start items-center gap-5 mb-[8px] mr-0">
+      <div className="tw-w-full tw-flex tw-flex-wrap tw-justify-start tw-items-center tw-gap-5 tw-mb-[8px] tw-mr-0">
         {filterArray.map((field: any, fieldIndex: number) => {
           const labels = matchedFilter.labels ?? [];
-          const defaultValue = field.defaultValue;
-          const keys = getKeys(defaultValue);
-          const value = getNestedValue(rule, keys);
+          let value: any = "";
+          if (field.type === "dateRange") {
+            value = {
+              startDate: getNestedValue(
+                rule,
+                getKeys(field.defaultValue.startDate)
+              ),
+
+              endDate: getNestedValue(
+                rule,
+                getKeys(field.defaultValue.endDate)
+              ),
+            };
+            console.log(value);
+          } else {
+            const defaultValue = field.defaultValue;
+            const keys = getKeys(defaultValue);
+            value = getNestedValue(rule, keys);
+          }
 
           if (matchedFilter) {
             if (matchedFilter.data.type === "dynamic") {
@@ -201,21 +217,32 @@ const FilterCard = ({
                     <CustomDropdown
                       options={filterDropdownOptions}
                       defaultValue={matchedFilter.category}
-                      onChange={() => {}}
+                      onChange={(id: any, currentValue: any) => {}}
                       id={""}
                     />
                   )}
-                  {getFilterRow({ ...field, onChange, defaultValue: value })}
+                  {getFilterRow({
+                    ...field,
+                    onChange,
+                    defaultValue: value,
+                    setFilterValueByOperator: setFilterValueByOperator,
+                    fieldIndex: index,
+                    groupIndex,
+                    category: configItem.id,
+                    filterProperty: matchedFilter.category,
+                    setFilter: setFilterData,
+                    rule,
+                  })}
                   {labels.map((item: { index: number; text: string }) => {
                     return fieldIndex === item.index ? (
-                      <span className="text-[#F27052]"> {item.text}</span>
+                      <span className="tw-text-[#F27052]"> {item.text}</span>
                     ) : null;
                   })}
                 </>
               );
             }
             return (
-              <div key={fieldIndex} className="flex items-center gap-3">
+              <div key={fieldIndex} className="tw-flex tw-items-center tw-gap-3">
                 {showFilterSelectAt === fieldIndex && (
                   <CustomDropdown
                     options={filterDropdownOptions}
@@ -224,11 +251,16 @@ const FilterCard = ({
                     id={""}
                   />
                 )}
-                {getFilterRow({ ...field, onChange, defaultValue: value })}
+                {getFilterRow({
+                  ...field,
+                  onChange,
+                  defaultValue: value,
+                  setFilterValueByOperator: setFilterValueByOperator,
+                })}
 
                 {labels.map((item: { index: number; text: string }) => {
                   return fieldIndex === item.index ? (
-                    <span className="text-[#F27052]"> {item.text}</span>
+                    <span className="tw-text-[#F27052]"> {item.text}</span>
                   ) : null;
                 })}
               </div>
@@ -237,9 +269,9 @@ const FilterCard = ({
         })}
         <Button
           onClick={() => removeFilter(index, groupIndex, configItem.id)}
-          className="p-2 bg-white hover:bg-[#F27052] group"
+          className="tw-p-2 tw-bg-white hover:tw-bg-[#F27052] tw-group"
         >
-          <Trash2 className="h-4 w-4 text-[#F27052] group-hover:text-white" />
+          <Trash2 className="tw-h-4 tw-w-4 tw-text-[#F27052] group-hover:tw-text-white" />
         </Button>
       </div>
     </div>

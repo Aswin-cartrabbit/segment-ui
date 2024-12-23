@@ -3,7 +3,6 @@ import { Button } from "./ui/button";
 export default function DottedButton({
   index,
   category,
-  hoveredOption,
   text,
   addFilter,
   resourceType,
@@ -18,7 +17,7 @@ export default function DottedButton({
   return (
     <Button
       variant="outline"
-      className="w-fit justify-start text-left font-normal text-muted-foreground border-[1px] border-dashed border-[#F05E3A] hover:bg-white hover:text-[#F05E3A] active:border-[#F27052] transition-colors"
+      className="tw-w-fit tw-justify-start tw-text-left tw-font-normal tw-text-muted-foreground tw-border-[1px] tw-border-dashed tw-border-[#F05E3A] hover:tw-bg-white hover:tw-text-[#F05E3A] active:tw-border-[#F27052] tw-transition-colors"
       onClick={() => addFilter(index, resourceType, category)}
     >
       {text}

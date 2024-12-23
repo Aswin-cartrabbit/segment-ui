@@ -14,7 +14,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import InfoCard from "./InfoCard";
-import { CheckCircle } from "lucide-react";
 
 export function AddFilter({ index, addFilter, config }: any) {
   const [hoveredOption, setHoveredOption] = React.useState<string | null>(null);
@@ -73,12 +72,12 @@ export function AddFilter({ index, addFilter, config }: any) {
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
-          className="h-8 justify-start px-2 text-[#F27052] hover:bg-[#F27052] hover:text-white"
+          className="tw-h-8 tw-justify-start tw-px-2 tw-text-[#F27052] hover:tw-bg-[#F27052] hover:tw-text-white"
         >
-          <span className="text-sm">+ Filter</span>
+          <span className="tw-text-sm">+ Filter</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[300px] p-0 flex ml-10">
+      <PopoverContent className="tw-w-[300px] tw-p-0 tw-flex tw-ml-10">
         <Command>
           <CommandInput placeholder="Search filter..." />
           <CommandList>
@@ -87,21 +86,20 @@ export function AddFilter({ index, addFilter, config }: any) {
               <CommandGroup
                 key={group.category}
                 heading={
-                  <div className="flex items-center space-x-2">
-                    <div className="font-bold text-[#F27052]">
+                  <div className="tw-flex tw-items-center tw-space-x-2">
+                    <div className="tw-font-bold tw-text-[#F27052]">
                       {group.category}
                     </div>
                   </div>
                 }
               >
                 {group.options.map((option: any) => {
-                  console.log(option);
                   return (
                     <CommandItem
                       key={option.label}
                       value={option.label}
                       onSelect={() => onSelect(option.fieldId, group.id)}
-                      className="flex items-center space-x-2 ml-5 hover:bg-[#F27052]"
+                      className="tw-flex tw-items-center hover:tw-cursor-pointer tw-space-x-2 tw-ml-5 hover:tw-bg-[#F27052] "
                       onMouseEnter={() => {
                         setHoveredOption(option.fieldId);
                         setFilterData({
@@ -113,7 +111,7 @@ export function AddFilter({ index, addFilter, config }: any) {
                       }}
                       onMouseLeave={() => setHoveredOption(null)}
                     >
-                      {option.icon}
+                      <span className="">{option.icon}</span>
                       <span>{option.label}</span>
                     </CommandItem>
                   );
@@ -122,7 +120,7 @@ export function AddFilter({ index, addFilter, config }: any) {
             ))}
           </CommandList>
         </Command>
-        {open && hoveredOption && (
+        {hoveredOption && (
           <InfoCard
             hoveredOption={hoveredOption}
             icon={filterData.icon}

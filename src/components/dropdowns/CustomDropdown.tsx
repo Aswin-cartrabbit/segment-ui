@@ -26,12 +26,24 @@ export function CustomDropdown({
   onChange,
   id = "",
   disabled,
+  setFilterValueByOperator,
+  fieldIndex,
+  groupIndex,
+  category,
+  filterProperty,
+  setFilter,
 }: {
   options: Options[];
   defaultValue: string;
   onChange: any;
   id: string;
   disabled?: boolean;
+  setFilterValueByOperator?: any;
+  fieldIndex?: number;
+  groupIndex?: number;
+  category?: string;
+  filterProperty?: string;
+  setFilter?: any;
 }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue ?? "");
@@ -43,9 +55,8 @@ export function CustomDropdown({
           role="combobox"
           disabled={disabled}
           aria-expanded={open}
-          className="w-fit border-[#F27052] justify-between hover:bg-[#F27052] hover:text-white"
+          className="tw-w-fit tw-border-[#F27052] tw-justify-between tw-hover:tw-bg-[#F27052] tw-hover:text-white"
         >
-
           {value
             ? options.find((item) => item.value === value)?.label
             : "Select item..."}
@@ -65,7 +76,20 @@ export function CustomDropdown({
                   value={item.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
-                    onChange(id, currentValue);
+                    console.log(id);
+                    if (id === "filterValue.condition.value[0].operator") {
+                      const result = setFilterValueByOperator(
+                        category,
+                        filterProperty,
+                        currentValue,
+                        groupIndex,
+                        fieldIndex
+                      );
+                      setFilter(result);
+                      console.log(result);
+                    } else {
+                      onChange(id, currentValue);
+                    }
                     setOpen(false);
                   }}
                 >
@@ -85,3 +109,4 @@ export function CustomDropdown({
     </Popover>
   );
 }
+

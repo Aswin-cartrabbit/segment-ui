@@ -1,6 +1,6 @@
 {
-  "name": "rtl-segment-ui",
-  "private": true,
+  "name": "@retainful/rtl-segment-ui",
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "scripts": {

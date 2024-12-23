@@ -15,7 +15,6 @@ export const InputCreator = ({
   defaultValue,
   onChange,
   min,
-  ...rest
 }: FieldProps) => {
   // Set default value based on the input type
   const computedDefaultValue = (() => {

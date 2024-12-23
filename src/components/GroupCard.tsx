@@ -1,12 +1,10 @@
 import { Copy, Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
-import ConditionDropdown from "./dropdowns/ConditionDropdown";
 import { AddFilter } from "./addFilter";
 import FilterCard from "./FilterCard";
 import RecommendationsList from "./RecomendationList";
 import { Separator } from "./ui/separator";
-import { CustomDropdown } from "./dropdowns/CustomDropdown";
 
 const getFilterComponent = (
   filter: any,
@@ -15,7 +13,8 @@ const getFilterComponent = (
   groupIndex: number,
   setRule: any,
   config: [],
-  updateFilterRowJunction: any
+  updateFilterRowJunction: any,
+  setFilterValueByOperator: any
 ) => {
   // Extract the resourceType from the rule
   const resourceType = filter.rule.resourceType;
@@ -27,7 +26,7 @@ const getFilterComponent = (
     return (
       <div
         key={`group-${groupIndex}`}
-        className="flex w-fit items-center justify-left flex-wrap "
+        className="tw-flex tw-w-fit tw-items-center tw-justify-left tw-flex-wrap "
       >
         {filterItems.map((rule: any, ruleIndex: number) => {
           const matchedFilter = configItem.filters.find(
@@ -53,6 +52,7 @@ const getFilterComponent = (
                   resourceType={resourceType}
                   junction={filter.rule.filter.junction}
                   filterItemsLength={filterItemsLength - 1}
+                  setFilterValueByOperator={setFilterValueByOperator}
                 />
               </>
             );
@@ -76,18 +76,18 @@ const GroupCard = ({
   setRule,
   config,
   updateFilterRowJunction,
-  updateFilterJunction,
+  setFilterValueByOperator,
 }: any) => {
   return (
     <Card
-      className={`min-w-fit max-w-1/2 p-5 flex flex-col gap-4 relative  ${
+      className={`tw-min-w-fit tw-max-w-1/2 tw-p-5 tw-flex tw-flex-col tw-gap-4 tw-relative  ${
         member.group.junction === "or" && members?.length - 1 !== index
-          ? "mb-10"
+          ? "tw-mb-10"
           : ""
       }`}
     >
-      <div className="flex justify-between items-start gap-2">
-        <div className="flex flex-col w-full gap-2">
+      <div className="tw-flex tw-justify-between tw-items-start tw-gap-2">
+        <div className="tw-flex tw-flex-col tw-w-full tw-gap-2">
           {member.group.members.map((filter: any, filterIndex: number) => {
             const groupIndex = index;
             const configItem: any =
@@ -97,7 +97,7 @@ const GroupCard = ({
             return (
               <div key={filterIndex}>
                 {filterIndex !== 0 && (
-                  <div className="w-full flex items-center mb-5">
+                  <div className="tw-w-full tw-flex tw-items-center tw-mb-5">
                     {/* <CustomDropdown
                       options={[
                         {
@@ -120,7 +120,7 @@ const GroupCard = ({
                     />
                     <Separator className="mb- text-[#F27052] bg-[#F27052]" />
                     <br /> */}
-                    <Separator className="mb- text-[#F27052] bg-[#F27052]" />
+                    <Separator className="tw-mb- tw-text-[#F27052] tw-bg-[#F27052]" />
                   </div>
                 )}
                 {getFilterComponent(
@@ -130,9 +130,10 @@ const GroupCard = ({
                   groupIndex,
                   setRule,
                   config,
-                  updateFilterRowJunction
+                  updateFilterRowJunction,
+                  setFilterValueByOperator
                 )}
-                <div className="flex mt-3 mb-3">
+                <div className="tw-flex tw-mt-3 tw-mb-3">
                   <RecommendationsList
                     addFilter={addFilter}
                     configItem={configItem}
@@ -145,22 +146,22 @@ const GroupCard = ({
             );
           })}
         </div>
-        <div className="flex items-center gap-4">
+        <div className="tw-flex tw-items-center tw-gap-4">
           <Button
             onClick={() => {
               cloneGroup(index);
             }}
-            className="p-2 hover:bg-[#F27052] group bg-white text-black hover:text-white"
+            className="tw-p-2 hover:tw-bg-[#F27052] tw-group tw-bg-white tw-text-black hover:tw-text-white"
           >
-            <Copy className="h-4 w-4 " />
+            <Copy className="tw-h-4 tw-w-4 " />
           </Button>
           <Button
             onClick={() => {
               removeGroup(index);
             }}
-            className="p-2 bg-[#F27052] group hover:bg-[#F27052]"
+            className="tw-p-2 tw-bg-[#F27052] tw-group hover:tw-bg-[#F27052]"
           >
-            <Trash2 className="h-4 w-4 text-white" />
+            <Trash2 className="tw-h-4 tw-w-4 tw-text-white" />
           </Button>
         </div>
       </div>
@@ -175,9 +176,9 @@ const GroupCard = ({
               member.group.junction === "and" ? "or" : "and"
             );
           }}
-          className={`max-w-fit p-2 h-[25px] bg-[#F27052] hover:bg-[#F27052] absolute ${
-            member.group.junction === "and" ? "bottom-0" : "-bottom-5"
-          } left-1/2 transform -translate-x-1/2 translate-y-1/2 z-10`}
+          className={`tw-max-w-fit tw-p-2 tw-h-[25px] tw-bg-[#F27052] hover:tw-bg-[#F27052] tw-absolute ${
+            member.group.junction === "and" ? "tw-bottom-0" : "tw--bottom-5"
+          } tw-left-1/2 tw-transform tw--translate-x-1/2 tw-translate-y-1/2 tw-z-10`}
         >
           {member.group.junction.toUpperCase()}
         </Button>

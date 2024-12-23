@@ -15,13 +15,15 @@ type Options = Record<"value" | "label", string>;
 type FancyMultiSelectProps = {
   options: Options[];
   defaultValue?: Options[];
-  onChange?: (selected: Options[]) => void;
+  onChange?: (id, selected: Options[]) => void;
+  id: string;
 };
 
 export function MultiSelect({
   options,
   defaultValue = [],
   onChange,
+  id,
 }: FancyMultiSelectProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
@@ -31,7 +33,7 @@ export function MultiSelect({
     (Options: Options) => {
       setSelected((prev) => {
         const newSelected = prev.filter((s) => s.value !== Options.value);
-        onChange?.(newSelected);
+        onChange?.(id, newSelected);
         return newSelected;
       });
     },
@@ -47,7 +49,7 @@ export function MultiSelect({
             setSelected((prev) => {
               const newSelected = [...prev];
               newSelected.pop();
-              onChange?.(newSelected);
+              onChange?.(id, newSelected);
               return newSelected;
             });
           }
@@ -89,7 +91,7 @@ export function MultiSelect({
                   e.preventDefault();
                   e.stopPropagation();
                 }}
-              onClick={() => handleUnselect(Options)}
+                onClick={() => handleUnselect(Options)}
               >
                 <X className="h-4 w-4 text-[#F27052] hover:bg-[#F27052] rounded-full hover:text-white transition ease-in-out duration-300" />
               </button>
@@ -122,7 +124,7 @@ export function MultiSelect({
                       setInputValue("");
                       setSelected((prev) => {
                         const newSelected = [...prev, Options];
-                        onChange?.(newSelected);
+                        onChange?.(id, newSelected.map((s) => s.value) as any);
                         return newSelected;
                       });
                     }}
