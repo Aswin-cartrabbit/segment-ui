@@ -39,11 +39,11 @@ export function DatePicker({ defaultValue, onChange, id }: DatePickerProps) {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
-            !internalDate && "text-muted-foreground"
+            "tw-w-fit tw-justify-start tw-text-left tw-font-normal",
+            !internalDate && "tw-text-muted-foreground"
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
+          <CalendarIcon className="tw-mr-2 tw-h-4 tw-w-4" />
           {internalDate ? (
             format(internalDate, "PPP")
           ) : (
@@ -51,7 +51,7 @@ export function DatePicker({ defaultValue, onChange, id }: DatePickerProps) {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent className="tw-w-auto tw-p-0">
         <Calendar
           mode="single"
           selected={internalDate}

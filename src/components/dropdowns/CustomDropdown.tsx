@@ -55,16 +55,16 @@ export function CustomDropdown({
           role="combobox"
           disabled={disabled}
           aria-expanded={open}
-          className="tw-w-fit tw-border-[#F27052] tw-justify-between tw-hover:tw-bg-[#F27052] tw-hover:text-white"
+          className="tw-w-fit tw-border-[#F27052] tw-justify-between hover:tw-bg-[#F27052] hover:tw-text-white"
         >
           {value
             ? options.find((item) => item.value === value)?.label
             : "Select item..."}
 
-          <ChevronsUpDown className="group-hover:text-white" />
+          <ChevronsUpDown className="group-hover:tw-text-white" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="tw-w-[200px] tw-p-0">
         <Command>
           <CommandInput placeholder="Search item..." />
           <CommandList>
@@ -96,8 +96,8 @@ export function CustomDropdown({
                   {item.label}
                   <Check
                     className={cn(
-                      "ml-auto",
-                      value === item.value ? "opacity-100" : "opacity-0"
+                      "tw-ml-auto",
+                      value === item.value ? "tw-opacity-100" : "tw-opacity-0"
                     )}
                   />
                 </CommandItem>

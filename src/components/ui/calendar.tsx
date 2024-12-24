@@ -16,50 +16,50 @@ function Calendar({
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn("p-3", className)}
+      className={cn("tw-p-3", className)}
       classNames={{
-        months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-        month: "space-y-4",
-        caption: "flex justify-center pt-1 relative items-center",
-        caption_label: "text-sm font-medium",
-        nav: "space-x-1 flex items-center",
+        months: "tw-flex tw-flex-col sm:tw-flex-row tw-space-y-4 sm:tw-space-x-4 sm:tw-space-y-0",
+        month: "tw-space-y-4",
+        caption: "tw-flex tw-justify-center tw-pt-1 tw-relative tw-items-center",
+        caption_label: "tw-text-sm tw-font-medium",
+        nav: "tw-space-x-1 tw-flex tw-items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
-          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+          "tw-h-7 tw-w-7 tw-bg-transparent tw-p-0 tw-opacity-50 hover:tw-opacity-100"
         ),
-        nav_button_previous: "absolute left-1",
-        nav_button_next: "absolute right-1",
-        table: "w-full border-collapse space-y-1",
-        head_row: "flex",
+        nav_button_previous: "tw-absolute tw-left-1",
+        nav_button_next: "tw-absolute tw-right-1",
+        table: "tw-w-full tw-border-collapse tw-space-y-1",
+        head_row: "tw-flex",
         head_cell:
-          "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
-        row: "flex w-full mt-2",
+          "tw-text-muted-foreground tw-rounded-md tw-w-8 tw-font-normal tw-text-[0.8rem]",
+        row: "tw-flex tw-w-full tw-mt-2",
         cell: cn(
-          "relative p-0 text-center hover:bg-[#FFF7ED] text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-[#FFF7ED] [&:has([aria-selected].day-range-end)]:rounded-r-md",
+          "tw-relative tw-p-0 tw-text-center hover:tw-bg-[#FFF7ED] tw-text-sm focus-within:tw-relative focus-within:tw-z-20 [&:has([aria-selected])]:tw-bg-accent [&:has([aria-selected].day-outside)]:tw-bg-[#FFF7ED] [&:has([aria-selected].day-range-end)]:tw-rounded-r-md",
           props.mode === "range"
-            ? "[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md"
-            : "[&:has([aria-selected])]:rounded-md"
+            ? "[&:has(>.day-range-end)]:tw-rounded-r-md [&:has(>.day-range-start)]:tw-rounded-l-md first:[&:has([aria-selected])]:tw-rounded-l-md last:[&:has([aria-selected])]:tw-rounded-r-md"
+            : "[&:has([aria-selected])]:tw-rounded-md"
         ),
         day: cn(
           buttonVariants({ variant: "ghost" }),
-          "h-8 w-8 p-0 font-normal aria-selected:opacity-100"
+          "tw-h-8 tw-w-8 tw-p-0 tw-font-normal aria-selected:tw-opacity-100"
         ),
-        day_range_start: "day-range-start hover:bg-[#F27052]",
+        day_range_start: "day-range-start hover:tw-bg-[#F27052]",
         day_range_end: "day-range-end",
         day_selected:
-          "bg-[#F27052] text-primary-foreground  focus:bg-[#F27052] bg-[#F27052] focus:text-primary-foreground",
-        day_today: "bg-accent text-accent-foreground",
+          "tw-bg-[#F27052] tw-text-primary-foreground  focus:tw-bg-[#F27052] tw-bg-[#F27052] focus:tw-text-primary-foreground",
+        day_today: "tw-bg-accent tw-text-accent-foreground",
         day_outside:
-          "day-outside text-muted-foreground hover:bg-[#FFF7ED] aria-selected:bg-accent/50 aria-selected:text-muted-foreground",
-        day_disabled: "text-muted-foreground opacity-50",
+          "tw-day-outside tw-text-muted-foreground hover:tw-bg-[#FFF7ED] aria-selected:tw-bg-accent/50 aria-selected:tw-text-muted-foreground",
+        day_disabled: "tw-text-muted-foreground tw-opacity-50",
         day_range_middle:
-          "aria-selected:bg-[#FFF7ED] aria-selected:text-accent-foreground ",
+          "aria-selected:tw-bg-[#FFF7ED] aria-selected:tw-text-accent-foreground ",
         day_hidden: "invisible",
         ...classNames,
       }}
       components={{
-        IconLeft: () => <ChevronLeft className="h-4 w-4" />,
-        IconRight: () => <ChevronRight className="h-4 w-4" />,
+        IconLeft: () => <ChevronLeft className="tw-h-4 tw-w-4" />,
+        IconRight: () => <ChevronRight className="tw-h-4 tw-w-4" />,
       }}
       {...props}
     />

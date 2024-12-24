@@ -18,39 +18,8 @@ const FilterCard = ({
   junction,
   filterItemsLength,
   setFilterValueByOperator,
+  firstRawFilterIndex,
 }: any) => {
-  // Use useMemo to memoize the filter options based on configItem
-  // const filterDropdownOptions = useMemo(
-  //   () =>
-  //     configItem.filters.map((item: any) => ({
-  //       value: item.category,
-  //       label: item.displayName,
-  //     })),
-  //   [configItem.filters]
-  // );
-
-  // const getDefaultValue = useMemo(() => {
-  //   const matchedFilterData =
-  //     matchedFilter.data.type === "dynamic"
-  //       ? matchedFilter.data.values.find(
-  //           (item: any) => item.for === rule.filterValue.operator
-  //         )
-  //       : matchedFilter.data.value;
-
-  //   const areKeysMatching =
-  //     matchedFilterData &&
-  //     Object.keys(matchedFilterData).every(
-  //       (key) => key in rule && matchedFilterData[key] === rule[key]
-  //     );
-
-  //     const isMatched =
-  //     areKeysMatching &&
-  //     JSON.stringify(rule) === JSON.stringify(matchedFilterData);
-
-  //   // If matched, return matchedFilter data value; otherwise, return the rule
-  //   return isMatched ? matchedFilter.data.value || {} : rule;
-  // }, [matchedFilter, rule]);
-
   const filterDropdownOptions = useMemo(() => {
     const options = configItem.filters.map((item: any) => ({
       value: item.category,
@@ -163,25 +132,29 @@ const FilterCard = ({
             {configItem.id === "contact" ? "whose" : "who"}
           </span>
         ) : (
-          <div className="tw-mr-1 tw-mt-0">
+          <div className="tw-mr-1 tw-mb-2 tw-mt-0">
             {filterItemsLength === index ? (
-              <CustomDropdown
-                options={[
-                  { value: "and", label: "and" },
-                  { value: "or", label: "or" },
-                ]}
-                defaultValue={junction ?? "and"}
-                onChange={(_id: string, currentValue: string) => {
-                  updateFilterRowJunction(
-                    groupIndex,
-                    resourceType,
-                    currentValue
-                  );
-                }}
-                id=""
-              />
+              matchedFilter.type === "raw" && firstRawFilterIndex === index  ? (
+                "where"
+              ) : (
+                <CustomDropdown
+                  options={[
+                    { value: "and", label: "and" },
+                    { value: "or", label: "or" },
+                  ]}
+                  defaultValue={junction ?? "and"}
+                  onChange={(_id: string, currentValue: string) => {
+                    updateFilterRowJunction(
+                      groupIndex,
+                      resourceType,
+                      currentValue
+                    );
+                  }}
+                  id=""
+                />
+              )
             ) : (
-              <span>{junction}</span>
+              <span>{matchedFilter.type === "raw"&& firstRawFilterIndex === index ? "where" : junction}</span>
             )}
           </div>
         )}
@@ -242,7 +215,10 @@ const FilterCard = ({
               );
             }
             return (
-              <div key={fieldIndex} className="tw-flex tw-items-center tw-gap-3">
+              <div
+                key={fieldIndex}
+                className="tw-flex tw-items-center tw-gap-3"
+              >
                 {showFilterSelectAt === fieldIndex && (
                   <CustomDropdown
                     options={filterDropdownOptions}
@@ -257,7 +233,6 @@ const FilterCard = ({
                   defaultValue: value,
                   setFilterValueByOperator: setFilterValueByOperator,
                 })}
-
                 {labels.map((item: { index: number; text: string }) => {
                   return fieldIndex === item.index ? (
                     <span className="tw-text-[#F27052]"> {item.text}</span>

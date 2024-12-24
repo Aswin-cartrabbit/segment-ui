@@ -5,6 +5,8 @@ import { AddFilter } from "./addFilter";
 import FilterCard from "./FilterCard";
 import RecommendationsList from "./RecomendationList";
 import { Separator } from "./ui/separator";
+import CopyIcon from "@/assets/icons/Copy";
+import { RawDropdown } from "./RawDropDown";
 
 const getFilterComponent = (
   filter: any,
@@ -23,17 +25,21 @@ const getFilterComponent = (
     const configItem: any =
       config.find((item: any) => item.id === resourceType) || {};
     const filterItems = filter.rule.filter.filters;
+    let firstRawFilterIndex = -1;
     return (
-      <div
-        key={`group-${groupIndex}`}
-        className="tw-flex tw-w-fit tw-items-center tw-justify-left tw-flex-wrap "
-      >
+      <div key={`group-${groupIndex}`} className="">
         {filterItems.map((rule: any, ruleIndex: number) => {
           const matchedFilter = configItem.filters.find(
             (item: any) => item.category === rule.filterValue?.property
           );
           filterIndex;
           const filterItemsLength = filterItems.length;
+
+          // Check if the matchedFilter.type is "raw" and if it's the first occurrence
+          if (firstRawFilterIndex === -1 && matchedFilter?.type === "raw") {
+            firstRawFilterIndex = ruleIndex; // Store the first "raw" filter index
+          }
+          console.log(firstRawFilterIndex);
           if (matchedFilter) {
             return (
               <>
@@ -53,6 +59,7 @@ const getFilterComponent = (
                   junction={filter.rule.filter.junction}
                   filterItemsLength={filterItemsLength - 1}
                   setFilterValueByOperator={setFilterValueByOperator}
+                  firstRawFilterIndex={firstRawFilterIndex}
                 />
               </>
             );
@@ -133,7 +140,7 @@ const GroupCard = ({
                   updateFilterRowJunction,
                   setFilterValueByOperator
                 )}
-                <div className="tw-flex tw-mt-3 tw-mb-3">
+                <div className="tw-flex tw-mt-3 tw-mb-3 tw-gap-5">
                   <RecommendationsList
                     addFilter={addFilter}
                     configItem={configItem}
@@ -141,6 +148,7 @@ const GroupCard = ({
                     groupIndex={groupIndex}
                     resourceType={filter.rule.resourceType}
                   />
+                  <RawDropdown addFilter={addFilter} />
                 </div>
               </div>
             );
@@ -151,14 +159,17 @@ const GroupCard = ({
             onClick={() => {
               cloneGroup(index);
             }}
+            variant="outline"
             className="tw-p-2 hover:tw-bg-[#F27052] tw-group tw-bg-white tw-text-black hover:tw-text-white"
           >
-            <Copy className="tw-h-4 tw-w-4 " />
+            {/* <Copy className="tw-h-4 tw-w-4 " /> */}
+            <CopyIcon />
           </Button>
           <Button
             onClick={() => {
               removeGroup(index);
             }}
+            variant="outline"
             className="tw-p-2 tw-bg-[#F27052] tw-group hover:tw-bg-[#F27052]"
           >
             <Trash2 className="tw-h-4 tw-w-4 tw-text-white" />
@@ -176,7 +187,8 @@ const GroupCard = ({
               member.group.junction === "and" ? "or" : "and"
             );
           }}
-          className={`tw-max-w-fit tw-p-2 tw-h-[25px] tw-bg-[#F27052] hover:tw-bg-[#F27052] tw-absolute ${
+          variant="outline"
+          className={`tw-max-w-fit tw-text-white hover:tw-text-white tw-p-2 tw-h-[25px] tw-bg-[#F27052] hover:tw-bg-[#F27052] tw-absolute ${
             member.group.junction === "and" ? "tw-bottom-0" : "tw--bottom-5"
           } tw-left-1/2 tw-transform tw--translate-x-1/2 tw-translate-y-1/2 tw-z-10`}
         >

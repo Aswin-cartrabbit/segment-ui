@@ -27,7 +27,7 @@ export function DatePickerWithPresets() {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal hover:bg-[#F27052] hover:text-white",
+            "tw-w-[280px] tw-justify-start tw-text-left tw-font-normal hover:tw-bg-[#F27052] hover:tw-text-white",
             !date && "text-muted-foreground"
           )}
         >
@@ -35,7 +35,7 @@ export function DatePickerWithPresets() {
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="flex w-auto flex-col space-y-2 p-2">
+      <PopoverContent className="tw-flex tw-w-auto tw-flex-col tw-space-y-2 p-2">
         <Select
           onValueChange={(value) =>
             setDate(addDays(new Date(), parseInt(value)))
@@ -45,13 +45,13 @@ export function DatePickerWithPresets() {
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent position="popper">
-            <SelectItem className="hover:text-white" value="0">Today</SelectItem>
+            <SelectItem className="hover:tw-text-white" value="0">Today</SelectItem>
             <SelectItem value="1">Tomorrow</SelectItem>
             <SelectItem value="3">In 3 days</SelectItem>
             <SelectItem value="7">In a week</SelectItem>
           </SelectContent>
         </Select>
-        <div className="rounded-md border">
+        <div className="tw-rounded-md tw-border">
           <Calendar mode="single" selected={date} onSelect={setDate} />
         </div>
       </PopoverContent>

@@ -14,6 +14,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import InfoCard from "./InfoCard";
+import { useEffect } from "react";
 
 export function AddFilter({ index, addFilter, config }: any) {
   const [hoveredOption, setHoveredOption] = React.useState<string | null>(null);
@@ -24,21 +25,22 @@ export function AddFilter({ index, addFilter, config }: any) {
     value: "",
     description: "",
   });
+  useEffect(() => setHoveredOption(null), [open]);
 
-  const items = React.useMemo(
-    () =>
-      config?.map((item: any) => ({
-        category: item.displayName,
-        id: item.id,
-        options: item.filters.map((field: any) => ({
+  const items = React.useMemo(() => {
+    return config?.map((item: any) => ({
+      category: item.displayName,
+      id: item.id,
+      options: item.filters
+        .filter((f: any) => f.type === "common")
+        .map((field: any) => ({
           label: field.displayName,
           icon: field.icon,
           fieldId: field.category,
           description: field.description,
         })),
-      })),
-    [config]
-  );
+    }));
+  }, [config]);
 
   const getRecentlyUsed = React.useCallback(() => {
     const stored = sessionStorage.getItem("recentlyUsedFilters");
@@ -77,7 +79,10 @@ export function AddFilter({ index, addFilter, config }: any) {
           <span className="tw-text-sm">+ Filter</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="tw-w-[300px] tw-p-0 tw-flex tw-ml-10">
+      <PopoverContent
+        align="start"
+        className="tw-w-[300px] tw-p-0 tw-flex tw-ml-10"
+      >
         <Command>
           <CommandInput placeholder="Search filter..." />
           <CommandList>
@@ -109,7 +114,6 @@ export function AddFilter({ index, addFilter, config }: any) {
                           description: option.description,
                         });
                       }}
-                      onMouseLeave={() => setHoveredOption(null)}
                     >
                       <span className="">{option.icon}</span>
                       <span>{option.label}</span>

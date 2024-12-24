@@ -53,18 +53,18 @@ function App() {
                                   property: "cart_type",
                                 },
                                 valueType: "object",
-                                returnType: "have_not",
+                                returnType: "have",
                                 condition: {
                                   junction: "and",
                                   value: [
                                     {
-                                      operator: "between",
-                                      startDate: 1732991400000,
-                                      endDate: 1738261800000,
+                                      operator: "in_the_last",
+                                      value: 1,
+                                      type: "days",
                                     },
                                     {
                                       operator: "at_least",
-                                      value: "",
+                                      value: 1,
                                     },
                                   ],
                                 },
@@ -87,12 +87,13 @@ function App() {
     {
       id: "contact",
       displayName: "Contact Properties",
-      icon: <User className="mr-1 h-4 w-4" />,
+      icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
       filters: [
         {
+          type: "common",
           category: "firstName",
           displayName: "First Name",
-          icon: <User className="mr-1 h-4 w-4" />,
+          icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's first name is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -141,9 +142,11 @@ function App() {
           },
         },
         {
+          type: "common",
+
           category: "lastName",
           displayName: "Last Name",
-          icon: <User className="mr-1 h-4 w-4" />,
+          icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's Last name is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -192,9 +195,11 @@ function App() {
           },
         },
         {
+          type: "common",
+
           category: "subscribedChannels",
           displayName: "Subscribed Channels",
-          icon: <Mail className="h-3 w-3" />,
+          icon: <Mail className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's subscription status is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -265,9 +270,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "email",
           displayName: "Email",
-          icon: <MailIcon className="mr-1 h-4 w-4" />,
+          icon: <MailIcon className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's email is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -316,9 +322,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "phone",
           displayName: "Phone number",
-          icon: <Phone className="mr-1 h-4 w-4" />,
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -359,9 +366,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "city",
           displayName: "City",
-          icon: <MapPin className="mr-1 h-4 w-4" />,
+          icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's city is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -410,9 +418,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "state",
           displayName: "State",
-          icon: <MapPin className="mr-1 h-4 w-4" />,
+          icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's state is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -453,9 +462,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "language",
           displayName: "Language",
-          icon: <MapPin className="mr-1 h-4 w-4" />,
+          icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's language is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -489,9 +499,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "country",
           displayName: "Country",
-          icon: <MapPin className="mr-1 h-4 w-4" />,
+          icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's country is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -524,7 +535,52 @@ function App() {
             },
           },
         },
+        {
+          type: "common",
+          category: "postalCode",
+          displayName: "ZIP code",
+          icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "postalCode",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
       ],
+      rawFilters: [{}],
       recommendations: [
         "subscribedChannels",
         "email",
@@ -536,17 +592,19 @@ function App() {
         "phone",
         "firstName",
         "lastName",
+        "postalCode",
       ],
     },
     {
       id: "orders",
-      displayName: "Placed Orders",
-      icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+      displayName: "Orders",
+      icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
       filters: [
         {
+          type: "common",
           category: "orderCanceled",
           displayName: "Order Canceled",
-          icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -613,6 +671,34 @@ function App() {
             type: "dynamic",
             values: [
               {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "orderCanceled",
+                    params: {
+                      property: "cart_type",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          value: 1,
+                          type: "days",
+                        },
+                        {
+                          operator: "at_least",
+                          value: 1,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
                 for: "after",
                 value: {
                   filterType: "filter",
@@ -622,7 +708,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -646,7 +732,7 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     params: {
                       property: "cart_type",
                     },
@@ -676,7 +762,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -694,34 +780,7 @@ function App() {
                   },
                 },
               },
-              {
-                for: "in_the_last",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "orderCanceled",
-                    params: {
-                      property: "cart_type",
-                    },
-                    valueType: "object",
-                    returnType: "have_not",
-                    condition: {
-                      junction: "and",
-                      value: [
-                        {
-                          operator: "in_the_last",
-                          value: 1,
-                          type: "days",
-                        },
-                        {
-                          operator: "at_least",
-                          value: 1,
-                        },
-                      ],
-                    },
-                  },
-                },
-              },
+
               {
                 for: "not_in_the_last",
                 value: {
@@ -732,7 +791,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -760,7 +819,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -786,7 +845,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -861,9 +920,11 @@ function App() {
           },
         },
         {
+          type: "common",
+
           category: "orderFulfilled",
           displayName: "Order Fulfilled",
-          icon: <CheckCircle className="mr-1 h-4 w-4" />,
+          icon: <CheckCircle className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -936,7 +997,7 @@ function App() {
                   filterValue: {
                     property: "orderFulfilled",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     params: {
                       property: "cart_type",
                     },
@@ -966,7 +1027,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -993,7 +1054,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1021,7 +1082,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1049,7 +1110,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1077,7 +1138,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1103,7 +1164,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1171,9 +1232,11 @@ function App() {
           },
         },
         {
+          type: "common",
+
           category: "orderRefunded",
           displayName: "Order Refunded",
-          icon: <RefreshCcw className="mr-1 h-4 w-4" />,
+          icon: <RefreshCcw className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -1249,7 +1312,7 @@ function App() {
                     params: {
                       property: "cart_type",
                     },
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1276,7 +1339,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1303,7 +1366,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1331,7 +1394,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1359,7 +1422,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1387,7 +1450,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1413,7 +1476,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1481,9 +1544,11 @@ function App() {
           },
         },
         {
+          type: "common",
+
           category: "paidForOrder",
           displayName: "Paid For Order",
-          icon: <CreditCard className="mr-1 h-4 w-4" />,
+          icon: <CreditCard className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -1559,7 +1624,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1586,7 +1651,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1613,7 +1678,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1641,7 +1706,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1669,7 +1734,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1697,7 +1762,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1723,7 +1788,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1791,9 +1856,11 @@ function App() {
           },
         },
         {
+          type: "common",
+
           category: "orderPlaced",
           displayName: "Order Placed",
-          icon: <Package className="mr-1 h-4 w-4" />,
+          icon: <Package className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -1869,7 +1936,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1896,7 +1963,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1923,7 +1990,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1951,7 +2018,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -1979,7 +2046,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2007,7 +2074,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2033,7 +2100,7 @@ function App() {
                       property: "cart_type",
                     },
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2101,9 +2168,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "checkoutStarted",
           displayName: "Checkout started",
-          icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -2176,7 +2244,7 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2200,7 +2268,7 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2224,7 +2292,7 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2249,7 +2317,7 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2274,7 +2342,7 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2299,7 +2367,7 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2322,7 +2390,7 @@ function App() {
                   filterValue: {
                     property: "checkoutStarted",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2387,6 +2455,705 @@ function App() {
               default:
                 return [];
             }
+          },
+        },
+        {
+          type: "raw",
+          category: "BillingAddressPostalCode",
+          displayName: "ZIP code",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The order's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "BillingAddressPostalCode",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "language",
+          displayName: "Language",
+          icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's language is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+              ],
+            },
+            {
+              id: "filterValue.value",
+              type: "languageDropdown",
+              defaultValue: "filterValue.value",
+              placeholder: "",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "language",
+                valueType: "string",
+                operator: "is",
+                value: "",
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "ShippingAddressLine1",
+          displayName: "Address Line 1",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The order's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ShippingAddressLine1",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "ShippingAddressLine2",
+          displayName: "Address Line 2",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The order's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ShippingAddressLine2",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "ShippingAddressPostalCode",
+          displayName: "Postal Code",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The order's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ShippingAddressPostalCode",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "ShippingAddressCity",
+          displayName: "City",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The order's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ShippingAddressCity",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "ShippingAddressState",
+          displayName: "State",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The order's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ShippingAddressState",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "ShippingAddressCountry",
+          displayName: "Country",
+          icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's country is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+              ],
+            },
+            {
+              type: "countryDropdown",
+              defaultValue: "filterValue.value",
+              placeholder: "",
+              id: "filterValue.value",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ShippingAddressCountry",
+                valueType: "string",
+                operator: "",
+                value: "",
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "ShippingAddressPhoneNumber",
+          displayName: "Phone number",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ShippingAddressPhoneNumber",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "common",
+          category: "BillingAddressFirstName",
+          displayName: "First Name",
+          icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's first name is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
+              inputType: "text",
+              id: "filterValue.values",
+              validate: () => {
+                return {
+                  pattern: {
+                    value: /^[a-zA-Z ]*$/,
+                    message: "Enter a valid name",
+                  },
+                };
+              },
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "BillingAddressFirstName",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "BillingAddressLastName",
+          displayName: "Last Name",
+          icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's first name is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
+              inputType: "text",
+              id: "filterValue.values",
+              validate: () => {
+                return {
+                  pattern: {
+                    value: /^[a-zA-Z ]*$/,
+                    message: "Enter a valid name",
+                  },
+                };
+              },
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "BillingAddressLastName",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "BillingAddressLine1",
+          displayName: "Address Line 1",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The order's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "BillingAddressLine1",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "BillingAddressLine2",
+          displayName: "Address Line 2",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The order's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "BillingAddressLine2",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "BillingAddressCountry",
+          displayName: "Country",
+          icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's country is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+              ],
+            },
+            {
+              type: "countryDropdown",
+              defaultValue: "filterValue.value",
+              placeholder: "",
+              id: "filterValue.value",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "BillingAddressCountry",
+                valueType: "string",
+                operator: "",
+                value: "",
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "BillingAddressState",
+          displayName: "State",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The order's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "BillingAddressState",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "BillingAddressCity",
+          displayName: "City",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The order's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "BillingAddressCity",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
           },
         },
       ],
@@ -2403,12 +3170,13 @@ function App() {
     {
       id: "products",
       displayName: "Products",
-      icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+      icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
       filters: [
         {
+          type: "common",
           category: "addedProductToCart",
           displayName: "Added product to cart",
-          icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The addedProductToCart event tracks when a user adds a product to their shopping cart. This event is essential for understanding user purchase intent and optimizing the shopping experience. Key details captured include the product ID, product name, quantity, price, user ID (if logged in), session ID, timestamp, and optional metadata like product category or variant. By analyzing this data, businesses can identify popular products, tailor marketing strategies, and reduce cart abandonment rates.",
           fields: [
@@ -2481,7 +3249,7 @@ function App() {
                   filterValue: {
                     property: "addedProductToCart",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2505,7 +3273,7 @@ function App() {
                   filterValue: {
                     property: "addedProductToCart",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2529,7 +3297,7 @@ function App() {
                   filterValue: {
                     property: "addedProductToCart",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2554,7 +3322,7 @@ function App() {
                   filterValue: {
                     property: "addedProductToCart",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2579,7 +3347,7 @@ function App() {
                   filterValue: {
                     property: "addedProductToCart",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2604,7 +3372,7 @@ function App() {
                   filterValue: {
                     property: "addedProductToCart",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2627,7 +3395,7 @@ function App() {
                   filterValue: {
                     property: "addedProductToCart",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2695,9 +3463,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "orderedProduct",
           displayName: "Ordered Product",
-          icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The orderedProduct event records when a user successfully places an order for a product. This event is critical for tracking completed transactions and understanding purchasing behavior. Key details captured include the order ID, product ID, product name, quantity, price, user ID (if logged in), order total, shipping information, payment method, timestamp, and any promotional codes applied. Analyzing this data helps businesses optimize the checkout process, assess product performance, and improve overall sales strategies.",
           fields: [
@@ -2770,7 +3539,7 @@ function App() {
                   filterValue: {
                     property: "orderedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2794,7 +3563,7 @@ function App() {
                   filterValue: {
                     property: "orderedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2818,7 +3587,7 @@ function App() {
                   filterValue: {
                     property: "orderedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2843,7 +3612,7 @@ function App() {
                   filterValue: {
                     property: "orderedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2868,7 +3637,7 @@ function App() {
                   filterValue: {
                     property: "orderedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2893,7 +3662,7 @@ function App() {
                   filterValue: {
                     property: "orderedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2916,7 +3685,7 @@ function App() {
                   filterValue: {
                     property: "orderedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -2984,9 +3753,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "submittedProductReview",
           displayName: "Submitted Product Review",
-          icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The submittedProductReview event tracks when a user submits a product review. It includes details such as product ID, user ID, rating, review text, and timestamp. This data helps businesses monitor customer feedback and improve products.",
           fields: [
@@ -3059,7 +3829,7 @@ function App() {
                   filterValue: {
                     property: "submittedProductReview",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3083,7 +3853,7 @@ function App() {
                   filterValue: {
                     property: "submittedProductReview",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3107,7 +3877,7 @@ function App() {
                   filterValue: {
                     property: "submittedProductReview",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3132,7 +3902,7 @@ function App() {
                   filterValue: {
                     property: "submittedProductReview",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3157,7 +3927,7 @@ function App() {
                   filterValue: {
                     property: "submittedProductReview",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3182,7 +3952,7 @@ function App() {
                   filterValue: {
                     property: "submittedProductReview",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3205,7 +3975,7 @@ function App() {
                   filterValue: {
                     property: "submittedProductReview",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3273,9 +4043,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "viewedProduct",
           displayName: "Viewed Product",
-          icon: <ShoppingCart className="mr-1 h-4 w-4" />,
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The viewedProduct event tracks when a user views a product page. It captures details like product ID, user ID (if logged in), timestamp, and optional metadata such as session ID or device used. This data helps businesses understand user interest and optimize product visibility",
           fields: [
@@ -3348,7 +4119,7 @@ function App() {
                   filterValue: {
                     property: "viewedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3372,7 +4143,7 @@ function App() {
                   filterValue: {
                     property: "viewedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3396,7 +4167,7 @@ function App() {
                   filterValue: {
                     property: "viewedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3421,7 +4192,7 @@ function App() {
                   filterValue: {
                     property: "viewedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3446,7 +4217,7 @@ function App() {
                   filterValue: {
                     property: "viewedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3471,7 +4242,7 @@ function App() {
                   filterValue: {
                     property: "viewedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3494,7 +4265,7 @@ function App() {
                   filterValue: {
                     property: "viewedProduct",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3573,12 +4344,13 @@ function App() {
     {
       id: "engagement",
       displayName: "Engagement",
-      icon: <MailIcon className="mr-1 h-4 w-4" />,
+      icon: <MailIcon className="tw-mr-1 tw-h-4 tw-w-4" />,
       filters: [
         {
+          type: "common",
           category: "clickedOnMail",
           displayName: "Clicked on Mail",
-          icon: <MousePointerClick className="mr-1 h-4 w-4" />,
+          icon: <MousePointerClick className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The clickedOnMail event tracks when a user clicks on a link or action within an email. This event provides insights into user engagement with email campaigns by capturing key details such as the specific link clicked, the email campaign ID, the recipient's information, and the timestamp of the action. It is essential for analyzing the effectiveness of email marketing strategies, measuring click-through rates, and optimizing future campaigns.",
           fields: [
@@ -3651,7 +4423,7 @@ function App() {
                   filterValue: {
                     property: "clickedOnMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3675,7 +4447,7 @@ function App() {
                   filterValue: {
                     property: "clickedOnMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3699,7 +4471,7 @@ function App() {
                   filterValue: {
                     property: "clickedOnMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3724,7 +4496,7 @@ function App() {
                   filterValue: {
                     property: "clickedOnMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3749,7 +4521,7 @@ function App() {
                   filterValue: {
                     property: "clickedOnMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3774,7 +4546,7 @@ function App() {
                   filterValue: {
                     property: "clickedOnMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3797,7 +4569,7 @@ function App() {
                   filterValue: {
                     property: "clickedOnMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3865,9 +4637,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "markedMailAsSpam",
           displayName: "Marked Mail As Spam",
-          icon: <AlertOctagon className="mr-1 h-4 w-4" />,
+          icon: <AlertOctagon className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The markedMailAsSpam event captures when a user marks an email as spam. This event provides valuable insights into email deliverability issues and user dissatisfaction with email content. Key details tracked include the email campaign ID, recipient information, timestamp of the action, and any associated metadata. This data helps identify problematic patterns, improve email content, and maintain sender reputation.",
           fields: [
@@ -3940,7 +4713,7 @@ function App() {
                   filterValue: {
                     property: "markedMailAsSpam",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3964,7 +4737,7 @@ function App() {
                   filterValue: {
                     property: "markedMailAsSpam",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -3988,7 +4761,7 @@ function App() {
                   filterValue: {
                     property: "markedMailAsSpam",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4013,7 +4786,7 @@ function App() {
                   filterValue: {
                     property: "markedMailAsSpam",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4038,7 +4811,7 @@ function App() {
                   filterValue: {
                     property: "markedMailAsSpam",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4063,7 +4836,7 @@ function App() {
                   filterValue: {
                     property: "markedMailAsSpam",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4086,7 +4859,7 @@ function App() {
                   filterValue: {
                     property: "markedMailAsSpam",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4154,9 +4927,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "mailDeliveryFailed",
           displayName: "Mail Delivery Failed",
-          icon: <XCircle className="mr-1 h-4 w-4" />,
+          icon: <XCircle className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The mailDeliveryFailed event logs instances when an email fails to be delivered to the recipient. This event is crucial for diagnosing and resolving delivery issues, ensuring optimal email campaign performance. Key details captured include the email campaign ID, recipient's email address, failure reason (e.g., invalid address, blocked, or server error), and the timestamp of the failure. By analyzing these events, businesses can maintain email deliverability, update contact lists, and improve messaging reliability.",
           fields: [
@@ -4229,7 +5003,7 @@ function App() {
                   filterValue: {
                     property: "mailDeliveryFailed",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4253,7 +5027,7 @@ function App() {
                   filterValue: {
                     property: "mailDeliveryFailed",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4277,7 +5051,7 @@ function App() {
                   filterValue: {
                     property: "mailDeliveryFailed",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4302,7 +5076,7 @@ function App() {
                   filterValue: {
                     property: "mailDeliveryFailed",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4327,7 +5101,7 @@ function App() {
                   filterValue: {
                     property: "mailDeliveryFailed",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4352,7 +5126,7 @@ function App() {
                   filterValue: {
                     property: "mailDeliveryFailed",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4375,7 +5149,7 @@ function App() {
                   filterValue: {
                     property: "mailDeliveryFailed",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4443,9 +5217,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "mailSent",
           displayName: "Mail Sent",
-          icon: <Send className="mr-1 h-4 w-4" />,
+          icon: <Send className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The mailSent event records the successful dispatch of an email to a recipient. This event is vital for tracking the operational status of email campaigns and ensuring emails are being processed as intended. Key details captured include the email campaign ID, recipient's email address, timestamp of sending, and optional metadata such as subject line or tags. This data helps monitor campaign progress, validate successful transmissions, and provide insights into overall email campaign performance.",
           fields: [
@@ -4518,7 +5293,7 @@ function App() {
                   filterValue: {
                     property: "mailSent",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4542,7 +5317,7 @@ function App() {
                   filterValue: {
                     property: "mailSent",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4566,7 +5341,7 @@ function App() {
                   filterValue: {
                     property: "mailSent",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4591,7 +5366,7 @@ function App() {
                   filterValue: {
                     property: "mailSent",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4616,7 +5391,7 @@ function App() {
                   filterValue: {
                     property: "mailSent",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4641,7 +5416,7 @@ function App() {
                   filterValue: {
                     property: "mailSent",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4664,7 +5439,7 @@ function App() {
                   filterValue: {
                     property: "mailSent",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4732,9 +5507,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "mailOpened",
           displayName: "Mail Opened",
-          icon: <Mail className="mr-1 h-4 w-4" />,
+          icon: <Mail className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The mailOpened event tracks when a recipient opens an email. This event is essential for measuring email engagement and determining the effectiveness of email campaigns. Key details captured include the email campaign ID, recipient's email address, timestamp of the action, and optional metadata like the device or location. By analyzing these events, businesses can gain insights into user behavior, optimize email content, and improve open rates.",
           fields: [
@@ -4807,7 +5583,7 @@ function App() {
                   filterValue: {
                     property: "mailOpened",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4831,7 +5607,7 @@ function App() {
                   filterValue: {
                     property: "mailOpened",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4855,7 +5631,7 @@ function App() {
                   filterValue: {
                     property: "mailOpened",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4880,7 +5656,7 @@ function App() {
                   filterValue: {
                     property: "mailOpened",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4905,7 +5681,7 @@ function App() {
                   filterValue: {
                     property: "mailOpened",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4930,7 +5706,7 @@ function App() {
                   filterValue: {
                     property: "mailOpened",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -4953,7 +5729,7 @@ function App() {
                   filterValue: {
                     property: "mailOpened",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5021,9 +5797,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "optedIn",
           displayName: "Opted In",
-          icon: <CheckCircle2 className="mr-1 h-4 w-4" />,
+          icon: <CheckCircle2 className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "he optedIn event records when a user voluntarily subscribes or consents to receive communications, such as marketing emails or newsletters. This event is essential for tracking user consent and building a compliant, engaged audience. Key details captured include the user's email address, the timestamp of consent, the source of opt-in (e.g., signup form, in-app prompt), and optional metadata like campaign or referral ID. This information helps businesses ensure compliance with regulations, maintain a positive sender reputation, and segment audiences effectively.",
           fields: [
@@ -5096,7 +5873,7 @@ function App() {
                   filterValue: {
                     property: "optedIn",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5120,7 +5897,7 @@ function App() {
                   filterValue: {
                     property: "optedIn",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5144,7 +5921,7 @@ function App() {
                   filterValue: {
                     property: "optedIn",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5169,7 +5946,7 @@ function App() {
                   filterValue: {
                     property: "optedIn",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5194,7 +5971,7 @@ function App() {
                   filterValue: {
                     property: "optedIn",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5219,7 +5996,7 @@ function App() {
                   filterValue: {
                     property: "optedIn",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5242,7 +6019,7 @@ function App() {
                   filterValue: {
                     property: "optedIn",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5310,9 +6087,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "optedOut",
           displayName: "Opted Out",
-          icon: <XOctagon className="mr-1 h-4 w-4" />,
+          icon: <XOctagon className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The optedOut event tracks when a user unsubscribes or withdraws consent to receive further communications, such as marketing emails or newsletters. This event is critical for ensuring compliance with privacy regulations and respecting user preferences. Key details captured include the user's email address, the timestamp of the action, the source of opt-out (e.g., unsubscribe link, in-app settings), and optional metadata like campaign ID or reason for opting out (if provided). By analyzing these events, businesses can refine their communication strategies, reduce unsubscribe rates, and maintain a positive sender reputation.",
           fields: [
@@ -5385,7 +6163,7 @@ function App() {
                   filterValue: {
                     property: "optedOut",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5409,7 +6187,7 @@ function App() {
                   filterValue: {
                     property: "optedOut",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5433,7 +6211,7 @@ function App() {
                   filterValue: {
                     property: "optedOut",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5458,7 +6236,7 @@ function App() {
                   filterValue: {
                     property: "optedOut",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5483,7 +6261,7 @@ function App() {
                   filterValue: {
                     property: "optedOut",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5508,7 +6286,7 @@ function App() {
                   filterValue: {
                     property: "optedOut",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5531,7 +6309,7 @@ function App() {
                   filterValue: {
                     property: "optedOut",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5599,9 +6377,10 @@ function App() {
           },
         },
         {
+          type: "common",
           category: "viewdMail",
           displayName: "Viewed Mail",
-          icon: <Eye className="mr-1 h-4 w-4 text-white" />,
+          icon: <Eye className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The viewedMail event captures when a recipient views or previews an email. This event helps measure engagement and assess the effectiveness of email content. Key details recorded include the email campaign ID, recipient's email address, timestamp of the action, and optional metadata such as the device or email client used. Analyzing this data provides insights into user behavior, helps optimize email strategies, and improves overall campaign performance.",
           fields: [
@@ -5674,7 +6453,7 @@ function App() {
                   filterValue: {
                     property: "viewdMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5698,7 +6477,7 @@ function App() {
                   filterValue: {
                     property: "viewdMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5722,7 +6501,7 @@ function App() {
                   filterValue: {
                     property: "viewdMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5747,7 +6526,7 @@ function App() {
                   filterValue: {
                     property: "viewdMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5772,7 +6551,7 @@ function App() {
                   filterValue: {
                     property: "viewdMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5797,7 +6576,7 @@ function App() {
                   filterValue: {
                     property: "viewdMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5820,7 +6599,7 @@ function App() {
                   filterValue: {
                     property: "viewdMail",
                     valueType: "object",
-                    returnType: "have_not",
+                    returnType: "have",
                     condition: {
                       junction: "and",
                       value: [
@@ -5998,7 +6777,11 @@ function App() {
                 },
               },
             };
-            members.push(newFilterToAdd);
+            if (category === "contact") {
+              members.unshift(newFilterToAdd);
+            } else {
+              members.push(newFilterToAdd);
+            }
           }
         }
       }
@@ -6227,15 +7010,8 @@ function App() {
             <Plus /> Clear All{" "}
           </span>
         </Button>
-        {/* <Button
-          onClick={() => {
-            updateFilter("contact", "language", 0, 0);
-          }}
-        >
-          press here
-        </Button> */}
       </div>
-      {JsonViewer(filter.group.members[0].group.members)}
+      {JsonViewer(filter)}
     </div>
   );
 }

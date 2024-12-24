@@ -58,15 +58,15 @@ export function DateRangePicker({
   };
 
   return (
-    <div className={cn("grid gap-2", className)}>
+    <div className={cn("tw-grid tw-gap-2", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
             id="date"
             variant={"outline"}
             className={cn(
-              "w-[300px] justify-start text-left font-normal",
-              !date && "text-muted-foreground"
+              "tw-w-[300px] hover:tw-bg-[#F27052] hover:tw-text-white tw-justify-start tw-text-left tw-font-normal",
+              !date && "tw-text-muted-foreground"
             )}
           >
             <CalendarIcon />
@@ -84,7 +84,7 @@ export function DateRangePicker({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent className="tw-w-auto tw-p-0" align="start">
           <Calendar
             initialFocus
             mode="range"

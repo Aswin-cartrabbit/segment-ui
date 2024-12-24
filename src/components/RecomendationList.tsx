@@ -29,7 +29,7 @@ export default function RecommendationsList({
   const randomRecommendations = randomRecommendationsRef.current;
 
   return (
-    <div className="flex gap-2 ml-20">
+    <div className="tw-flex tw-gap-2 tw-ml-20">
       {randomRecommendations.map((item, index) => {
         const displayName = categoryDisplayMap[item];
         return displayName ? (

@@ -43,20 +43,20 @@ export default function MultiInput({
   );
 
   return (
-    <div className="group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-      <div className="flex flex-wrap gap-1">
+    <div className="tw-group tw-rounded-md tw-border tw-border-input tw-px-3 tw-py-2 tw-text-sm tw-ring-offset-background focus-within:tw-ring-2 focus-within:tw-ring-ring focus-within:tw-ring-offset-2">
+      <div className="tw-flex tw-flex-wrap tw-gap-1">
         {selected.map((option) => (
           <Badge
             key={option}
             variant="outline"
-            className="inline-flex border-none hover:bg-none items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-[#F27052] ring-1 ring-inset ring-red-600/10"
+            className="tw-inline-flex tw-border-none hover:tw-bg-none tw-items-center tw-rounded-md tw-bg-red-50 tw-px-2 tw-py-1 tw-text-xs tw-font-medium tw-text-[#F27052] tw-ring-1 tw-ring-inset tw-ring-red-600/10"
           >
             {option}
             <button
-              className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              className="tw-ml-1 tw-rounded-full tw-outline-none tw-ring-offset-background focus:tw-ring-2 focus:tw-ring-ring focus:tw-ring-offset-2"
               onClick={() => handleUnselect(option)}
             >
-              <X className="h-4 w-4 text-[#F27052] hover:bg-[#F27052] rounded-full hover:text-white transition ease-in-out duration-300" />
+              <X className="tw-h-4 tw-w-4 tw-text-[#F27052] hover:tw-bg-[#F27052] tw-rounded-full hover:tw-text-white tw-transition tw-ease-in-out tw-duration-300" />
             </button>
           </Badge>
         ))}
@@ -66,7 +66,7 @@ export default function MultiInput({
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Type and press Enter..."
-          className="ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
+          className="tw-ml-2 tw-flex-1 tw-bg-transparent tw-outline-none placeholder:tw-text-muted-foreground"
         />
       </div>
     </div>

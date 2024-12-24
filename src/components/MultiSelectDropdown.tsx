@@ -69,19 +69,19 @@ export function MultiSelect({
   return (
     <Command
       onKeyDown={handleKeyDown}
-      className="overflow-visible bg-transparent max-w-fit"
+      className="tw-overflow-visible tw-bg-transparent tw-max-w-fit"
     >
-      <div className="group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-        <div className="flex flex-wrap gap-1">
+      <div className="tw-group tw-rounded-md tw-border tw-border-input tw-px-3 tw-py-2 tw-text-sm tw-ring-offset-background focus-within:tw-ring-2 focus-within:tw-ring-ring focus-within:tw-ring-offset-2">
+        <div className="tw-flex tw-flex-wrap tw-gap-1">
           {selected.map((Options) => (
             <Badge
               key={Options.value}
               variant="outline"
-              className="inline-flex border-none hover:bg-none items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-[#F27052] ring-1 ring-inset ring-red-600/10"
+              className="tw-inline-flex tw-border-none hover:tw-bg-none tw-items-center tw-rounded-md tw-bg-red-50 tw-px-2 tw-py-1 tw-text-xs tw-font-medium tw-text-[#F27052] tw-ring-1 tw-ring-inset tw-ring-red-600/10"
             >
               {Options.label}
               <button
-                className="ml-1   rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                className="tw-ml-1   tw-rounded-full tw-outline-none tw-ring-offset-background focus:tw-ring-2 focus:tw-ring-ring focus:tw-ring-offset-2"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     handleUnselect(Options);
@@ -93,7 +93,7 @@ export function MultiSelect({
                 }}
                 onClick={() => handleUnselect(Options)}
               >
-                <X className="h-4 w-4 text-[#F27052] hover:bg-[#F27052] rounded-full hover:text-white transition ease-in-out duration-300" />
+                <X className="tw-h-4 tw-w-4 tw-text-[#F27052] hover:tw-bg-[#F27052] tw-rounded-full hover:tw-text-white tw-transition tw-ease-in-out tw-duration-300" />
               </button>
             </Badge>
           ))}
@@ -104,15 +104,15 @@ export function MultiSelect({
             onBlur={() => setOpen(false)}
             onFocus={() => setOpen(true)}
             placeholder="Select Optionss..."
-            className="ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground"
+            className="tw-ml-2 tw-flex-1 tw-bg-transparent tw-outline-none placeholder:tw-text-muted-foreground"
           />
         </div>
       </div>
       <div className="relative  ">
         <CommandList>
           {open && selectables.length > 0 ? (
-            <div className="absolute mt-2 top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
-              <CommandGroup className="h-full overflow-auto">
+            <div className="tw-absolute tw-mt-2 tw-top-0 tw-z-10 tw-w-full tw-rounded-md tw-border tw-bg-popover tw-text-popover-foreground tw-shadow-md tw-outline-none tw-animate-in">
+              <CommandGroup className="tw-h-full tw-overflow-auto">
                 {selectables.map((Options) => (
                   <CommandItem
                     key={Options.value}
@@ -128,7 +128,7 @@ export function MultiSelect({
                         return newSelected;
                       });
                     }}
-                    className={"cursor-pointer"}
+                    className={"tw-cursor-pointer"}
                   >
                     {Options.label}
                   </CommandItem>
