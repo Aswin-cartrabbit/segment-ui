@@ -1,4 +1,4 @@
-import MultiInput from '@/components/MultiInput';
+import MultiInput from '@/components/inputs/MultiInput';
 
 export const multiInputCreator = (field: any) => {
   return <MultiInput {...field} />;

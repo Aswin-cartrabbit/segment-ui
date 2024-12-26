@@ -224,15 +224,15 @@ export function LanguagePicker({ defaultValue, onChange, id }: any) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="tw-w-[200px] tw-justify-between"
         >
           {value
             ? languages.find((language) => language.value === value)?.label
             : "Select Lanuage..."}
-          <ChevronsUpDown className="opacity-50" />
+          <ChevronsUpDown className="tw-opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="tw-w-[200px] tw-p-0">
         <Command>
           <CommandInput placeholder="Search language..." />
           <CommandList>
@@ -251,8 +251,10 @@ export function LanguagePicker({ defaultValue, onChange, id }: any) {
                   {language.label}
                   <Check
                     className={cn(
-                      "ml-auto",
-                      value === language.value ? "opacity-100" : "opacity-0"
+                      "tw-ml-auto",
+                      value === language.value
+                        ? "tw-opacity-100"
+                        : "tw-opacity-0"
                     )}
                   />
                 </CommandItem>

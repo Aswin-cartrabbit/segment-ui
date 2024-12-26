@@ -86,7 +86,7 @@ function App() {
   const config = [
     {
       id: "contact",
-      displayName: "Contact Properties",
+      displayName: "Contacts",
       icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
       filters: [
         {
@@ -118,14 +118,6 @@ function App() {
               placeholder: "Enter valid First Name",
               inputType: "text",
               id: "filterValue.values",
-              validate: () => {
-                return {
-                  pattern: {
-                    value: /^[a-zA-Z ]*$/,
-                    message: "Enter a valid name",
-                  },
-                };
-              },
             },
           ],
           data: {
@@ -579,8 +571,708 @@ function App() {
             },
           },
         },
+        {
+          category: "language",
+          displayName: "Language",
+          icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's language is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+              ],
+            },
+            {
+              id: "filterValue.value",
+              type: "languageDropdown",
+              defaultValue: "filterValue.value",
+              placeholder: "",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "language",
+                valueType: "string",
+                operator: "is",
+                value: "",
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "ImportType",
+          displayName: "Import Type",
+          icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's language is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+              ],
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.value",
+              id: "filterValue.value",
+              options: [
+                { value: "csv_import", label: "CSV Import" },
+                { value: "woocommerce", label: "Woocommerce" },
+                { value: "shopify", label: "Shopify" },
+                { value: "popup", label: "Popup" },
+                { value: "cart", label: "Cart" },
+              ],
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ImportType",
+                valueType: "string",
+                operator: "is",
+                value: "csv_import",
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "ImportType",
+          displayName: "Import Type",
+          icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's language is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+              ],
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.value",
+              id: "filterValue.value",
+              options: [
+                { value: "csv_import", label: "CSV Import" },
+                { value: "woocommerce", label: "Woocommerce" },
+                { value: "shopify", label: "Shopify" },
+                { value: "popup", label: "Popup" },
+                { value: "cart", label: "Cart" },
+              ],
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ImportType",
+                valueType: "string",
+                operator: "is",
+                value: "csv_import",
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "SuppressedChannels",
+          displayName: "Suppressed Reason",
+          icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's language is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+              ],
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.value",
+              id: "filterValue.value",
+              options: [
+                { value: "bounces", label: "Bounced" },
+                { value: "spam_complaints", label: "Spam Compliants" },
+                { value: "mannual", label: "Mannual" },
+              ],
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "SuppressedChannels",
+                valueType: "string",
+                operator: "is",
+                value: "bounces",
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "Status",
+          displayName: "Status",
+          icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's language is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [{ value: "is", label: "Is" }],
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.value",
+              id: "filterValue.value",
+              options: [
+                { value: "active", label: "Active" },
+                { value: "inactive", label: "In Active" },
+              ],
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "Status",
+                valueType: "string",
+                operator: "is",
+                value: "active",
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "MetaData",
+          displayName: "Meta Data",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "MetaData",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "CreatedAt",
+          displayName: "Created At",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "on_the_exact_date",
+                  label: "on the exact date",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CreatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CreatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CreatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "on_the_exact_date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CreatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+
+          order: (option: string) => {
+            switch (option) {
+              case "after":
+              case "before":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "on_the_exact_date":
+                return [
+                  {
+                    type: "label",
+                    text: "that is",
+                  },
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "dateRange",
+                    defaultValue: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    id: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "UpdatedAt",
+          displayName: "UpdatedAt",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "on_the_exact_date",
+                  label: "on the exact date",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UpdatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UpdatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UpdatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "on_the_exact_date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UpdatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+
+          order: (option: string) => {
+            switch (option) {
+              case "after":
+              case "before":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "on_the_exact_date":
+                return [
+                  {
+                    type: "label",
+                    text: "that is",
+                  },
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "dateRange",
+                    defaultValue: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    id: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "AddressLine1",
+
+          displayName: "Address Line 1",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The order's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "AddressLine1",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "AddressLine2",
+
+          displayName: "Address Line 2",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The order's postal code is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid postal Code",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "AddressLine2",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "AddressIpAddress",
+          displayName: "Address IP Address",
+          icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's first name is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid Ip Address",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "AddressIpAddress",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
       ],
-      rawFilters: [{}],
+      rawFields: [
+        {
+          group: "Additional Information",
+          items: [
+            { label: "Import Type", value: "ImportType" },
+            { label: "Suppressed Channels", value: "SuppressedChannels" },
+            { label: "Status", value: "Status" },
+            { label: "Meta Data", value: "MetaData" },
+            { label: "Created At", value: "CreatedAt" },
+            { label: "Updated At", value: "UpdatedAt" },
+          ],
+        },
+        {
+          group: "Address Fields",
+          items: [
+            { label: "Address Line 1", value: "AddressLine1" },
+            { label: "Address Line 2", value: "AddressLine2" },
+            { label: "Address IP Address", value: "AddressIpAddress" },
+          ],
+        },
+      ],
       recommendations: [
         "subscribedChannels",
         "email",
@@ -603,7 +1295,8 @@ function App() {
         {
           type: "common",
           category: "orderCanceled",
-          displayName: "Order Canceled",
+          displayName: "Canceled Order",
+          showFilterSelectAt: 1,
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
@@ -910,6 +1603,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -923,7 +1617,8 @@ function App() {
           type: "common",
 
           category: "orderFulfilled",
-          displayName: "Order Fulfilled",
+          displayName: "Fulfilled Order",
+          showFilterSelectAt: 1,
           icon: <CheckCircle className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
@@ -1222,6 +1917,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -1235,7 +1931,8 @@ function App() {
           type: "common",
 
           category: "orderRefunded",
-          displayName: "Order Refunded",
+          displayName: "Refunded Order",
+          showFilterSelectAt: 1,
           icon: <RefreshCcw className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
@@ -1534,6 +2231,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -1547,7 +2245,9 @@ function App() {
           type: "common",
 
           category: "paidForOrder",
-          displayName: "Paid For Order",
+          displayName: "Paid Order ",
+          showFilterSelectAt: 1,
+
           icon: <CreditCard className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
@@ -1846,6 +2546,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -1859,7 +2560,8 @@ function App() {
           type: "common",
 
           category: "orderPlaced",
-          displayName: "Order Placed",
+          displayName: "Placed Order",
+          showFilterSelectAt: 1,
           icon: <Package className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
@@ -2158,6 +2860,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -2170,7 +2873,8 @@ function App() {
         {
           type: "common",
           category: "checkoutStarted",
-          displayName: "Checkout started",
+          displayName: "started Checkout",
+          showFilterSelectAt: 1,
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
@@ -2448,6 +3152,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -2460,6 +3165,8 @@ function App() {
         {
           type: "raw",
           category: "BillingAddressPostalCode",
+          group: "Billing Address",
+
           displayName: "ZIP code",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2503,7 +3210,8 @@ function App() {
         },
         {
           type: "raw",
-          category: "language",
+          category: "Language",
+          group: "General",
           displayName: "Language",
           icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2541,6 +3249,8 @@ function App() {
         {
           type: "raw",
           category: "ShippingAddressLine1",
+          group: "Shipping Address",
+
           displayName: "Address Line 1",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2585,6 +3295,8 @@ function App() {
         {
           type: "raw",
           category: "ShippingAddressLine2",
+          group: "Shipping Address",
+
           displayName: "Address Line 2",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2629,6 +3341,8 @@ function App() {
         {
           type: "raw",
           category: "ShippingAddressPostalCode",
+          group: "Shipping Address",
+
           displayName: "Postal Code",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2673,6 +3387,8 @@ function App() {
         {
           type: "raw",
           category: "ShippingAddressCity",
+          group: "Shipping Address",
+
           displayName: "City",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2717,6 +3433,8 @@ function App() {
         {
           type: "raw",
           category: "ShippingAddressState",
+          group: "Shipping Address",
+
           displayName: "State",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2761,6 +3479,8 @@ function App() {
         {
           type: "raw",
           category: "ShippingAddressCountry",
+          group: "Shipping Address",
+
           displayName: "Country",
           icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2798,6 +3518,8 @@ function App() {
         {
           type: "raw",
           category: "ShippingAddressPhoneNumber",
+          group: "Shipping Address",
+
           displayName: "Phone number",
           icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2840,8 +3562,10 @@ function App() {
           },
         },
         {
-          type: "common",
+          type: "raw",
           category: "BillingAddressFirstName",
+          group: "Billing Address",
+
           displayName: "First Name",
           icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2894,6 +3618,8 @@ function App() {
         {
           type: "raw",
           category: "BillingAddressLastName",
+          group: "Billing Address",
+
           displayName: "Last Name",
           icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2946,6 +3672,8 @@ function App() {
         {
           type: "raw",
           category: "BillingAddressLine1",
+          group: "Billing Address",
+
           displayName: "Address Line 1",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2990,6 +3718,8 @@ function App() {
         {
           type: "raw",
           category: "BillingAddressLine2",
+          group: "Billing Address",
+
           displayName: "Address Line 2",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -3034,6 +3764,8 @@ function App() {
         {
           type: "raw",
           category: "BillingAddressCountry",
+          group: "Billing Address",
+
           displayName: "Country",
           icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -3071,6 +3803,8 @@ function App() {
         {
           type: "raw",
           category: "BillingAddressState",
+          group: "Billing Address",
+
           displayName: "State",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -3115,6 +3849,8 @@ function App() {
         {
           type: "raw",
           category: "BillingAddressCity",
+          group: "Billing Address",
+
           displayName: "City",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -3156,16 +3892,2418 @@ function App() {
             },
           },
         },
+        {
+          type: "raw",
+          category: "billingAddressPhoneNumber",
+          group: "Billing Address",
+
+          displayName: "Phone number",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "billingAddressPhoneNumber",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "IpAddress",
+          group: "General",
+          displayName: "IP Address",
+          icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's first name is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid Ip Address",
+              inputType: "text",
+              id: "filterValue.values",
+              validate: () => {
+                return {
+                  pattern: {
+                    value: /^[a-zA-Z ]*$/,
+                    message: "Enter a valid name",
+                  },
+                };
+              },
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "IpAddress",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "BillingAddressPhoneNumber",
+          displayName: "Phone number",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "BillingAddressPhoneNumber",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "MetaData",
+          displayName: "Meta Data",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "MetaData",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "DiscountCodes",
+          displayName: "Discount Codes",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "DiscountCodes",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "BuyerAcceptMarketing",
+          displayName: "Buyer Accept Marketing",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+              ],
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.value",
+              id: "filterValue.value",
+              options: [
+                { value: "true", label: "true" },
+                { value: "false", label: "false" },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "is",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "BuyerAcceptMarketing",
+                    valueType: "string",
+                    operator: "is",
+                    value: true,
+                  },
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "raw",
+          category: "OrderSubTotal",
+          displayName: "Sub Total",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "between", label: "between" },
+                {
+                  value: "exactly",
+                  label: "exactly",
+                },
+                {
+                  value: "exists",
+                  label: "exists",
+                },
+                {
+                  value: "does_not_exist",
+                  label: "does not exist",
+                },
+                {
+                  value: "less_than",
+                  label: "less than",
+                },
+                {
+                  value: "more_than",
+                  label: "more than",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderSubTotal",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          value: {
+                            min: 0,
+                            max: 0,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "does_not_exist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderSubTotal",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "does_not_exist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderSubTotal",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exactly",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderSubTotal",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exactly",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "less_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderSubTotal",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "less_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "more_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderSubTotal",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "more_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "exactly":
+              case "less_than":
+              case "more_than":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.min",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.min",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "label",
+                    text: "to",
+                  },
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.max",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.max",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "OrderShippingTotal",
+          displayName: "Order Shipping Total",
+          group: "Order Details",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "between", label: "between" },
+                {
+                  value: "exactly",
+                  label: "exactly",
+                },
+                {
+                  value: "exists",
+                  label: "exists",
+                },
+                {
+                  value: "does_not_exist",
+                  label: "does not exist",
+                },
+                {
+                  value: "less_than",
+                  label: "less than",
+                },
+                {
+                  value: "more_than",
+                  label: "more than",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderShippingTotal",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          value: {
+                            min: 0,
+                            max: 0,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "does_not_exist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderShippingTotal",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "does_not_exist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderShippingTotal",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exactly",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderShippingTotal",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exactly",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "less_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderShippingTotal",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "less_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "more_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderShippingTotal",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "more_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "exactly":
+              case "less_than":
+              case "more_than":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.min",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.min",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "label",
+                    text: "to",
+                  },
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.max",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.max",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "OrderDiscountTotal",
+          displayName: "Order Discount Total",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "between", label: "between" },
+                {
+                  value: "exactly",
+                  label: "exactly",
+                },
+                {
+                  value: "exists",
+                  label: "exists",
+                },
+                {
+                  value: "does_not_exist",
+                  label: "does not exist",
+                },
+                {
+                  value: "less_than",
+                  label: "less than",
+                },
+                {
+                  value: "more_than",
+                  label: "more than",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderDiscountTotal",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          value: {
+                            min: 0,
+                            max: 0,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "does_not_exist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderDiscountTotal",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "does_not_exist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderDiscountTotal",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exactly",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderDiscountTotal",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exactly",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "less_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderDiscountTotal",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "less_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "more_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderDiscountTotal",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "more_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "exactly":
+              case "less_than":
+              case "more_than":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.min",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.min",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "label",
+                    text: "to",
+                  },
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.max",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.max",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "OrderTaxTotal",
+          displayName: "Order Tax Total",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "between", label: "between" },
+                {
+                  value: "exactly",
+                  label: "exactly",
+                },
+                {
+                  value: "exists",
+                  label: "exists",
+                },
+                {
+                  value: "does_not_exist",
+                  label: "does not exist",
+                },
+                {
+                  value: "less_than",
+                  label: "less than",
+                },
+                {
+                  value: "more_than",
+                  label: "more than",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderTaxTotal",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          value: {
+                            min: 0,
+                            max: 0,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "does_not_exist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderTaxTotal",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "does_not_exist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderTaxTotal",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exactly",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderTaxTotal",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exactly",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "less_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderTaxTotal",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "less_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "more_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderTaxTotal",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "more_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "exactly":
+              case "less_than":
+              case "more_than":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.min",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.min",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "label",
+                    text: "to",
+                  },
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.max",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.max",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "CreatedAt",
+          displayName: "Created At",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "on_the_exact_date",
+                  label: "on the exact date",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CreatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CreatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CreatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "on_the_exact_date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CreatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+
+          order: (option: string) => {
+            switch (option) {
+              case "after":
+              case "before":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "on_the_exact_date":
+                return [
+                  {
+                    type: "label",
+                    text: "that is",
+                  },
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "dateRange",
+                    defaultValue: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    id: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "OrderDate",
+          group: "General",
+
+          displayName: "Order Date",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "on_the_exact_date",
+                  label: "on the exact date",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderDate",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderDate",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderDate",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "on_the_exact_date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderDate",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+
+          order: (option: string) => {
+            switch (option) {
+              case "after":
+              case "before":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "on_the_exact_date":
+                return [
+                  {
+                    type: "label",
+                    text: "that is",
+                  },
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "dateRange",
+                    defaultValue: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    id: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "CancelledAt",
+          group: "General",
+
+          displayName: "Cancelled At",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "on_the_exact_date",
+                  label: "on the exact date",
+                },
+              ],
+            },
+          ],
+          labels: [
+            {
+              text: "times",
+              index: 2,
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CancelledAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CancelledAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CancelledAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "on_the_exact_date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CancelledAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+
+          order: (option: string) => {
+            switch (option) {
+              case "after":
+              case "before":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "on_the_exact_date":
+                return [
+                  {
+                    type: "label",
+                    text: "that is",
+                  },
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "dateRange",
+                    defaultValue: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    id: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "TotalAmount",
+          group: "General",
+
+          displayName: "Total Amount",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "between", label: "between" },
+                {
+                  value: "exactly",
+                  label: "exactly",
+                },
+                {
+                  value: "exists",
+                  label: "exists",
+                },
+                {
+                  value: "does_not_exist",
+                  label: "does not exist",
+                },
+                {
+                  value: "less_than",
+                  label: "less than",
+                },
+                {
+                  value: "more_than",
+                  label: "more than",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalAmount",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          value: {
+                            min: 0,
+                            max: 0,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "does_not_exist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalAmount",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "does_not_exist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalAmount",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exactly",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalAmount",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exactly",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "less_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalAmount",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "less_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "more_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalAmount",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "more_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "exactly":
+              case "less_than":
+              case "more_than":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.min",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.min",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "label",
+                    text: "to",
+                  },
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.max",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.max",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "Currency",
+          group: "General",
+          displayName: "Currency",
+          icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's first name is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+              ],
+            },
+            {
+              type: "CurrencyPicker",
+              defaultValue: "filterValue.value",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.value",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "Currency",
+                valueType: "string",
+                operator: "is",
+                value: "",
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "Email",
+          group: "General",
+
+          displayName: "Email",
+          icon: <MailIcon className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's email is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "Email",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "PaymentMethod",
+          group: "General",
+
+          displayName: "Payment Method",
+          icon: <MailIcon className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's email is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "PaymentMethod",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "OrderStatusUpdatedAt",
+          group: "Order Details",
+
+          displayName: "Order Status Updated At",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "on_the_exact_date",
+                  label: "on the exact date",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderStatusUpdatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderStatusUpdatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderStatusUpdatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "on_the_exact_date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderStatusUpdatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+
+          order: (option: string) => {
+            switch (option) {
+              case "after":
+              case "before":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "on_the_exact_date":
+                return [
+                  {
+                    type: "label",
+                    text: "that is",
+                  },
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "dateRange",
+                    defaultValue: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    id: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "Phone",
+          group: "General",
+
+          displayName: "Phone number",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "Phone",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "OrderStatus",
+          displayName: "Order Status",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is not" },
+              ],
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.value",
+              id: "filterValue.value",
+              options: [
+                { value: "failed", label: "Failed" },
+                { value: "paid", label: "Paid" },
+                { value: "completed", label: "Completed" },
+                { value: "pending", label: "Pending" },
+                { value: "cancelled", label: "Cancelled" },
+                { value: "partially_refunded", label: "Partially Refunded" },
+                { value: "on-hold", label: "on Hold" },
+                { value: "processing", label: "Processing" },
+                { value: "refunded", label: "Refunded" },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "is",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "OrderStatus",
+                    valueType: "string",
+                    operator: "is",
+                    value: "paid",
+                  },
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "raw",
+          category: "FullfilmentStatus",
+          group: "General",
+          displayName: "Fullfilment Status",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is not" },
+              ],
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.value",
+              id: "filterValue.value",
+              options: [
+                { value: "failed", label: "Failed" },
+                { value: "paid", label: "Paid" },
+                { value: "completed", label: "Completed" },
+                { value: "pending", label: "Pending" },
+                { value: "cancelled", label: "Cancelled" },
+                { value: "partially_refunded", label: "Partially Refunded" },
+                { value: "on-hold", label: "on Hold" },
+                { value: "processing", label: "Processing" },
+                { value: "refunded", label: "Refunded" },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "is",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "FullfilmentStatus",
+                    valueType: "string",
+                    operator: "is",
+                    value: "paid",
+                  },
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "raw",
+          category: "AbandonedAt",
+          displayName: "Abandoned At",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "on_the_exact_date",
+                  label: "on the exact date",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "AbandonedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "AbandonedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "AbandonedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "on_the_exact_date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "AbandonedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+
+          order: (option: string) => {
+            switch (option) {
+              case "after":
+              case "before":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "on_the_exact_date":
+                return [
+                  {
+                    type: "label",
+                    text: "that is",
+                  },
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "dateRange",
+                    defaultValue: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    id: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
       ],
       recommendations: [
-        "orderCanceled",
-        "orderFulfilled",
-        "orderRefunded",
-        "checkoutStarted",
-        "orderPlaced",
-        "paidForOrder",
+        "OrderSubTotal",
+        "OrderShippingTotal",
+        "OrderDiscountTotal",
+        "OrderTaxTotal",
+        "BuyerAcceptMarketing",
+        "DiscountCodes",
+        "CreatedAt",
       ],
-      showFilterSelectAt: 1,
+      rawFields: [
+        {
+          group: "Order Details",
+          items: [
+            { value: "OrderSubTotal", label: "Sub Total" },
+            { value: "OrderShippingTotal", label: "Shipping Total" },
+            { value: "OrderDiscountTotal", label: "Discount Total" },
+            { value: "OrderTaxTotal", label: "Tax Total" },
+            { value: "BuyerAcceptMarketing", label: "Buyer Accept Marketing" },
+            { value: "DiscountCodes", label: "Discount Codes" },
+            { value: "MetaData", label: "Meta Data" },
+            { value: "CreatedAt", label: "Created At" },
+            { value: "OrderStatus", label: "Order Status" },
+            { value: "AbandonedAt", label: "Abanded At" },
+          ],
+        },
+        {
+          group: "Order Items",
+          items: [
+            { value: "ProductId", label: "Product Id" },
+            { value: "VariantId", label: "Variant Id" },
+            { value: "ProductName", label: "Product Name" },
+            { value: "Category", label: "Product Category" },
+            { value: "Sku", label: "Sku" },
+            { value: "Quantity", label: "Quantity" },
+            { value: "UnitPrice", label: "Unit Price" },
+            { value: "TotalPrice", label: "product Price" },
+            { value: "Discount", label: "Discount" },
+          ],
+        },
+        {
+          group: "Shipping Address",
+          items: [
+            { value: "ShippingAddressLine1", label: "Address Line 1" },
+            { value: "ShippingAddressLine2", label: "Address Line 2" },
+            { value: "ShippingAddressPostalCode", label: "Postal Code" },
+            { value: "ShippingAddressCity", label: "City" },
+            { value: "ShippingAddressState", label: "State" },
+            { value: "ShippingAddressCountry", label: "Country" },
+            { value: "ShippingAddressPhoneNumber", label: "Phone Number" },
+          ],
+        },
+        {
+          group: "Billing Address",
+          items: [
+            { value: "BillingAddressFirstName", label: "First Name" },
+            { value: "BillingAddressLastName", label: "Last Name" },
+            { value: "BillingAddressLine1", label: "Address Line 1" },
+            { value: "BillingAddressLine2", label: "Address Line 2" },
+            { value: "BillingAddressPostalCode", label: "Postal Code" },
+            { value: "BillingAddressCity", label: "City" },
+            { value: "BillingAddressState", label: "State" },
+            { value: "BillingAddressCountry", label: "Country" },
+            { value: "BillingAddressPhoneNumber", label: "Phone Number" },
+          ],
+        },
+        {
+          group: "General",
+          items: [
+            { value: "OrderDate", label: "Order Date" },
+            { value: "CancelledAt", label: "Cancelled At" },
+            { value: "TotalAmount", label: "Total Amount" },
+            { value: "Currency", label: "Currency" },
+            { value: "Language", label: "Language" },
+            { value: "PaymentMethod", label: "Payment Method" },
+            { value: "FullfilmentStatus", label: "Fulfillment Status" },
+            { value: "OrderStatusUpdatedAt", label: "Status Updated At" },
+            { value: "Email", label: "Email" },
+            { value: "Phone", label: "Phone" },
+            { value: "IpAddress", label: "IP Address" },
+          ],
+        },
+      ],
     },
     {
       id: "products",
@@ -3453,6 +6591,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -3743,6 +6882,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -4033,6 +7173,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -4323,6 +7464,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -4627,6 +7769,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -4917,6 +8060,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -5207,6 +8351,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -5497,6 +8642,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -5787,6 +8933,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -6077,6 +9224,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -6367,6 +9515,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -6657,6 +9806,7 @@ function App() {
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
                       { value: "year", label: "year" },
                     ],
                   },
@@ -6665,6 +9815,461 @@ function App() {
                 return [];
             }
           },
+        },
+        {
+          type: "raw",
+          category: "Status",
+          displayName: "Status",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is not" },
+              ],
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.value",
+              id: "filterValue.value",
+              options: [
+                { value: "clicked", label: "clicked" },
+                { value: "failed", label: "failed" },
+                { value: "unsubscribed", label: "unsubscribed" },
+                { value: "delivered", label: "delivered" },
+                { value: "opened", label: "opened" },
+                { value: "skipped", label: "skipped" },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "is",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Status",
+                    valueType: "string",
+                    operator: "is",
+                    value: "clicked",
+                  },
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "raw",
+          category: "FailedReason",
+          displayName: "Failed Reason",
+          icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's first name is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "FailedReason",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "CreatedAt",
+          displayName: "Created At",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "on_the_exact_date",
+                  label: "on the exact date",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CreatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CreatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CreatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "on_the_exact_date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "CreatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+
+          order: (option: string) => {
+            switch (option) {
+              case "after":
+              case "before":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "on_the_exact_date":
+                return [
+                  {
+                    type: "label",
+                    text: "that is",
+                  },
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "dateRange",
+                    defaultValue: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    id: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "UpdatedAt",
+          displayName: "UpdatedAt",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "on_the_exact_date",
+                  label: "on the exact date",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UpdatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "after",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UpdatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "before",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UpdatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "between",
+                          startDate: "",
+                          endDate: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "on_the_exact_date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UpdatedAt",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "on_the_exact_date",
+                          date: "",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+
+          order: (option: string) => {
+            switch (option) {
+              case "after":
+              case "before":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "on_the_exact_date":
+                return [
+                  {
+                    type: "label",
+                    text: "that is",
+                  },
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "dateRange",
+                    defaultValue: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    id: {
+                      startDate: "filterValue.condition.value[0].startDate",
+                      endDate: "filterValue.condition.value[0].endDate",
+                    },
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "Subject",
+          displayName: "Subject",
+          icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's first name is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "does_not_contain", label: "Does Not Contain" },
+                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "ends_with", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "is_not", label: "Is Not" },
+                { value: "starts_with", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "Enter valid First Name",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "Subject",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+      ],
+      rawFields: [
+        {
+          group: "Additional Information",
+          items: [
+            { label: "EventType", value: "EventType" },
+            { label: "Failed Reason", value: "FailedReason" },
+            { label: "Meta Data", value: "MetaData" },
+            { label: "Status", value: "Status" },
+            { label: "Created At", value: "CreatedAt" },
+            { label: "Updated At", value: "UpdatedAt" },
+            { label: "Subject", value: "Subject" },
+          ],
         },
       ],
       recommendations: [
@@ -6777,11 +10382,11 @@ function App() {
                 },
               },
             };
-            if (category === "contact") {
-              members.unshift(newFilterToAdd);
-            } else {
-              members.push(newFilterToAdd);
-            }
+            // if (category === "contact") {
+            //   members.unshift(newFilterToAdd);
+            // } else {
+            members.push(newFilterToAdd);
+            // }
           }
         }
       }
@@ -6846,7 +10451,6 @@ function App() {
       return newFilter;
     });
   };
-  console.log(filter);
   const removeFilter = (
     indexToRemove: number,
     groupIndex: number,

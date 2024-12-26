@@ -20,16 +20,18 @@ const FilterCard = ({
   setFilterValueByOperator,
   firstRawFilterIndex,
 }: any) => {
+  console.log(matchedFilter.type, "matchedFilter");
   const filterDropdownOptions = useMemo(() => {
-    const options = configItem.filters.map((item: any) => ({
-      value: item.category,
-      label: item.displayName,
-    }));
+    const options = configItem.filters
+      .filter((item: any) => item.type === matchedFilter.type)
+      .map((item: any) => ({
+        value: item.category,
+        label: item.displayName,
+      }));
     return options;
   }, [configItem.filters]);
 
   const getDefaultValue = useMemo(() => {
-    // Find matched filter data based on the operator
     const matchedFilterData =
       matchedFilter.data.type === "dynamic"
         ? matchedFilter.data.values.find(
@@ -116,7 +118,7 @@ const FilterCard = ({
     ];
   }, [matchedFilter, rule]);
 
-  const showFilterSelectAt = configItem?.showFilterSelectAt ?? 0;
+  const showFilterSelectAt = matchedFilter?.showFilterSelectAt ?? 0;
 
   return (
     <div
@@ -125,16 +127,16 @@ const FilterCard = ({
     >
       <div className="tw-w-[150px] tw-text-right">
         {index === 0 ? (
-          <span className="tw-whitespace-nowrap ">
+          <span className="tw-whitespace-nowrap tw-text-[#F27052] ">
             {groupIndex === 0 && filterIndex === 0 && index === 0 && (
-              <span className="tw-whitespace-nowrap tw-mr-3">All contacts</span>
+              <span className="tw-whitespace-nowrap tw-mr-3 tw-text-[#F27052]">All contacts</span>
             )}
             {configItem.id === "contact" ? "whose" : "who"}
           </span>
         ) : (
-          <div className="tw-mr-1 tw-mb-2 tw-mt-0">
+          <div className="tw-mr-1 tw-mb-2 tw-mt-0 tw-text-[#F27052]">
             {filterItemsLength === index ? (
-              matchedFilter.type === "raw" && firstRawFilterIndex === index  ? (
+              matchedFilter.type === "raw" && firstRawFilterIndex === index ? (
                 "where"
               ) : (
                 <CustomDropdown
@@ -154,7 +156,11 @@ const FilterCard = ({
                 />
               )
             ) : (
-              <span>{matchedFilter.type === "raw"&& firstRawFilterIndex === index ? "where" : junction}</span>
+              <span className="tw-text-[#F27052]">
+                {matchedFilter.type === "raw" && firstRawFilterIndex === index
+                  ? "where"
+                  : junction}
+              </span>
             )}
           </div>
         )}
@@ -177,9 +183,13 @@ const FilterCard = ({
             };
             console.log(value);
           } else {
-            const defaultValue = field.defaultValue;
-            const keys = getKeys(defaultValue);
-            value = getNestedValue(rule, keys);
+            console.log("field", field);
+            if (field.type === "label") {
+            } else {
+              const defaultValue = field.defaultValue;
+              const keys = getKeys(defaultValue);
+              value = getNestedValue(rule, keys);
+            }
           }
 
           if (matchedFilter) {

@@ -1,8 +1,5 @@
-"use client";
-
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,13 +15,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-const ConditionDropdown = ({ defaultValue, onChange }: any) => {
-  const operators = [
-    { value: "and", label: "and" },
-    { value: "or", label: "or" },
-  ];
+import currency from "../../data/currency.json";
+const currencys = currency.map((currency) => {
+  return {
+    value: currency.code,
+    label: currency.code,
+  };
+});
+
+export function CurrencyPicker({ defaultValue, onChange, id }: any) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(defaultValue ?? "and");
+  const [value, setValue] = React.useState(defaultValue);
+    console.log("hello")
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -32,35 +34,37 @@ const ConditionDropdown = ({ defaultValue, onChange }: any) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="justify-between hover:bg-[#F27052]  hover:text-white mb-5"
+          className="tw-w-[200px] tw-justify-between"
         >
           {value
-            ? operators.find((operator) => operator.value === value)?.label
-            : "Select operator..."}
-          <ChevronsUpDown className="opacity-50" />
+            ? currencys.find((currency) => currency.value === value)?.label
+            : "Select Lanuage..."}
+          <ChevronsUpDown className="tw-opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="tw-w-[200px] tw-p-0">
         <Command>
-          <CommandInput placeholder="Search operator..." />
+          <CommandInput placeholder="Search currency..." />
           <CommandList>
-            <CommandEmpty>No operator found.</CommandEmpty>
+            <CommandEmpty>No currency found.</CommandEmpty>
             <CommandGroup>
-              {operators.map((operator) => (
+              {currencys.map((currency) => (
                 <CommandItem
-                  key={operator.value}
-                  value={operator.value}
+                  key={currency.value}
+                  value={currency.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
-                    onChange(currentValue);
+                    onChange(id, currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
                 >
-                  {operator.label}
+                  {currency.label}
                   <Check
                     className={cn(
-                      "ml-auto",
-                      value === operator.value ? "opacity-100" : "opacity-0"
+                      "tw-ml-auto",
+                      value === currency.value
+                        ? "tw-opacity-100"
+                        : "tw-opacity-0"
                     )}
                   />
                 </CommandItem>
@@ -71,6 +75,4 @@ const ConditionDropdown = ({ defaultValue, onChange }: any) => {
       </PopoverContent>
     </Popover>
   );
-};
-
-export default ConditionDropdown;
+}

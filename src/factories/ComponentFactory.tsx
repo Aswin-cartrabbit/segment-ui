@@ -1,4 +1,5 @@
 import { CountryPickerCreater } from "./creators/CountryPickerCreater";
+import { CurrencyPickerCreater } from "./creators/CurrencyPickerCreater";
 import { datePickerCreater } from "./creators/datePickerCreater";
 import { dateRangePickerCreater } from "./creators/DateRangePickerCreater";
 import { dropdownCreator } from "./creators/dropdownCreator";
@@ -9,6 +10,7 @@ import { MultiSelectCreater } from "./creators/MultiSelectCreater";
 
 export class ComponentFactory {
   static createComponent(type: string, field: any) {
+    console.log(type, field);
     switch (type) {
       case "dropdown":
         return dropdownCreator(field);
@@ -26,6 +28,10 @@ export class ComponentFactory {
         return MultiSelectCreater(field);
       case "input":
         return InputCreator(field);
+      case "label":
+        return <span className="tw-text-[#F27052]">{field.text}</span>
+      case "CurrencyPicker":
+        return CurrencyPickerCreater(field);
       default:
         return null;
     }

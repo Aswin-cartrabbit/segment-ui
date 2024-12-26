@@ -55,53 +55,57 @@ export function CustomDropdown({
           role="combobox"
           disabled={disabled}
           aria-expanded={open}
-          className="tw-w-fit tw-border-[#F27052] tw-justify-between hover:tw-bg-[#F27052] hover:tw-text-white"
+          className="tw-w-fit tw-border-[#F27052] tw-justify-between hover:tw-bg-[#F27052] hover:tw-text-white tw-text-base"
         >
-          {value
-            ? options.find((item) => item.value === value)?.label
-            : "Select item..."}
+          <span>
+            {value
+              ? options.find((item) => item.value === value)?.label
+              : "Select item..."}
+          </span>
 
           <ChevronsUpDown className="group-hover:tw-text-white" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="tw-w-[200px] tw-p-0">
+      <PopoverContent className="tw-w-[300px] tw-p-0">
         <Command>
           <CommandInput placeholder="Search item..." />
           <CommandList>
             <CommandEmpty>No item found.</CommandEmpty>
             <CommandGroup>
-              {options.map((item) => (
-                <CommandItem
-                  key={item.value}
-                  value={item.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
-                    console.log(id);
-                    if (id === "filterValue.condition.value[0].operator") {
-                      const result = setFilterValueByOperator(
-                        category,
-                        filterProperty,
-                        currentValue,
-                        groupIndex,
-                        fieldIndex
-                      );
-                      setFilter(result);
-                      console.log(result);
-                    } else {
-                      onChange(id, currentValue);
-                    }
-                    setOpen(false);
-                  }}
-                >
-                  {item.label}
-                  <Check
-                    className={cn(
-                      "tw-ml-auto",
-                      value === item.value ? "tw-opacity-100" : "tw-opacity-0"
-                    )}
-                  />
-                </CommandItem>
-              ))}
+              {options.map((item) => {
+                console.log(item);
+                return (
+                  <CommandItem
+                    key={item.value}
+                    value={item.value}
+                    onSelect={(currentValue) => {
+                      setValue(currentValue === value ? "" : currentValue);
+                      if (id === "filterValue.condition.value[0].operator") {
+                        const result = setFilterValueByOperator(
+                          category,
+                          filterProperty,
+                          currentValue,
+                          groupIndex,
+                          fieldIndex
+                        );
+                        setFilter(result);
+                        console.log(result);
+                      } else {
+                        onChange(id, currentValue);
+                      }
+                      setOpen(false);
+                    }}
+                  >
+                    {item.label}
+                    <Check
+                      className={cn(
+                        "tw-ml-auto",
+                        value === item.value ? "tw-opacity-100" : "tw-opacity-0"
+                      )}
+                    />
+                  </CommandItem>
+                );
+              })}
             </CommandGroup>
           </CommandList>
         </Command>
@@ -109,4 +113,3 @@ export function CustomDropdown({
     </Popover>
   );
 }
-

@@ -6,7 +6,7 @@ import FilterCard from "./FilterCard";
 import RecommendationsList from "./RecomendationList";
 import { Separator } from "./ui/separator";
 import CopyIcon from "@/assets/icons/Copy";
-import { RawDropdown } from "./RawDropDown";
+import { RawDropdown } from "./dropdowns/RawDropDown";
 
 const getFilterComponent = (
   filter: any,
@@ -148,7 +148,11 @@ const GroupCard = ({
                     groupIndex={groupIndex}
                     resourceType={filter.rule.resourceType}
                   />
-                  <RawDropdown addFilter={addFilter} />
+                  <RawDropdown
+                    groupIndex={groupIndex}
+                    configItem={configItem}
+                    addFilter={addFilter}
+                  />
                 </div>
               </div>
             );

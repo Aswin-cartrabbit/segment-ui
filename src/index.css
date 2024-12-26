@@ -152,8 +152,6 @@
   width: 0.4rem;
 }
 
-/* Custom scrollbar thumb */
-/* Adjust the background-color, width, and border-radius as needed */
 *::-webkit-scrollbar-thumb {
   background-color: #f26f52c0;
   border-radius: 2rem;

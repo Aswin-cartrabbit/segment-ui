@@ -81,7 +81,7 @@ export function MultiSelect({
             >
               {Options.label}
               <button
-                className="tw-ml-1   tw-rounded-full tw-outline-none tw-ring-offset-background focus:tw-ring-2 focus:tw-ring-ring focus:tw-ring-offset-2"
+                className="tw-ml-1 tw-rounded-full tw-outline-none tw-ring-offset-background focus:tw-ring-2 focus:tw-ring-ring focus:tw-ring-offset-2"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     handleUnselect(Options);
@@ -111,8 +111,8 @@ export function MultiSelect({
       <div className="relative  ">
         <CommandList>
           {open && selectables.length > 0 ? (
-            <div className="tw-absolute tw-mt-2 tw-top-0 tw-z-10 tw-w-full tw-rounded-md tw-border tw-bg-popover tw-text-popover-foreground tw-shadow-md tw-outline-none tw-animate-in">
-              <CommandGroup className="tw-h-full tw-overflow-auto">
+            <div className="tw-absolute tw-mt-10 tw-top-0 tw-z-10 tw-w-fit tw-rounded-md tw-border tw-bg-popover tw-text-popover-foreground tw-shadow-md tw-outline-none tw-animate-in">
+              <CommandGroup className="tw-h-fit tw-overflow-auto">
                 {selectables.map((Options) => (
                   <CommandItem
                     key={Options.value}
