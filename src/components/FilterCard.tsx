@@ -3,24 +3,31 @@ import { Button } from "./ui/button";
 import { getFilterRow, getKeys, getNestedValue } from "@/lib/utils";
 import { CustomDropdown } from "./dropdowns/CustomDropdown";
 import { useEffect, useState, useMemo, useCallback } from "react";
+import useStore from "@/stores/FilterStore";
+import { Separator } from "./ui/separator";
 
 const FilterCard = ({
   index,
-  removeFilter,
   groupIndex,
   rule,
-  setRule,
   matchedFilter,
   configItem,
   resourceType,
   filterIndex,
-  updateFilterRowJunction,
   junction,
   filterItemsLength,
-  setFilterValueByOperator,
   firstRawFilterIndex,
+  config,
+  conditionIndex,
 }: any) => {
-  console.log(matchedFilter.type, "matchedFilter");
+  const removeFilter = useStore((state) => state.removeFilter);
+  const setFilterValueByOperator = useStore(
+    (state) => state.setFilterValueByOperator
+  );
+  const updateFilterRowJunction = useStore(
+    (state) => state.updateFilterRowJunction
+  );
+  const setRule = useStore((state) => state.setRule);
   const filterDropdownOptions = useMemo(() => {
     const options = configItem.filters
       .filter((item: any) => item.type === matchedFilter.type)
@@ -38,7 +45,6 @@ const FilterCard = ({
             (item: any) => item.for === rule.filterValue.operator
           )
         : matchedFilter.data.value;
-
     const areKeysMatching =
       matchedFilterData &&
       Object.keys(matchedFilterData).every(
@@ -58,7 +64,6 @@ const FilterCard = ({
 
   const onChange = useCallback(
     (path: string, value: any) => {
-      console.log(path, value);
       let updatedObj = { ...filterData };
       const updateNestedValue = (
         obj: { [key: string]: any },
@@ -102,7 +107,7 @@ const FilterCard = ({
   );
 
   useEffect(() => {
-    setRule(filterData, resourceType, groupIndex, index);
+    setRule(filterData, resourceType, groupIndex, index, conditionIndex);
   }, [filterData]);
 
   const filterArray = useMemo(() => {
@@ -119,146 +124,320 @@ const FilterCard = ({
   }, [matchedFilter, rule]);
 
   const showFilterSelectAt = matchedFilter?.showFilterSelectAt ?? 0;
+  const getMessage = () => {
+    if (index === 0 && conditionIndex === 0) {
+      return (
+        <span className="tw-whitespace-nowrap tw-mr-3 tw-text-[#F27052]">
+          {"All contacts"} {configItem.id === "contact" ? "whose" : "who"}
+        </span>
+      );
+    } else if (
+      matchedFilter.type === "raw" &&
+      firstRawFilterIndex === conditionIndex - 1
+    ) {
+      return (
+        <span className="tw-whitespace-nowrap tw-mr-3 tw-text-[#F27052]">
+          where
+        </span>
+      );
+    } else if (filterItemsLength === index) {
+      // return (
+      //   <div className="tw-relative  tw-w-full tw-flex tw-items-center">
+      //     <Separator className="tw-w-full" />
+      //     <div className="tw-absolute tw-left-[40px] tw-transform -tw-translate-x-1/2 tw-bg-white tw-z-10">
+      //       <CustomDropdown
+      //         options={[
+      //           { value: "and", label: "and" },
+      //           { value: "or", label: "or" },
+      //         ]}
+      //         defaultValue={junction ?? "and"}
+      //         onChange={(_id: string, currentValue: string) => {
+      //           updateFilterRowJunction(groupIndex, resourceType, currentValue);
+      //         }}
+      //         id=""
+      //         config={config}
+      //       />
+      //     </div>
+      //     <br />
+      //   </div>
+      // );
+    } else {
+      return <span className="tw-text-[#F27052]">{junction}</span>;
+    }
+  };
+  // return (
+  //   <div
+  //     key={index}
+  //     className="tw-box-border tw-items-start tw-flex-col tw-gap-5 tw-flex tw-min-h-[40px] tw-relative w-[1679px] tw-z-0 tw-text-[rgb(33,37,41)] tw-text-[16px] tw-font-light tw-leading-[24px] tw-text-start tw-bg-white tw-mb-[8px]"
+  //   >
+  //     {/* <div className="tw-w-[150px] tw-text-left">
 
+  //       <br /> */}
+  //     {/* {index === 0 ? (
+  //         <span className="tw-whitespace-nowrap tw-text-[#F27052] ">
+  //           { filterIndex === 0 && conditionIndex === 0 && (
+  //             <span className="tw-whitespace-nowrap tw-mr-3 tw-text-[#F27052]">
+  //               All contacts
+  //             </span>
+  //           )}
+  //           {configItem.id === "contact" ? "whose" : "who"}
+  //         </span>
+  //       ) : (
+  //         <div className="tw-mr-1 tw-mb-2 tw-mt-0 tw-text-[#F27052]">
+  //           {filterItemsLength === index ? (
+  //             matchedFilter.type === "raw"? (
+  //               "where"
+  //             ) : (
+  //               <CustomDropdown
+  //                 options={[
+  //                   { value: "and", label: "and" },
+  //                   { value: "or", label: "or" },
+  //                 ]}
+  //                 defaultValue={junction ?? "and"}
+  //                 onChange={(_id: string, currentValue: string) => {
+  //                   updateFilterRowJunction(
+  //                     groupIndex,
+  //                     resourceType,
+  //                     currentValue
+  //                   );
+  //                 }}
+  //                 id=""
+  //                 config={config}
+  //               />
+  //             )
+  //           ) : (
+  //             <span className="tw-text-[#F27052]">
+  //               {matchedFilter.type === "raw" && firstRawFilterIndex === index
+  //                 ? "where"
+  //                 : junction}
+  //             </span>
+  //           )}
+  //         </div>
+  //       )} */}
+  //     {/* </div> */}
+  //     <div
+  //       className={`tw-w-full tw-flex ${
+  //         filterItemsLength === index ? "tw-flex-cl" : ""
+  //       }  tw-justify-start tw- tw-gap-5 tw-mb-[8px] tw-mr-0`}
+  //     >
+  //       <div className="tw-w-[150px] tw-text-right">{getMessage()}</div>
+  //       {!(
+  //         matchedFilter.type === "raw" &&
+  //         firstRawFilterIndex === conditionIndex - 1
+  //       ) &&
+  //         filterItemsLength === index && (
+  //           <div className="tw-relative  tw-w-full tw-flex tw-items-center">
+  //             <Separator className="tw-w-full" />
+  //             <div className="tw-absolute tw-left-[40px] tw-transform -tw-translate-x-1/2 tw-bg-white tw-z-10">
+  //               <CustomDropdown
+  //                 options={[
+  //                   { value: "and", label: "and" },
+  //                   { value: "or", label: "or" },
+  //                 ]}
+  //                 defaultValue={junction ?? "and"}
+  //                 onChange={(_id: string, currentValue: string) => {
+  //                   updateFilterRowJunction(
+  //                     groupIndex,
+  //                     resourceType,
+  //                     currentValue
+  //                   );
+  //                 }}
+  //                 id=""
+  //                 config={config}
+  //               />
+  //             </div>
+  //             <br />
+  //           </div>
+  //         )}
+  //       <div
+  //         className={`tw-w-full tw-flex tw-flex-wrap tw-justify-start tw-items-center tw-gap-5 tw-mb-[8px] tw-mr-0`}
+  //       >
+  //         {filterArray.map((field: any, fieldIndex: number) => {
+  //           const labels = matchedFilter.labels ?? [];
+  //           let value: any = "";
+  //           if (field.type === "dateRange") {
+  //             value = {
+  //               startDate: getNestedValue(
+  //                 rule,
+  //                 getKeys(field.defaultValue.startDate)
+  //               ),
+
+  //               endDate: getNestedValue(
+  //                 rule,
+  //                 getKeys(field.defaultValue.endDate)
+  //               ),
+  //             };
+  //           } else {
+  //             if (field.type === "label") {
+  //             } else {
+  //               const defaultValue = field.defaultValue;
+  //               const keys = getKeys(defaultValue);
+  //               value = getNestedValue(rule, keys);
+  //             }
+  //           }
+
+  //           if (matchedFilter) {
+  //             if (matchedFilter.data.type === "dynamic") {
+  //               return (
+  //                 <>
+  //                   {showFilterSelectAt === fieldIndex && (
+  //                     <CustomDropdown
+  //                       options={filterDropdownOptions}
+  //                       defaultValue={matchedFilter.category}
+  //                       onChange={(id: any, currentValue: any) => {}}
+  //                       id={""}
+  //                       config
+  //                     />
+  //                   )}
+
+  //                   {getFilterRow({
+  //                     ...field,
+  //                     onChange,
+  //                     defaultValue: value,
+  //                     setFilterValueByOperator: setFilterValueByOperator,
+  //                     fieldIndex: index,
+  //                     groupIndex,
+  //                     category: configItem.id,
+  //                     filterProperty: matchedFilter.category,
+  //                     setFilter: setFilterData,
+  //                     rule,
+  //                     config,
+  //                   })}
+  //                   {labels.map((item: { index: number; text: string }) => {
+  //                     return fieldIndex === item.index ? (
+  //                       <span className="tw-text-[#F27052]"> {item.text}</span>
+  //                     ) : null;
+  //                   })}
+  //                 </>
+  //               );
+  //             }
+  //             return (
+  //               <div
+  //                 key={fieldIndex}
+  //                 className="tw-flex tw-items-center tw-gap-3"
+  //               >
+  //                 {showFilterSelectAt === fieldIndex && (
+  //                   <CustomDropdown
+  //                     options={filterDropdownOptions}
+  //                     defaultValue={matchedFilter.category}
+  //                     onChange={() => {}}
+  //                     id={""}
+  //                     config
+  //                   />
+  //                 )}
+  //                 {getFilterRow({
+  //                   ...field,
+  //                   onChange,
+  //                   defaultValue: value,
+  //                   setFilterValueByOperator: setFilterValueByOperator,
+  //                   config,
+  //                 })}
+  //                 {labels.map((item: { index: number; text: string }) => {
+  //                   return fieldIndex === item.index ? (
+  //                     <span className="tw-text-[#F27052]"> {item.text}</span>
+  //                   ) : null;
+  //                 })}
+  //               </div>
+  //             );
+  //           }
+  //         })}
+  //         <Button
+  //           onClick={() => removeFilter(index, groupIndex, configItem.id)}
+  //           className="tw-p-2 tw-bg-white hover:tw-bg-[#F27052] tw-group"
+  //         >
+  //           <Trash2 className="tw-h-4 tw-w-4 tw-text-[#F27052] group-hover:tw-text-white" />
+  //         </Button>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
   return (
-    <div
-      key={index}
-      className="tw-box-border tw-gap-5 tw-items-center tw-flex tw-min-h-[40px] tw-relative w-[1679px] tw-z-0 tw-text-[rgb(33,37,41)] tw-text-[16px] tw-font-light tw-leading-[24px] tw-text-start tw-bg-white tw-mb-[8px]"
-    >
-      <div className="tw-w-[150px] tw-text-right">
-        {index === 0 ? (
-          <span className="tw-whitespace-nowrap tw-text-[#F27052] ">
-            {groupIndex === 0 && filterIndex === 0 && index === 0 && (
-              <span className="tw-whitespace-nowrap tw-mr-3 tw-text-[#F27052]">All contacts</span>
-            )}
-            {configItem.id === "contact" ? "whose" : "who"}
-          </span>
-        ) : (
-          <div className="tw-mr-1 tw-mb-2 tw-mt-0 tw-text-[#F27052]">
-            {filterItemsLength === index ? (
-              matchedFilter.type === "raw" && firstRawFilterIndex === index ? (
-                "where"
-              ) : (
-                <CustomDropdown
-                  options={[
-                    { value: "and", label: "and" },
-                    { value: "or", label: "or" },
-                  ]}
-                  defaultValue={junction ?? "and"}
-                  onChange={(_id: string, currentValue: string) => {
-                    updateFilterRowJunction(
-                      groupIndex,
-                      resourceType,
-                      currentValue
-                    );
-                  }}
-                  id=""
-                />
-              )
-            ) : (
-              <span className="tw-text-[#F27052]">
-                {matchedFilter.type === "raw" && firstRawFilterIndex === index
-                  ? "where"
-                  : junction}
-              </span>
-            )}
-          </div>
-        )}
+    <div className="tw-box-border tw-items-center tw-flex min-h-[40px] tw-relative w-[1694px] tw-z-0 tw-text-[rgb(33,37,41)] tw-text-[16px] tw-font-light tw-leading-[24px] tw-text-start tw-bg-white tw-mb-[8px]">
+      <div className="tw-box-border tw-flex tw-justify-end tw-w-[160px] tw-text-[rgb(30,36,35)] tw-text-[14px] tw-font-normal tw-tracking-[normal] tw-leading-[24px] tw-whitespace-nowrap tw-text-start tw-bg-white tw-pl-[8px] tw-pr-[16px] tw-py-[8px]">
+        {getMessage()}
       </div>
-      <div className="tw-w-full tw-flex tw-flex-wrap tw-justify-start tw-items-center tw-gap-5 tw-mb-[8px] tw-mr-0">
-        {filterArray.map((field: any, fieldIndex: number) => {
-          const labels = matchedFilter.labels ?? [];
-          let value: any = "";
-          if (field.type === "dateRange") {
-            value = {
-              startDate: getNestedValue(
-                rule,
-                getKeys(field.defaultValue.startDate)
-              ),
-
-              endDate: getNestedValue(
-                rule,
-                getKeys(field.defaultValue.endDate)
-              ),
-            };
-            console.log(value);
+      {filterArray.map((field: any, fieldIndex: number) => {
+        const labels = matchedFilter.labels ?? [];
+        let value: any = "";
+        if (field.type === "dateRange") {
+          value = {
+            startDate: getNestedValue(
+              rule,
+              getKeys(field.defaultValue.startDate)
+            ),
+            endDate: getNestedValue(rule, getKeys(field.defaultValue.endDate)),
+          };
+        } else {
+          if (field.type === "label") {
           } else {
-            console.log("field", field);
-            if (field.type === "label") {
-            } else {
-              const defaultValue = field.defaultValue;
-              const keys = getKeys(defaultValue);
-              value = getNestedValue(rule, keys);
-            }
+            const defaultValue = field.defaultValue;
+            const keys = getKeys(defaultValue);
+            value = getNestedValue(rule, keys);
           }
+        }
 
-          if (matchedFilter) {
-            if (matchedFilter.data.type === "dynamic") {
-              return (
-                <>
-                  {showFilterSelectAt === fieldIndex && (
-                    <CustomDropdown
-                      options={filterDropdownOptions}
-                      defaultValue={matchedFilter.category}
-                      onChange={(id: any, currentValue: any) => {}}
-                      id={""}
-                    />
-                  )}
-                  {getFilterRow({
-                    ...field,
-                    onChange,
-                    defaultValue: value,
-                    setFilterValueByOperator: setFilterValueByOperator,
-                    fieldIndex: index,
-                    groupIndex,
-                    category: configItem.id,
-                    filterProperty: matchedFilter.category,
-                    setFilter: setFilterData,
-                    rule,
-                  })}
-                  {labels.map((item: { index: number; text: string }) => {
-                    return fieldIndex === item.index ? (
-                      <span className="tw-text-[#F27052]"> {item.text}</span>
-                    ) : null;
-                  })}
-                </>
-              );
-            }
+        if (matchedFilter) {
+          if (matchedFilter.data.type === "dynamic") {
             return (
-              <div
-                key={fieldIndex}
-                className="tw-flex tw-items-center tw-gap-3"
-              >
+              <>
                 {showFilterSelectAt === fieldIndex && (
                   <CustomDropdown
                     options={filterDropdownOptions}
                     defaultValue={matchedFilter.category}
-                    onChange={() => {}}
+                    onChange={(id: any, currentValue: any) => {}}
                     id={""}
+                    config
                   />
                 )}
+
                 {getFilterRow({
                   ...field,
                   onChange,
                   defaultValue: value,
                   setFilterValueByOperator: setFilterValueByOperator,
+                  fieldIndex: index,
+                  groupIndex,
+                  category: configItem.id,
+                  filterProperty: matchedFilter.category,
+                  setFilter: setFilterData,
+                  rule,
+                  config,
                 })}
                 {labels.map((item: { index: number; text: string }) => {
                   return fieldIndex === item.index ? (
                     <span className="tw-text-[#F27052]"> {item.text}</span>
                   ) : null;
                 })}
-              </div>
+              </>
             );
           }
-        })}
-        <Button
-          onClick={() => removeFilter(index, groupIndex, configItem.id)}
-          className="tw-p-2 tw-bg-white hover:tw-bg-[#F27052] tw-group"
-        >
-          <Trash2 className="tw-h-4 tw-w-4 tw-text-[#F27052] group-hover:tw-text-white" />
-        </Button>
-      </div>
+          return (
+            <div key={fieldIndex} className="tw-flex tw-items-center tw-gap-3">
+              {showFilterSelectAt === fieldIndex && (
+                <CustomDropdown
+                  options={filterDropdownOptions}
+                  defaultValue={matchedFilter.category}
+                  onChange={() => {}}
+                  id={""}
+                  config
+                />
+              )}
+              {getFilterRow({
+                ...field,
+                onChange,
+                defaultValue: value,
+                setFilterValueByOperator: setFilterValueByOperator,
+                config,
+              })}
+              {labels.map((item: { index: number; text: string }) => {
+                return fieldIndex === item.index ? (
+                  <span className="tw-text-[#F27052]"> {item.text}</span>
+                ) : null;
+              })}
+            </div>
+          );
+        }
+      })}
     </div>
   );
 };

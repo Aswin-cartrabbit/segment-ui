@@ -26,7 +26,6 @@ const currencys = currency.map((currency) => {
 export function CurrencyPicker({ defaultValue, onChange, id }: any) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue);
-    console.log("hello")
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>

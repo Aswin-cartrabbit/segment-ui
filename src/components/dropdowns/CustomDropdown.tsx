@@ -32,6 +32,7 @@ export function CustomDropdown({
   category,
   filterProperty,
   setFilter,
+  config,
 }: {
   options: Options[];
   defaultValue: string;
@@ -44,6 +45,7 @@ export function CustomDropdown({
   category?: string;
   filterProperty?: string;
   setFilter?: any;
+  config:any
 }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue ?? "");
@@ -73,7 +75,6 @@ export function CustomDropdown({
             <CommandEmpty>No item found.</CommandEmpty>
             <CommandGroup>
               {options.map((item) => {
-                console.log(item);
                 return (
                   <CommandItem
                     key={item.value}
@@ -86,10 +87,10 @@ export function CustomDropdown({
                           filterProperty,
                           currentValue,
                           groupIndex,
-                          fieldIndex
+                          fieldIndex,
+                          config
                         );
                         setFilter(result);
-                        console.log(result);
                       } else {
                         onChange(id, currentValue);
                       }

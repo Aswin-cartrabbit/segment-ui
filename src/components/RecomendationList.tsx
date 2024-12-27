@@ -1,19 +1,20 @@
 import { useMemo, useRef } from "react";
 import DottedButton from "./DottedButton";
+import useStore from "@/stores/FilterStore";
 
 export default function RecommendationsList({
   configItem,
-  addFilter,
   groupIndex,
   resourceType,
+  config,
 }: {
   configItem: {
     recommendations: string[];
     filters: { category: string; displayName: string }[];
   };
-  addFilter: (index: number, category: string, hoveredOption: any) => void;
   groupIndex: any;
   resourceType: string;
+  config: any;
 }) {
   const categoryDisplayMap = useMemo(() => {
     return configItem.filters.reduce((acc, { category, displayName }) => {
@@ -27,7 +28,6 @@ export default function RecommendationsList({
   );
 
   const randomRecommendations = randomRecommendationsRef.current;
-
   return (
     <div className="tw-flex tw-gap-2 tw-ml-20">
       {randomRecommendations.map((item, index) => {
@@ -37,10 +37,10 @@ export default function RecommendationsList({
             key={index}
             index={groupIndex}
             category={item}
-            addFilter={addFilter}
             text={displayName}
             hoveredOption={displayName}
             resourceType={resourceType}
+            config={config}
           />
         ) : null;
       })}

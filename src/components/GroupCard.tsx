@@ -7,18 +7,16 @@ import RecommendationsList from "./RecomendationList";
 import { Separator } from "./ui/separator";
 import CopyIcon from "@/assets/icons/Copy";
 import { RawDropdown } from "./dropdowns/RawDropDown";
+import useStore from "@/stores/FilterStore";
+import { JsonViewer } from "@/App";
+import { CustomDropdown } from "./dropdowns/CustomDropdown";
 
 const getFilterComponent = (
   filter: any,
   filterIndex: number,
-  removeFilter: any,
   groupIndex: number,
-  setRule: any,
-  config: [],
-  updateFilterRowJunction: any,
-  setFilterValueByOperator: any
+  config: []
 ) => {
-  // Extract the resourceType from the rule
   const resourceType = filter.rule.resourceType;
   const configIds = config.map((item: any) => item.id);
   if (configIds.includes(resourceType)) {
@@ -26,44 +24,106 @@ const getFilterComponent = (
       config.find((item: any) => item.id === resourceType) || {};
     const filterItems = filter.rule.filter.filters;
     let firstRawFilterIndex = -1;
+    console.log(filterItems);
     return (
       <div key={`group-${groupIndex}`} className="">
-        {filterItems.map((rule: any, ruleIndex: number) => {
-          const matchedFilter = configItem.filters.find(
-            (item: any) => item.category === rule.filterValue?.property
-          );
-          filterIndex;
-          const filterItemsLength = filterItems.length;
+        {filterItems?.map((item: any, index: number) => {
+          // return item.filters.map((filter: any, conditionIndex: number) => {
+          //   const matchedFilter = configItem.filters.find(
+          //     (item: any) => item.category === filter.filterValue?.property
+          //   );
+          //   filterIndex;
+          //   const filterItemsLength = filterItems.length;
 
-          // Check if the matchedFilter.type is "raw" and if it's the first occurrence
-          if (firstRawFilterIndex === -1 && matchedFilter?.type === "raw") {
-            firstRawFilterIndex = ruleIndex; // Store the first "raw" filter index
-          }
-          console.log(firstRawFilterIndex);
-          if (matchedFilter) {
-            return (
-              <>
-                <FilterCard
-                  key={`rule-${ruleIndex}`}
-                  index={ruleIndex}
-                  className="filter-item"
-                  removeFilter={removeFilter}
-                  groupIndex={groupIndex}
-                  filterIndex={filterIndex}
-                  rule={rule}
-                  updateFilterRowJunction={updateFilterRowJunction}
-                  setRule={setRule}
-                  matchedFilter={matchedFilter}
-                  configItem={configItem}
-                  resourceType={resourceType}
-                  junction={filter.rule.filter.junction}
-                  filterItemsLength={filterItemsLength - 1}
-                  setFilterValueByOperator={setFilterValueByOperator}
-                  firstRawFilterIndex={firstRawFilterIndex}
-                />
-              </>
-            );
-          }
+          //   if (firstRawFilterIndex === -1 && matchedFilter?.type === "raw") {
+          //     firstRawFilterIndex = index;
+          //   }
+          //   if (matchedFilter) {
+          //     return (
+          //       <>
+          //       ---------------------
+          //         <FilterCard
+          //           key={`rule-${index}`}
+          //           index={index}
+          //           className="filter-item"
+          //           groupIndex={groupIndex}
+          //           filterIndex={filterIndex}
+          //           rule={filter}
+          //           config={config}
+          //           matchedFilter={matchedFilter}
+          //           configItem={configItem}
+          //           resourceType={resourceType}
+          //           junction={item.junction}
+          //           filterItemsLength={filterItemsLength - 1}
+          //           firstRawFilterIndex={firstRawFilterIndex}
+          //           conditionIndex={conditionIndex}
+          //         />
+          //       </>
+          //     );
+          //   }
+          // });
+          return (
+            <div className="tw-box-border tw-relative tw-text-[rgb(33,37,41)] tw-text-[16px] tw-font-light tw-leading-[24px] tw-text-start tw-bg-white tw-mt-[3px] tw-pt-[28px] tw-pb-[24px] tw-px-0 tw-border-t-[rgb(231,231,231)]">
+              {/* {JsonViewer(item)} */}
+              {item.filters.map((filter: any, conditionIndex: number) => {
+                const matchedFilter = configItem.filters.find(
+                  (item: any) => item.category === filter.filterValue?.property
+                );
+                filterIndex;
+                const filterItemsLength = filterItems.length;
+                if (
+                  firstRawFilterIndex === -1 &&
+                  matchedFilter?.type === "raw"
+                ) {
+                  firstRawFilterIndex = index;
+                }
+                if (matchedFilter) {
+                  return (
+                    <>
+                      <FilterCard
+                        key={`rule-${index}`}
+                        index={index}
+                        className="filter-item"
+                        groupIndex={groupIndex}
+                        filterIndex={filterIndex}
+                        rule={filter}
+                        config={config}
+                        matchedFilter={matchedFilter}
+                        configItem={configItem}
+                        resourceType={resourceType}
+                        junction={item.junction}
+                        filterItemsLength={filterItemsLength - 1}
+                        firstRawFilterIndex={firstRawFilterIndex}
+                        conditionIndex={conditionIndex}
+                      />
+                    </>
+                  );
+                }
+              })}
+              <div className="tw-relative  tw-w-full tw-flex tw-items-center">
+                <Separator className="tw-w-full" />
+                <div className="tw-absolute tw-left-[40px] tw-transform -tw-translate-x-1/2 tw-bg-white tw-z-10">
+                  <CustomDropdown
+                    options={[
+                      { value: "and", label: "and" },
+                      { value: "or", label: "or" },
+                    ]}
+                    defaultValue={"and"}
+                    onChange={(_id: string, currentValue: string) => {
+                      // updateFilterRowJunction(
+                      //   groupIndex,
+                      //   resourceType,
+                      //   currentValue
+                      // );
+                    }}
+                    id=""
+                    config={config}
+                  />
+                </div>
+                <br />
+              </div>
+            </div>
+          );
         })}
       </div>
     );
@@ -71,20 +131,10 @@ const getFilterComponent = (
   return <div></div>;
 };
 
-const GroupCard = ({
-  member,
-  removeGroup,
-  index,
-  members,
-  updateJunction,
-  cloneGroup,
-  addFilter,
-  removeFilter,
-  setRule,
-  config,
-  updateFilterRowJunction,
-  setFilterValueByOperator,
-}: any) => {
+const GroupCard = ({ member, index, members, config }: any) => {
+  const updateGroupJunction = useStore((state) => state.updateGroupJunction);
+  const removeGroup = useStore((state) => state.removeGroup);
+  const cloneGroup = useStore((state) => state.cloneGroup);
   return (
     <Card
       className={`tw-min-w-fit tw-max-w-1/2 tw-p-5 tw-flex tw-flex-col tw-gap-4 tw-relative  ${
@@ -130,28 +180,19 @@ const GroupCard = ({
                     <Separator className="tw-mb- tw-text-[#F27052] tw-bg-[#F27052]" />
                   </div>
                 )}
-                {getFilterComponent(
-                  filter,
-                  filterIndex,
-                  removeFilter,
-                  groupIndex,
-                  setRule,
-                  config,
-                  updateFilterRowJunction,
-                  setFilterValueByOperator
-                )}
+                {getFilterComponent(filter, filterIndex, groupIndex, config)}
                 <div className="tw-flex tw-mt-3 tw-mb-3 tw-gap-5">
                   <RecommendationsList
-                    addFilter={addFilter}
                     configItem={configItem}
                     key={index}
                     groupIndex={groupIndex}
                     resourceType={filter.rule.resourceType}
+                    config={config}
                   />
                   <RawDropdown
                     groupIndex={groupIndex}
                     configItem={configItem}
-                    addFilter={addFilter}
+                    config={config}
                   />
                 </div>
               </div>
@@ -166,7 +207,6 @@ const GroupCard = ({
             variant="outline"
             className="tw-p-2 hover:tw-bg-[#F27052] tw-group tw-bg-white tw-text-black hover:tw-text-white"
           >
-            {/* <Copy className="tw-h-4 tw-w-4 " /> */}
             <CopyIcon />
           </Button>
           <Button
@@ -181,12 +221,12 @@ const GroupCard = ({
         </div>
       </div>
       <div>
-        <AddFilter index={index} addFilter={addFilter} config={config} />
+        <AddFilter index={index} config={config} />
       </div>
       {members?.length - 1 !== index && (
         <Button
           onClick={() => {
-            updateJunction(
+            updateGroupJunction(
               index,
               member.group.junction === "and" ? "or" : "and"
             );
@@ -204,3 +244,54 @@ const GroupCard = ({
 };
 
 export default GroupCard;
+
+{
+  /* {filterItems.map((rule: any, ruleIndex: number) => {
+          const matchedFilter = configItem.filters.find(
+            (item: any) => item.category === rule.filterValue?.property
+          );
+          filterIndex;
+          const filterItemsLength = filterItems.length;
+
+          if (firstRawFilterIndex === -1 && matchedFilter?.type === "raw") {
+            firstRawFilterIndex = ruleIndex;
+          }
+          if (matchedFilter) {
+            return (
+              <>
+                <FilterCard
+                  key={`rule-${ruleIndex}`}
+                  index={ruleIndex}
+                  className="filter-item"
+                  groupIndex={groupIndex}
+                  filterIndex={filterIndex}
+                  rule={rule}
+                  config={config}
+                  matchedFilter={matchedFilter}
+                  configItem={configItem}
+                  resourceType={resourceType}
+                  junction={filter.rule.filter.junction}
+                  filterItemsLength={filterItemsLength - 1}
+                  firstRawFilterIndex={firstRawFilterIndex}
+                />
+                {/* <div className="tw-flex tw-mt-3 tw-mb-3 tw-gap-5">
+                  <RecommendationsList
+                    addFilter={addFilter}
+                    configItem={configItem}
+                    key={index}
+                    groupIndex={groupIndex}
+                    resourceType={filter.rule.resourceType}
+                  />
+                  <RawDropdown
+                    groupIndex={groupIndex}
+                    configItem={configItem}
+                    addFilter={addFilter}
+                  />
+                </div> */
+}
+{
+  /* </>
+            );
+          }
+        })} */
+}

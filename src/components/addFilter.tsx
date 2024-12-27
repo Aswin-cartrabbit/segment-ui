@@ -15,8 +15,9 @@ import {
 } from "@/components/ui/popover";
 import InfoCard from "./InfoCard";
 import { useEffect } from "react";
+import useStore from "@/stores/FilterStore";
 
-export function AddFilter({ index, addFilter, config }: any) {
+export function AddFilter({ index, config }: any) {
   const [hoveredOption, setHoveredOption] = React.useState<string | null>(null);
   const [open, setOpen] = React.useState(false);
   const [filterData, setFilterData] = React.useState({
@@ -26,7 +27,7 @@ export function AddFilter({ index, addFilter, config }: any) {
     description: "",
   });
   useEffect(() => setHoveredOption(null), [open]);
-
+  const addFilter = useStore((selector) => selector.addFilter);
   const items = React.useMemo(() => {
     return config?.map((item: any) => ({
       category: item.displayName,
@@ -47,10 +48,7 @@ export function AddFilter({ index, addFilter, config }: any) {
     return stored ? JSON.parse(stored) : [];
   }, []);
 
-  const onSelect = (
-    currentValue: React.SetStateAction<string>,
-    category: React.SetStateAction<string>
-  ) => {
+  const onSelect = (currentValue: string, category: string) => {
     setFilterData((prevData: any) => ({
       ...prevData,
       value: currentValue === filterData.value ? "" : currentValue,
@@ -66,7 +64,7 @@ export function AddFilter({ index, addFilter, config }: any) {
       "recentlyUsedFilters",
       JSON.stringify(updatedRecentlyUsed)
     );
-    addFilter(index, category, currentValue);
+    addFilter(index, category, currentValue, config);
   };
 
   return (

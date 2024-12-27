@@ -27,10 +27,8 @@ export function DateRangePicker({
   onChange,
   rule,
 }: DateRangePickerProps) {
-  console.log(defaultValue, "defaultValue");
   const startDate = defaultValue?.startDate;
   const endDate = defaultValue?.endDate;
-  console.log(startDate, endDate);
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: defaultValue.startDate
       ? new Date(defaultValue.startDate)

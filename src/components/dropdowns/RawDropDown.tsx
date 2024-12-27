@@ -14,11 +14,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import useStore from "@/stores/FilterStore";
 
-export function RawDropdown({ configItem, groupIndex, addFilter }: any) {
+export function RawDropdown({ configItem, groupIndex,config }: any) {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<string | null>(null);
   const groupedColumns = configItem?.rawFields ?? [];
+  const addFilter = useStore((selector) => selector.addFilter);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -44,8 +46,7 @@ export function RawDropdown({ configItem, groupIndex, addFilter }: any) {
                     value={item.value}
                     onSelect={() => {
                       setSelected(item.label);
-                      console.log(groupIndex);
-                      addFilter(groupIndex, configItem.id, item.value);
+                      addFilter(groupIndex, configItem.id, item.value,config);
                       setOpen(false);
                     }}
                     className="tw-ml-5"

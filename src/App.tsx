@@ -21,68 +21,12 @@ import {
   XCircle,
   XOctagon,
 } from "lucide-react";
+import useStore from "./stores/FilterStore";
 function App() {
-  const [filter, setFilter] = useState({
-    type: "group",
-    group: {
-      junction: "or",
-      members: [
-        {
-          type: "group",
-          group: {
-            junction: "and",
-            members: [
-              {
-                type: "group",
-                group: {
-                  junction: "and",
-                  members: [
-                    {
-                      type: "rule",
-                      rule: {
-                        resourceType: "orders",
-                        filter: {
-                          junction: "and",
-                          filterType: "junction",
-                          filters: [
-                            {
-                              filterType: "filter",
-                              filterValue: {
-                                property: "orderCanceled",
-                                params: {
-                                  property: "cart_type",
-                                },
-                                valueType: "object",
-                                returnType: "have",
-                                condition: {
-                                  junction: "and",
-                                  value: [
-                                    {
-                                      operator: "in_the_last",
-                                      value: 1,
-                                      type: "days",
-                                    },
-                                    {
-                                      operator: "at_least",
-                                      value: 1,
-                                    },
-                                  ],
-                                },
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-        },
-      ],
-    },
-  });
+  const filter = useStore((state) => state.RuleJson);
+  const setFilter = useStore((state) => state.addFilter);
+  const addGroup = useStore((state) => state.addGroup);
+  const clearAll = useStore((state) => state.clearAll);
   const config = [
     {
       id: "contact",
@@ -10285,268 +10229,6 @@ function App() {
       showFilterSelectAt: 1,
     },
   ];
-  const setRule = (
-    rule: any,
-    resourceType: string,
-    groupIndex: number,
-    filterIndex: number
-  ) => {
-    setFilter((prevFilter) => {
-      // Create a deep clone of the previous filter
-      const newFilter = JSON.parse(JSON.stringify(prevFilter));
-
-      // Safely navigate and find the target member
-      const targetMember = newFilter.group?.members?.[0]?.group?.members?.[
-        groupIndex
-      ]?.group?.members?.find(
-        (member: { rule: { resourceType: string } }) =>
-          member?.rule?.resourceType === resourceType
-      );
-      if (
-        targetMember?.rule?.filter?.filters &&
-        targetMember.rule.filter.filters[filterIndex] !== undefined
-      ) {
-        targetMember.rule.filter.filters[filterIndex] = rule;
-      }
-
-      return newFilter;
-    });
-  };
-  const addGroup = (newMember: any) => {
-    setFilter((prevFilter) => {
-      const newFilter = JSON.parse(JSON.stringify(prevFilter));
-      const members = newFilter.group.members[0]?.group?.members;
-      if (!Array.isArray(members)) {
-        newFilter.group.members[0] = {
-          type: "group",
-          group: {
-            junction: "and",
-            members: [],
-          },
-        };
-      }
-      newFilter.group.members[0].group.members.push(newMember);
-      return newFilter;
-    });
-  };
-  const addFilter = (
-    index: number,
-    category: string,
-    hoveredOption: string
-  ) => {
-    const filter: any = config.find((f) => f.id === category);
-    let data =
-      filter?.filters.find(
-        (f: { category: string }) => f.category === hoveredOption
-      )?.data ?? null;
-    if (data.type === "dynamic") {
-      data = data.values[0].value;
-    } else if (data.type === "normal") {
-      data = data.value;
-    }
-    setFilter((prevFilter) => {
-      const newFilter = JSON.parse(JSON.stringify(prevFilter));
-      // Access the group members array
-      const groupMembers = newFilter.group.members[0]?.group?.members;
-
-      // Check if the group exists at the provided index
-      if (Array.isArray(groupMembers) && groupMembers[index]) {
-        const group = groupMembers[index];
-
-        // Loop through the members array of the group
-        if (Array.isArray(group.group?.members)) {
-          const members = group.group.members;
-
-          // Find the member where the category exists
-          const targetMember = members.find((member: any) => {
-            // Check if the category matches the resourceType or if it's the right condition
-            return member?.rule?.resourceType === category;
-          });
-          if (targetMember) {
-            targetMember.rule.resourceType = category;
-            const newFilterToAdd = data;
-            if (Array.isArray(targetMember.rule.filter.filters)) {
-              targetMember.rule.filter.filters.push(newFilterToAdd);
-            } else {
-              targetMember.rule.filter.filters = [newFilterToAdd];
-            }
-          } else {
-            const newFilterToAdd = {
-              type: "rule",
-              rule: {
-                resourceType: category,
-                filter: {
-                  junction: "and",
-                  filterType: "junction",
-                  filters: [data],
-                },
-              },
-            };
-            // if (category === "contact") {
-            //   members.unshift(newFilterToAdd);
-            // } else {
-            members.push(newFilterToAdd);
-            // }
-          }
-        }
-      }
-      return newFilter;
-    });
-  };
-
-  const updateJunction = (index: number, newJunction: string) => {
-    setFilter((prevFilter) => {
-      const newFilter = JSON.parse(JSON.stringify(prevFilter));
-
-      // Ensure members exist before updating
-      if (newFilter.group.members[0]?.group?.members) {
-        newFilter.group.members[0].group.members[index].group.junction =
-          newJunction;
-      }
-
-      return newFilter;
-    });
-  };
-
-  const removeGroup = (indexToRemove: number) => {
-    setFilter((prevFilter) => {
-      const newFilter = JSON.parse(JSON.stringify(prevFilter));
-
-      if (Array.isArray(newFilter.group.members[0]?.group?.members)) {
-        newFilter.group.members[0].group.members =
-          newFilter.group.members[0].group.members.filter(
-            (_: any, index: number) => index !== indexToRemove
-          );
-      }
-
-      return newFilter;
-    });
-  };
-  const cloneGroup = (index: number) => {
-    setFilter((prevFilter) => {
-      const newFilter = JSON.parse(JSON.stringify(prevFilter));
-      const members = newFilter.group.members[0]?.group?.members;
-
-      if (!Array.isArray(members)) {
-        newFilter.group.members[0] = {
-          type: "group",
-          group: {
-            junction: "and",
-            members: [],
-          },
-        };
-      }
-
-      // Find the group to clone based on the index
-      const groupToClone = members[index];
-
-      if (groupToClone) {
-        // Clone the group
-        const clonedGroup = JSON.parse(JSON.stringify(groupToClone));
-
-        // Insert the cloned group next to the original one (index + 1)
-        members.splice(index + 1, 0, clonedGroup);
-      }
-
-      return newFilter;
-    });
-  };
-  const removeFilter = (
-    indexToRemove: number,
-    groupIndex: number,
-    filterType: string
-  ) => {
-    setFilter((prevFilter) => {
-      const newFilter = JSON.parse(JSON.stringify(prevFilter));
-      const group =
-        newFilter.group?.members[0]?.group?.members[groupIndex]?.group?.members;
-      if (group) {
-        const member = group.find(
-          (member: any) => member.rule?.resourceType === filterType
-        );
-
-        if (member && member.rule?.filter?.filters) {
-          member.rule.filter.filters.splice(indexToRemove, 1);
-          if (member.rule.filter.filters.length === 0) {
-            const ruleIndex = group.findIndex((m: any) => m === member);
-            if (ruleIndex !== -1) {
-              group.splice(ruleIndex, 1);
-            }
-          }
-        }
-      }
-      return newFilter;
-    });
-  };
-
-  const updateFilter = (
-    category: string,
-    hoveredOption: string,
-    groupIndex: number,
-    filterIndex: number
-  ) => {
-    const filterData: any = config.find((f) => f.id === category);
-    let data =
-      filterData?.filters.find(
-        (f: { category: string }) => f.category === hoveredOption
-      )?.data ?? null;
-    if (data.type === "dynamic") {
-      data = data.values[0].value;
-    } else if (data.type === "normal") {
-      data = data.value;
-    }
-    setFilter((prevFilter) => {
-      const newFilter = JSON.parse(JSON.stringify(prevFilter));
-      newFilter.group.members[0].group.members[groupIndex].group.members.find(
-        (m: any) => m.rule.resourceType === category
-      ).rule.filter.filters[filterIndex] = data;
-      return newFilter;
-    });
-  };
-
-  const setFilterValueByOperator = (
-    category: string,
-    filterProperty: string,
-    operatorValue: string,
-    groupIndex: number,
-    filterIndex: number
-  ) => {
-    let result = {};
-    const data: any = config
-      .find((f) => f.id === category)
-      .filters.find((f: any) => f.category === filterProperty).data;
-    if (data.type === "dynamic") {
-      const filteredData = data?.values.find(
-        (v: any) => v.for === operatorValue
-      );
-      result = filteredData.value;
-      setFilter((prevFilter) => {
-        const newFilter = JSON.parse(JSON.stringify(prevFilter));
-        newFilter.group.members[0].group.members[groupIndex].group.members.find(
-          (m: any) => m.rule.resourceType === category
-        ).rule.filter.filters[filterIndex] = filteredData.value;
-        return newFilter;
-      });
-      return result;
-    }
-  };
-  const updateFilterRowJunction = (
-    groupIndex: string | number,
-    resourceType: any,
-    value: any
-  ) => {
-    setFilter((prevFilter) => {
-      const newFilter = JSON.parse(JSON.stringify(prevFilter));
-      newFilter.group.members[0].group.members[
-        groupIndex
-      ].group.members.forEach((member: any) => {
-        if (member.rule.resourceType === resourceType) {
-          member.rule.filter.junction = value;
-        }
-      });
-      return newFilter;
-    });
-  };
   return (
     <div className="tw-flex tw-h-screen tw-p-5 tw-flex-col">
       {filter.type === "group" ? (
@@ -10555,15 +10237,7 @@ function App() {
             key={index}
             member={member}
             index={index}
-            removeGroup={removeGroup}
             members={filter.group.members[0].group.members}
-            updateJunction={updateJunction}
-            cloneGroup={cloneGroup}
-            addFilter={addFilter}
-            updateFilterRowJunction={updateFilterRowJunction}
-            setFilterValueByOperator={setFilterValueByOperator}
-            removeFilter={removeFilter}
-            setRule={setRule}
             config={config}
           />
         ))
@@ -10575,14 +10249,7 @@ function App() {
           className="hover:tw-bg-[#F27052] hover:tw-text-white tw-text-[#F27052]"
           variant={"ghost"}
           onClick={() => {
-            const data = {
-              type: "group",
-              group: {
-                junction: "and",
-                members: [],
-              },
-            };
-            addGroup(data);
+            addGroup();
           }}
         >
           <span className="tw-text-sm tw-flex tw-gap-1 tw-items-center">
@@ -10593,21 +10260,7 @@ function App() {
           className="hover:tw-bg-[#F27052] hover:tw-text-white tw-text-[#F27052]"
           variant={"ghost"}
           onClick={() => {
-            setFilter({
-              type: "group",
-              group: {
-                junction: "or",
-                members: [
-                  {
-                    type: "group",
-                    group: {
-                      junction: "and",
-                      members: [],
-                    },
-                  },
-                ],
-              },
-            });
+            clearAll();
           }}
         >
           <span className="tw-text-sm tw-flex tw-gap-1 tw-items-center">
@@ -10622,7 +10275,7 @@ function App() {
 
 export default App;
 
-const JsonViewer = (jsonData: any) => {
+export const JsonViewer = (jsonData: any) => {
   return (
     <div
       style={{

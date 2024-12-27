@@ -10,7 +10,6 @@ import { MultiSelectCreater } from "./creators/MultiSelectCreater";
 
 export class ComponentFactory {
   static createComponent(type: string, field: any) {
-    console.log(type, field);
     switch (type) {
       case "dropdown":
         return dropdownCreator(field);
