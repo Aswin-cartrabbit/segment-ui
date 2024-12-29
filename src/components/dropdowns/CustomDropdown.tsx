@@ -60,7 +60,7 @@ export function CustomDropdown({
           className="tw-w-fit tw-border-[#F27052] tw-justify-between hover:tw-bg-[#F27052] hover:tw-text-white tw-text-base"
         >
           <span>
-            {value
+            {defaultValue
               ? options.find((item) => item.value === value)?.label
               : "Select item..."}
           </span>

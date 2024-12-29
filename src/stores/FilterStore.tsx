@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import _ from "lodash";
 
 interface Filter {
   filterType: string;
@@ -65,7 +66,20 @@ interface StoreState {
     resourceType: string,
     groupIndex: number,
     filterIndex: number,
-    conditionIndex:number
+    conditionIndex: number
+  ) => void;
+  addRawFilter: (
+    groupIndex: number,
+    filterIndex: number,
+    condition: string,
+    resourceType: string,
+    config: any
+  ) => void;
+  removeCondition: (
+    groupIndex: number,
+    filterIndex: number,
+    conditionIndex: number,
+    resourceType: string
   ) => void;
 }
 
@@ -84,120 +98,7 @@ const useStore = create<StoreState>((set) => ({
                 type: "group",
                 group: {
                   junction: "and",
-                  members: [
-                    {
-                      type: "rule",
-                      rule: {
-                        resourceType: "contact",
-                        filter: {
-                          junction: "and",
-                          filterType: "junction",
-                          filters: [
-                            {
-                              junction: "and",
-                              filterType: "junction",
-                              filters: [
-                                {
-                                  filterType: "filter",
-                                  filterValue: {
-                                    property: "firstName",
-                                    valueType: "string_list",
-                                    operator: "contains",
-                                    values: [],
-                                  },
-                                },
-                                {
-                                  filterType: "filter",
-                                  filterValue: {
-                                    property: "firstName",
-                                    valueType: "string_list",
-                                    operator: "is",
-                                    value: [],
-                                  },
-                                },
-                              ],
-                            },
-                            {
-                              junction: "and",
-                              filterType: "junction",
-                              filters: [
-                                {
-                                  filterType: "filter",
-                                  filterValue: {
-                                    property: "firstName",
-                                    valueType: "string_list",
-                                    operator: "contains",
-                                    values: [],
-                                  },
-                                },
-                                {
-                                  filterType: "filter",
-                                  filterValue: {
-                                    property: "ImportType",
-                                    valueType: "string",
-                                    operator: "is",
-                                    value: "csv_import",
-                                  },
-                                },
-                              ],
-                            },
-                          ],
-                        },
-                      },
-                    },
-                    // {
-                    //   type: "rule",
-                    //   rule: {
-                    //     resourceType: "orders",
-                    //     filter: {
-                    //       junction: "and",
-                    //       filterType: "junction",
-                    //       filters: [
-                    //         {
-                    //           junction: "and",
-                    //           filterType: "junction",
-                    //           filters: [
-                    //             {
-                    //               filterType: "filter",
-                    //               filterValue: {
-                    //                 property: "orderCanceled",
-                    //                 params: {
-                    //                   property: "cart_type",
-                    //                 },
-                    //                 valueType: "object",
-                    //                 returnType: "have",
-                    //                 condition: {
-                    //                   junction: "and",
-                    //                   value: [
-                    //                     {
-                    //                       operator: "in_the_last",
-                    //                       value: 1,
-                    //                       type: "days",
-                    //                     },
-                    //                     {
-                    //                       operator: "at_least",
-                    //                       value: 1,
-                    //                     },
-                    //                   ],
-                    //                 },
-                    //               },
-                    //             },
-                    //             {
-                    //               filterType: "filter",
-                    //               filterValue: {
-                    //                 property: "BillingAddressPostalCode",
-                    //                 valueType: "string_list",
-                    //                 operator: "contains",
-                    //                 values: [],
-                    //               },
-                    //             },
-                    //           ],
-                    //         },
-                    //       ],
-                    //     },
-                    //   },
-                    // },
-                  ],
+                  members: [],
                 },
               },
             ],
@@ -217,7 +118,7 @@ const useStore = create<StoreState>((set) => ({
     }
 
     set((state) => {
-      const newFilter = JSON.parse(JSON.stringify(state.RuleJson)); // Clone the current RuleJson
+      const newFilter = JSON.parse(JSON.stringify(state.RuleJson));
 
       const groupMembers = newFilter.group.members[0]?.group?.members;
 
@@ -233,8 +134,11 @@ const useStore = create<StoreState>((set) => ({
 
           if (targetMember) {
             targetMember.rule!.resourceType = category;
-            const newFilterToAdd = data;
-
+            const newFilterToAdd = {
+              junction: "and",
+              filterType: "junction",
+              conditions: [data],
+            };
             if (Array.isArray(targetMember.rule!.filter.filters)) {
               targetMember.rule!.filter.filters.push(newFilterToAdd);
             } else {
@@ -248,7 +152,13 @@ const useStore = create<StoreState>((set) => ({
                 filter: {
                   junction: "and",
                   filterType: "junction",
-                  filters: [data],
+                  filters: [
+                    {
+                      junction: "and",
+                      filterType: "junction",
+                      conditions: [data],
+                    },
+                  ],
                 },
               },
             };
@@ -272,23 +182,30 @@ const useStore = create<StoreState>((set) => ({
       const newFilter = JSON.parse(JSON.stringify(state.RuleJson));
       const group =
         newFilter.group?.members[0]?.group?.members[groupIndex]?.group?.members;
+
       if (group) {
         const member = group.find(
           (member: any) => member.rule?.resourceType === filterType
         );
+
         if (member && member.rule?.filter?.filters) {
-          member.rule.filter.filters.splice(indexToRemove, 1);
+          // Remove the filter at the specified indexToRemove using lodash
+          _.remove(
+            member.rule.filter.filters,
+            (_: any, index: number) => index === indexToRemove
+          );
+
+          // If no filters remain, remove the member from the group
           if (member.rule.filter.filters.length === 0) {
-            const ruleIndex = group.findIndex((m: any) => m === member);
-            if (ruleIndex !== -1) {
-              group.splice(ruleIndex, 1);
-            }
+            _.remove(group, (m: any) => m === member);
           }
         }
       }
+
       return { RuleJson: newFilter };
     });
   },
+
   addGroup: () => {
     set((state) => {
       const newFilter = JSON.parse(JSON.stringify(state.RuleJson));
@@ -400,6 +317,13 @@ const useStore = create<StoreState>((set) => ({
       });
       return result;
     }
+    console.log(
+      category,
+      filterProperty,
+      operatorValue,
+      groupIndex,
+      filterIndex
+    );
   },
   updateFilterRowJunction: (
     groupIndex: string | number,
@@ -423,7 +347,7 @@ const useStore = create<StoreState>((set) => ({
     resourceType: string,
     groupIndex: number,
     filterIndex: number,
-    conditionIndex:number
+    conditionIndex: number
   ) => {
     set((state) => {
       // Create a deep clone of the previous filter
@@ -435,12 +359,88 @@ const useStore = create<StoreState>((set) => ({
         (member: { rule: { resourceType: string } }) =>
           member?.rule?.resourceType === resourceType
       );
-      if (
-        targetMember?.rule?.filter?.filters &&
-        targetMember.rule.filter.filters[filterIndex] !== undefined
-      ) {
-        targetMember.rule.filter.filters[filterIndex].filters[conditionIndex] = rule;
+      console.log(
+        (targetMember.rule.filter.filters[filterIndex].conditions[
+          conditionIndex
+        ] = rule)
+      );
+      return { RuleJson: newFilter };
+    });
+  },
+  addRawFilter: (
+    groupIndex: number,
+    filterIndex: number,
+    condition: string,
+    resourceType: string,
+    config: any
+  ) => {
+    const filter = config.find((f) => f.id === resourceType);
+    let data =
+      filter?.filters.find((f) => f.category === condition)?.data ?? null;
+
+    // Resolve the correct data value based on the type
+    if (data?.type === "dynamic") {
+      data = data.values?.[0]?.value ?? null;
+    } else if (data?.type === "normal") {
+      data = data.value ?? null;
+    }
+
+    if (!data) {
+      console.error("Data is undefined or null. Cannot add filter.");
+      return;
+    }
+
+    set((state) => {
+      const newFilter = JSON.parse(JSON.stringify(state.RuleJson));
+      const groupMembers =
+        newFilter?.group?.members?.[0]?.group?.members?.[groupIndex]?.group
+          ?.members;
+
+      if (!Array.isArray(groupMembers)) {
+        return state;
       }
+      const targetMember = groupMembers.find(
+        (member) => member?.rule?.resourceType === resourceType
+      );
+
+      if (!targetMember) {
+        return state;
+      }
+      const targetFilter =
+        targetMember?.rule?.filter?.filters?.[filterIndex]?.conditions;
+
+      if (!Array.isArray(targetFilter)) {
+        return state;
+      }
+
+      targetFilter.push(data);
+
+      return { RuleJson: newFilter };
+    });
+  },
+
+  removeCondition: (
+    groupIndex: number,
+    filterIndex: number,
+    conditionIndex: number,
+    resourceType: string
+  ) => {
+    set((state) => {
+      const newFilter = JSON.parse(JSON.stringify(state.RuleJson));
+      const group = newFilter.group?.members[0]?.group?.members[
+        groupIndex
+      ]?.group?.members.find(
+        (member: any) => member?.rule?.resourceType === resourceType
+      );
+
+      if (group?.rule?.filter?.filters?.[filterIndex]?.conditions) {
+        // Remove the condition at the specified conditionIndex using lodash
+        _.remove(
+          group.rule.filter.filters[filterIndex].conditions,
+          (_: any, index: number) => index === conditionIndex
+        );
+      }
+
       return { RuleJson: newFilter };
     });
   },
