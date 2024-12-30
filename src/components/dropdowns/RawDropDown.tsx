@@ -21,6 +21,7 @@ export function RawDropdown({
   groupIndex,
   config,
   filterIndex,
+  defaultValue,
 }: any) {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<string | null>(null);
@@ -33,9 +34,9 @@ export function RawDropdown({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="tw-w-fit tw-justify-between hover:tw-bg-[#F27052] hover:tw-text-white"
+          className="tw-w-fit tw-border-[#F27052] tw-justify-between hover:tw-bg-[#F27052] hover:tw-text-white tw-text-base"
         >
-          <MoreHorizontal className="tw-h-4 tw-w-4" />
+          {defaultValue ?? <MoreHorizontal className="tw-h-4 tw-w-4" />}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[300px] p-0">

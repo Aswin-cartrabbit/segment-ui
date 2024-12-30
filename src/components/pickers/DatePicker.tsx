@@ -25,8 +25,8 @@ export function DatePicker({ defaultValue, onChange, id }: DatePickerProps) {
 
   const handleDateSelect = (date: Date | undefined) => {
     setInternalDate(date);
-    onChange(id, date);
-    onChange(date);
+    const timestamp = date ? date.getTime() : undefined;
+    onChange?.(id, timestamp);
   };
 
   React.useEffect(() => {

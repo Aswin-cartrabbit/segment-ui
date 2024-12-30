@@ -15,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import useStore from "@/stores/FilterStore";
 
 interface Options {
   value: string;
@@ -33,6 +34,8 @@ export function CustomDropdown({
   filterProperty,
   setFilter,
   config,
+  conditionIndex,
+  filterCardIndex,
 }: {
   options: Options[];
   defaultValue: string;
@@ -45,10 +48,13 @@ export function CustomDropdown({
   category?: string;
   filterProperty?: string;
   setFilter?: any;
-  config:any
+  config: any;
+  conditionIndex?: number;
+  filterCardIndex?: number;
 }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue ?? "");
+  const changeFilter = useStore((state) => state.changeFilter);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -68,7 +74,7 @@ export function CustomDropdown({
           <ChevronsUpDown className="group-hover:tw-text-white" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="tw-w-[300px] tw-p-0">
+      <PopoverContent className="tw-max-w-fit">
         <Command>
           <CommandInput placeholder="Search item..." />
           <CommandList>
@@ -88,9 +94,18 @@ export function CustomDropdown({
                           currentValue,
                           groupIndex,
                           fieldIndex,
+                          conditionIndex,
                           config
                         );
                         setFilter(result);
+                      } else if (id === "changeFilterValue") {
+                        changeFilter(
+                          groupIndex,
+                          filterCardIndex,
+                          category,
+                          currentValue,
+                          config
+                        );
                       } else {
                         onChange(id, currentValue);
                       }

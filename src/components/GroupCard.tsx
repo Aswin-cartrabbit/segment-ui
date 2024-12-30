@@ -1,46 +1,32 @@
-import { Copy, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { AddFilter } from "./addFilter";
-import FilterCard from "./FilterCard";
-import RecommendationsList from "./RecomendationList";
 import { Separator } from "./ui/separator";
 import CopyIcon from "@/assets/icons/Copy";
-import { RawDropdown } from "./dropdowns/RawDropDown";
 import useStore from "@/stores/FilterStore";
-import { JsonViewer } from "@/App";
-import { CustomDropdown } from "./dropdowns/CustomDropdown";
-import { useMemo } from "react";
-import NewFilterCard from "./NewFilterCard";
+import FilterCard from "./FilterCard";
 
-const getFilterComponent = (
-  filter: any,
-  filterIndex: number,
-  groupIndex: number,
-  config: []
-) => {
+const getFilterComponent = (filter: any, groupIndex: number, config: []) => {
   const resourceType = filter.rule.resourceType;
   const configIds = config.map((item: any) => item.id);
   if (configIds.includes(resourceType)) {
     const configItem: any =
       config.find((item: any) => item.id === resourceType) || {};
     const filterItems = filter.rule.filter.filters;
-    let firstRawFilterIndex = -1;
     return (
       <div key={`group-${groupIndex}`} className="">
         {filterItems?.map((item: any, index: number) => {
           return (
-            // <div className="tw-box-border tw-relative tw-text-[rgb(33,37,41)] tw-text-[16px] tw-font-light tw-leading-[24px] tw-text-start tw-bg-white tw-mt-[3px] tw-pt-[28px] tw-pb-[24px] tw-px-0 tw-border-t-[rgb(231,231,231)]">
-            <NewFilterCard
+            <FilterCard
               config={config}
               groupIndex={groupIndex}
               item={item}
               configItem={configItem}
               index={index}
               length={filterItems.length}
+              junction={filter.rule.filter.junction}
             />
-
-            // </div>
           );
         })}
       </div>
@@ -73,32 +59,10 @@ const GroupCard = ({ member, index, members, config }: any) => {
               <div key={filterIndex}>
                 {filterIndex !== 0 && (
                   <div className="tw-w-full tw-flex tw-items-center tw-mb-5">
-                    {/* <CustomDropdown
-                      options={[
-                        {
-                          value: "and",
-                          label: "and",
-                        },
-                        {
-                          value: "or",
-                          label: "or",
-                        },
-                      ]}
-                      onChange={(id: any,value: string) => {
-                        id
-                        updateFilterJunction(groupIndex, filterIndex, value);
-                      }}
-                      disabled
-                      defaultValue="and"
-                      id=""
-                      key={filterIndex}
-                    />
-                    <Separator className="mb- text-[#F27052] bg-[#F27052]" />
-                    <br /> */}
                     <Separator className="tw-mb- tw-text-[#F27052] tw-bg-[#F27052]" />
                   </div>
                 )}
-                {getFilterComponent(filter, filterIndex, groupIndex, config)}
+                {getFilterComponent(filter, groupIndex, config)}
               </div>
             );
           })}

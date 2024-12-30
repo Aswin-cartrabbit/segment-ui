@@ -19,17 +19,13 @@ import {
 
 import countries from "../../data/countries.json";
 
-export default function CountryPicker({
-  defaultValue,
-  onChange,
-  id
-}: any) {
+export default function CountryPicker({ defaultValue, onChange, id }: any) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue);
   const country = countries.map((country) => ({
     value: country.name,
     label: (
-      <div className="flex items-end gap-2">
+      <div className="tw-flex tw-items-end tw-gap-2">
         <span>{country.emoji}</span>
         <span>{country.name}</span>
       </div>
@@ -43,15 +39,15 @@ export default function CountryPicker({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-fit justify-between"
+          className="tw-w-fit tw-justify-between"
         >
           {value
             ? country.find((country) => country.value === value)?.label
             : "Select Country..."}
-          <ChevronsUpDown className="opacity-50" />
+          <ChevronsUpDown className="tw-opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="tw-w-[200px] tw-p-0">
         <Command>
           <CommandInput placeholder="Search country..." />
           <CommandList>
@@ -61,18 +57,20 @@ export default function CountryPicker({
                 <CommandItem
                   key={country.value}
                   value={country.value}
-                  className="min-w-[500px]"
+                  className="tw-min-w-[500px]"
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
-                    onChange(id,currentValue);
+                    onChange(id, currentValue);
                     setOpen(false);
                   }}
                 >
                   <span className="text-nowrap">{country.label}</span>
                   <Check
                     className={cn(
-                      "ml-auto",
-                      value === country.value ? "opacity-100" : "opacity-0"
+                      "tw-ml-auto",
+                      value === country.value
+                        ? "tw-opacity-100"
+                        : "tw-opacity-0"
                     )}
                   />
                 </CommandItem>

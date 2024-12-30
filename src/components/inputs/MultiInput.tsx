@@ -16,6 +16,7 @@ export default function MultiInput({
 }: MultiSelectProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [selected, setSelected] = React.useState<string[]>(defaultValue);
+  console.log(selected);
   const [inputValue, setInputValue] = React.useState("");
   const handleUnselect = React.useCallback(
     (option: string) => {
