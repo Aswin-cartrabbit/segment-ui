@@ -32,7 +32,6 @@ export function CustomDropdown({
   groupIndex,
   category,
   filterProperty,
-  setFilter,
   config,
   conditionIndex,
   filterCardIndex,
@@ -55,6 +54,12 @@ export function CustomDropdown({
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(defaultValue ?? "");
   const changeFilter = useStore((state) => state.changeFilter);
+  React.useEffect(() => {
+    if (defaultValue !== value) {
+      setValue(defaultValue);
+    }
+  }, [defaultValue, value]);
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -87,7 +92,7 @@ export function CustomDropdown({
                     value={item.value}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue);
-                      if (id === "filterValue.condition.value[0].operator") {
+                      if (id === "filterValue.condition.value[1].operator") {
                         const result = setFilterValueByOperator(
                           category,
                           filterProperty,
@@ -97,7 +102,7 @@ export function CustomDropdown({
                           conditionIndex,
                           config
                         );
-                        setFilter(result);
+                        // setFilter(result);
                       } else if (id === "changeFilterValue") {
                         changeFilter(
                           groupIndex,

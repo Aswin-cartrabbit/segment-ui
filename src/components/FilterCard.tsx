@@ -31,7 +31,7 @@ const FilterCard = ({
     <div>
       {item.filters.map((condition, conditionIndex) => {
         return (
-          <div key={index}>
+          <div key={conditionIndex}>
             <ConditionRow
               item={condition}
               configItem={configItem}
@@ -60,6 +60,7 @@ const FilterCard = ({
           groupIndex={groupIndex}
           configItem={configItem}
           filterIndex={index}
+          conditions={item.filters}
           addFilter={addFilter}
           config={config}
         />

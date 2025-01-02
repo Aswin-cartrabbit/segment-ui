@@ -20,6 +20,7 @@ const getFilterComponent = (filter: any, groupIndex: number, config: []) => {
           return (
             <FilterCard
               config={config}
+              key={index}
               groupIndex={groupIndex}
               item={item}
               configItem={configItem}
@@ -60,6 +61,11 @@ const GroupCard = ({ member, index, members, config }: any) => {
                 {filterIndex !== 0 && (
                   <div className="tw-w-full tw-flex tw-items-center tw-mb-5">
                     <Separator className="tw-mb- tw-text-[#F27052] tw-bg-[#F27052]" />
+                    <div className="tw-absolute tw-left-[60px] tw-transform -tw-translate-x-1/2 tw-bg-white tw-z-10">
+                      <span className="tw-p-[10px] tw-text-[#F27052]">
+                        {"AND"}
+                      </span>
+                    </div>
                   </div>
                 )}
                 {getFilterComponent(filter, groupIndex, config)}

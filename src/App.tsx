@@ -22,6 +22,7 @@ import {
   XOctagon,
 } from "lucide-react";
 import useStore from "./stores/FilterStore";
+import { addDays } from "date-fns";
 function App() {
   const filter = useStore((state) => state.RuleJson);
   const addGroup = useStore((state) => state.addGroup);
@@ -31,6 +32,8 @@ function App() {
       id: "contact",
       displayName: "Contacts",
       icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
+      conditionLimit: 7,
+
       filters: [
         {
           type: "common",
@@ -46,13 +49,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -78,7 +81,6 @@ function App() {
         },
         {
           type: "common",
-
           category: "lastName",
           displayName: "Last Name",
           icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
@@ -91,13 +93,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -131,7 +133,6 @@ function App() {
         },
         {
           type: "common",
-
           category: "subscribedChannels",
           displayName: "Subscribed Channels",
           icon: <Mail className="tw-mr-1 tw-h-4 tw-w-4" />,
@@ -140,17 +141,17 @@ function App() {
           fields: [
             {
               type: "dropdown",
-              defaultValue: "filterValue.operator",
-              id: "filterValue.operator",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
               options: [
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
+                { value: "isNot", label: "Is Not" },
               ],
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.value.status",
-              id: "filterValue.value.status",
+              defaultValue: "filterValue.condition.value[0].value",
+              id: "filterValue.condition.value[0].value",
               options: [
                 { value: "not_subscribed", label: "Not Subscribed" },
                 { value: "subscribed", label: "Subscribed" },
@@ -158,9 +159,13 @@ function App() {
               ],
             },
             {
+              type: "label",
+              text: "to",
+            },
+            {
               type: "multiSelect",
-              defaultValue: "filterValue.value.values",
-              id: "filterValue.value.values",
+              defaultValue: "filterValue.condition.value[1].values",
+              id: "filterValue.condition.value[1].values",
               placeholder: "Select a channel",
               options: [
                 {
@@ -177,15 +182,9 @@ function App() {
                 },
               ],
             },
-          ],
-          labels: [
             {
-              text: "to",
-              index: 1,
-            },
-            {
+              type: "label",
               text: "channel",
-              index: 2,
             },
           ],
           data: {
@@ -195,10 +194,20 @@ function App() {
               filterValue: {
                 property: "subscribedChannels",
                 valueType: "object",
-                operator: "is",
-                value: {
-                  status: "",
-                  values: [],
+                condition: {
+                  junction: "and",
+                  value: [
+                    {
+                      property: "status",
+                      value: "subscribed",
+                      operator: "is",
+                    },
+                    {
+                      property: "channel",
+                      values: [],
+                      operator: "is",
+                    },
+                  ],
                 },
               },
             },
@@ -218,13 +227,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -270,13 +279,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -314,13 +323,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -366,13 +375,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -410,7 +419,7 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
+                { value: "isNot", label: "Is Not" },
               ],
             },
             {
@@ -447,7 +456,7 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
+                { value: "isNot", label: "Is Not" },
               ],
             },
             {
@@ -484,13 +493,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -527,7 +536,7 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
+                { value: "isNot", label: "Is Not" },
               ],
             },
             {
@@ -552,7 +561,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "ImportType",
+          category: "importType",
           displayName: "Import Type",
           icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -564,7 +573,7 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
+                { value: "isNot", label: "Is Not" },
               ],
             },
             {
@@ -585,7 +594,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "ImportType",
+                property: "importType",
                 valueType: "string",
                 operator: "is",
                 value: "csv_import",
@@ -595,7 +604,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "ImportType",
+          category: "importType",
           displayName: "Import Type",
           icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -607,7 +616,7 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
+                { value: "isNot", label: "Is Not" },
               ],
             },
             {
@@ -628,7 +637,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "ImportType",
+                property: "importType",
                 valueType: "string",
                 operator: "is",
                 value: "csv_import",
@@ -638,7 +647,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "SuppressedChannels",
+          category: "suppressedChannels",
           displayName: "Suppressed Reason",
           icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -650,7 +659,7 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
+                { value: "isNot", label: "Is Not" },
               ],
             },
             {
@@ -669,7 +678,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "SuppressedChannels",
+                property: "suppressedChannels",
                 valueType: "string",
                 operator: "is",
                 value: "bounces",
@@ -679,7 +688,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "Status",
+          category: "status",
           displayName: "Status",
           icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -706,7 +715,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "Status",
+                property: "status",
                 valueType: "string",
                 operator: "is",
                 value: "active",
@@ -716,7 +725,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "MetaData",
+          category: "metaData",
           displayName: "Meta Data",
           icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -728,13 +737,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -750,7 +759,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "MetaData",
+                property: "metaData",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -760,7 +769,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "CreatedAt",
+          category: "createdAt",
           displayName: "Created At",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -789,14 +798,17 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "CreatedAt",
+                    property: "createdAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
                           operator: "after",
-                          date: "",
+                          value: "",
+                          params: {
+                            main: true,
+                          },
                         },
                       ],
                     },
@@ -808,14 +820,14 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "CreatedAt",
+                    property: "createdAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
                           operator: "before",
-                          date: "",
+                          value: "",
                         },
                       ],
                     },
@@ -827,15 +839,17 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "CreatedAt",
+                    property: "createdAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                       ],
                     },
@@ -847,14 +861,14 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "CreatedAt",
+                    property: "createdAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
                           operator: "on_the_exact_date",
-                          date: "",
+                          value: "",
                         },
                       ],
                     },
@@ -871,8 +885,8 @@ function App() {
                 return [
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -884,8 +898,8 @@ function App() {
                   },
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -894,12 +908,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -911,7 +927,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "UpdatedAt",
+          category: "updatedAt",
           displayName: "UpdatedAt",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -940,7 +956,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "UpdatedAt",
+                    property: "updatedAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -948,6 +964,9 @@ function App() {
                         {
                           operator: "after",
                           date: "",
+                          params: {
+                            main: true,
+                          },
                         },
                       ],
                     },
@@ -959,7 +978,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "UpdatedAt",
+                    property: "updatedAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -978,15 +997,17 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "UpdatedAt",
+                    property: "updatedAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                       ],
                     },
@@ -998,7 +1019,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "UpdatedAt",
+                    property: "updatedAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -1045,12 +1066,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -1062,7 +1085,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "AddressLine1",
+          category: "addressLine1",
 
           displayName: "Address Line 1",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
@@ -1075,13 +1098,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -1097,7 +1120,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "AddressLine1",
+                property: "addressLine1",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -1107,7 +1130,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "AddressLine2",
+          category: "addressLine2",
 
           displayName: "Address Line 2",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
@@ -1120,13 +1143,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -1142,7 +1165,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "AddressLine2",
+                property: "addressLine2",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -1152,7 +1175,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "AddressIpAddress",
+          category: "addressIpAddress",
           displayName: "Address IP Address",
           icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -1164,13 +1187,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -1186,7 +1209,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "AddressIpAddress",
+                property: "addressIpAddress",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -1199,39 +1222,40 @@ function App() {
         {
           group: "Additional Information",
           items: [
-            { label: "Import Type", value: "ImportType" },
-            { label: "Suppressed Channels", value: "SuppressedChannels" },
-            { label: "Status", value: "Status" },
-            { label: "Meta Data", value: "MetaData" },
-            { label: "Created At", value: "CreatedAt" },
-            { label: "Updated At", value: "UpdatedAt" },
+            { label: "Import Type", value: "importType" },
+            { label: "Suppressed Channels", value: "suppressedChannels" },
+            { label: "Status", value: "status" },
+            { label: "Meta Data", value: "metaData" },
+            { label: "Created At", value: "createdAt" },
+            { label: "Updated At", value: "updatedAt" },
           ],
         },
         {
           group: "Address Fields",
           items: [
-            { label: "Address Line 1", value: "AddressLine1" },
-            { label: "Address Line 2", value: "AddressLine2" },
-            { label: "Address IP Address", value: "AddressIpAddress" },
+            { label: "Address Line 1", value: "addressLine1" },
+            { label: "Address Line 2", value: "addressLine2" },
+            { label: "Address IP Address", value: "addressIpAddress" },
           ],
         },
       ],
       recommendations: [
-        "ImportType",
-        "SuppressedChannels",
-        "Status",
-        "MetaData",
-        "CreatedAt",
-        "UpdatedAt",
-        "AddressLine1",
-        "AddressLine2",
-        "AddressIpAddress",
+        "importType",
+        "suppressedChannels",
+        "status",
+        "metaData",
+        "createdAt",
+        "updatedAt",
+        "addressLine1",
+        "addressLine2",
+        "addressIpAddress",
       ],
     },
     {
       id: "orders",
       displayName: "Orders",
       icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+      conditionLimit: 7,
       filters: [
         {
           type: "common",
@@ -1253,8 +1277,8 @@ function App() {
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.condition.value[1].operator",
-              id: "filterValue.condition.value[1].operator",
+              defaultValue: "filterValue.condition.value[2].operator",
+              id: "filterValue.condition.value[2].operator",
               options: [
                 { value: "at_least", label: "at least" },
                 { value: "exactly", label: "exactly" },
@@ -1262,20 +1286,20 @@ function App() {
             },
             {
               type: "input",
-              defaultValue: "filterValue.condition.value[1].value",
+              defaultValue: "filterValue.condition.value[2].value",
               placeholder: 0,
-              id: "filterValue.condition.value[1].value",
+              id: "filterValue.condition.value[2].value",
               min: 0,
               inputType: "number",
             },
             {
               type: "label",
-              text: "times",
+              text: "time",
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.condition.value[0].operator",
-              id: "filterValue.condition.value[0].operator",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
               options: [
                 { value: "after", label: "after" },
                 { value: "before", label: "before" },
@@ -1309,7 +1333,7 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1317,12 +1341,24 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "cancelled",
+                          property: "cartType",
+                        },
+                        {
                           operator: "in_the_last",
-                          value: 1,
-                          type: "days",
+                          property: "cancelledAt",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                          params: {
+                            main: true,
+                          },
                         },
                         {
                           operator: "at_least",
+                          property: "id",
                           value: 1,
                         },
                       ],
@@ -1337,7 +1373,7 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1345,12 +1381,22 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "cancelled",
+                          property: "cartType",
+                        },
+                        {
                           operator: "after",
-                          date: "",
+                          property: "cancelledAt",
+                          value: new Date(),
+                          params: {
+                            main: true,
+                          },
                         },
                         {
                           operator: "at_least",
-                          value: "",
+                          property: "id",
+                          value: "1",
                         },
                       ],
                     },
@@ -1366,18 +1412,27 @@ function App() {
                     valueType: "object",
                     returnType: "have",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     condition: {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "cancelled",
+                          property: "cartType",
+                        },
+                        {
                           operator: "before",
-                          date: "",
+                          property: "cancelledAt",
+                          value: new Date(),
+                          params: {
+                            main: true,
+                          },
                         },
                         {
                           operator: "at_least",
-                          value: "",
+                          value: "2",
                         },
                       ],
                     },
@@ -1391,7 +1446,7 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1399,13 +1454,25 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          operator: "is",
+                          value: "cancelled",
+                          property: "cartType",
                         },
                         {
+                          operator: "between",
+                          property: "cancelledAt",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -1419,7 +1486,7 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1427,11 +1494,23 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "not_in_the_last",
-                          value: 1,
-                          type: "days",
+                          operator: "is",
+                          value: "cancelled",
+                          property: "cartType",
                         },
                         {
+                          property: "cancelledAt",
+                          operator: "not_in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "cancelledAt",
                           operator: "at_least",
                           value: 1,
                         },
@@ -1447,7 +1526,7 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1455,11 +1534,20 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "in_total",
+                          operator: "is",
+                          value: "cancelled",
+                          property: "cartType",
                         },
                         {
+                          operator: "in_total",
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -1473,7 +1561,7 @@ function App() {
                   filterValue: {
                     property: "orderCanceled",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1481,12 +1569,20 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "cancelled",
+                          property: "cartType",
+                        },
+                        {
                           operator: "on_the_exact_date",
-                          date: "",
+                          value: new Date(),
+                          params: {
+                            main: true,
+                          },
                         },
                         {
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -1503,8 +1599,8 @@ function App() {
                 return [
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -1516,8 +1612,8 @@ function App() {
                   },
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -1526,12 +1622,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -1541,15 +1639,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[1].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[1].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[1].value.unit",
+                    id: "filterValue.condition.value[1].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -1583,8 +1681,8 @@ function App() {
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.condition.value[1].operator",
-              id: "filterValue.condition.value[1].operator",
+              defaultValue: "filterValue.condition.value[2].operator",
+              id: "filterValue.condition.value[2].operator",
               options: [
                 { value: "at_least", label: "at least" },
                 { value: "exactly", label: "exactly" },
@@ -1592,20 +1690,20 @@ function App() {
             },
             {
               type: "input",
-              defaultValue: "filterValue.condition.value[1].value",
+              defaultValue: "filterValue.condition.value[2].value",
               placeholder: 0,
-              id: "filterValue.condition.value[1].value",
+              id: "filterValue.condition.value[2].value",
               min: 0,
               inputType: "number",
             },
             {
               type: "label",
-              text: "times",
+              text: "time",
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.condition.value[0].operator",
-              id: "filterValue.condition.value[0].operator",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
               options: [
                 { value: "after", label: "after" },
                 { value: "before", label: "before" },
@@ -1639,7 +1737,7 @@ function App() {
                   filterValue: {
                     property: "orderFulfilled",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1647,12 +1745,24 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "completed",
+                          property: "cartType",
+                        },
+                        {
                           operator: "in_the_last",
-                          value: 1,
-                          type: "days",
+                          property: "orderDate",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                          params: {
+                            main: true,
+                          },
                         },
                         {
                           operator: "at_least",
+                          property: "id",
                           value: 1,
                         },
                       ],
@@ -1667,7 +1777,7 @@ function App() {
                   filterValue: {
                     property: "orderFulfilled",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1675,12 +1785,22 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "completed",
+                          property: "cartType",
+                        },
+                        {
                           operator: "after",
-                          date: "",
+                          property: "orderDate",
+                          value: new Date(),
+                          params: {
+                            main: true,
+                          },
                         },
                         {
                           operator: "at_least",
-                          value: "",
+                          property: "id",
+                          value: "1",
                         },
                       ],
                     },
@@ -1696,18 +1816,28 @@ function App() {
                     valueType: "object",
                     returnType: "have",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     condition: {
                       junction: "and",
                       value: [
                         {
-                          operator: "before",
-                          date: "",
+                          operator: "is",
+                          value: "completed",
+                          property: "cartType",
                         },
                         {
+                          operator: "before",
+                          property: "orderDate",
+                          value: new Date(),
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "2",
                         },
                       ],
                     },
@@ -1721,7 +1851,7 @@ function App() {
                   filterValue: {
                     property: "orderFulfilled",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1729,13 +1859,25 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          operator: "is",
+                          value: "completed",
+                          property: "cartType",
                         },
                         {
+                          operator: "between",
+                          property: "orderDate",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -1749,7 +1891,7 @@ function App() {
                   filterValue: {
                     property: "orderFulfilled",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1757,11 +1899,23 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "not_in_the_last",
-                          value: 1,
-                          type: "days",
+                          operator: "is",
+                          value: "completed",
+                          property: "cartType",
                         },
                         {
+                          property: "orderDate",
+                          operator: "not_in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "cancelledAt",
                           operator: "at_least",
                           value: 1,
                         },
@@ -1777,7 +1931,7 @@ function App() {
                   filterValue: {
                     property: "orderFulfilled",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1785,11 +1939,20 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "in_total",
+                          operator: "is",
+                          value: "completed",
+                          property: "cartType",
                         },
                         {
+                          operator: "in_total",
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -1803,7 +1966,7 @@ function App() {
                   filterValue: {
                     property: "orderFulfilled",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1811,12 +1974,22 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "on_the_exact_date",
-                          date: "",
+                          operator: "is",
+                          value: "completed",
+                          property: "cartType",
                         },
                         {
+                          property: "orderDate",
+                          operator: "on_the_exact_date",
+                          value: new Date(),
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -1833,8 +2006,8 @@ function App() {
                 return [
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -1846,8 +2019,8 @@ function App() {
                   },
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -1856,12 +2029,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -1871,15 +2046,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[1].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[1].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[1].value.unit",
+                    id: "filterValue.condition.value[1].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -1913,8 +2088,8 @@ function App() {
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.condition.value[1].operator",
-              id: "filterValue.condition.value[1].operator",
+              defaultValue: "filterValue.condition.value[2].operator",
+              id: "filterValue.condition.value[2].operator",
               options: [
                 { value: "at_least", label: "at least" },
                 { value: "exactly", label: "exactly" },
@@ -1922,20 +2097,20 @@ function App() {
             },
             {
               type: "input",
-              defaultValue: "filterValue.condition.value[1].value",
+              defaultValue: "filterValue.condition.value[2].value",
               placeholder: 0,
-              id: "filterValue.condition.value[1].value",
+              id: "filterValue.condition.value[2].value",
               min: 0,
               inputType: "number",
             },
             {
               type: "label",
-              text: "times",
+              text: "time",
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.condition.value[0].operator",
-              id: "filterValue.condition.value[0].operator",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
               options: [
                 { value: "after", label: "after" },
                 { value: "before", label: "before" },
@@ -1969,7 +2144,7 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -1977,12 +2152,24 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "refunded",
+                          property: "cartType",
+                        },
+                        {
                           operator: "in_the_last",
-                          value: 1,
-                          type: "days",
+                          property: "OrderDate",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                          params: {
+                            main: true,
+                          },
                         },
                         {
                           operator: "at_least",
+                          property: "id",
                           value: 1,
                         },
                       ],
@@ -1997,7 +2184,7 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2005,12 +2192,22 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "refunded",
+                          property: "cartType",
+                        },
+                        {
                           operator: "after",
-                          date: "",
+                          property: "OrderDate",
+                          value: new Date(),
+                          params: {
+                            main: true,
+                          },
                         },
                         {
                           operator: "at_least",
-                          value: "",
+                          property: "id",
+                          value: "1",
                         },
                       ],
                     },
@@ -2026,18 +2223,28 @@ function App() {
                     valueType: "object",
                     returnType: "have",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     condition: {
                       junction: "and",
                       value: [
                         {
-                          operator: "before",
-                          date: "",
+                          operator: "is",
+                          value: "refunded",
+                          property: "cartType",
                         },
                         {
+                          operator: "before",
+                          property: "OrderDate",
+                          value: new Date(),
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "2",
                         },
                       ],
                     },
@@ -2051,7 +2258,7 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2059,13 +2266,25 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          operator: "is",
+                          value: "refunded",
+                          property: "cartType",
                         },
                         {
+                          operator: "between",
+                          property: "OrderDate",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -2079,7 +2298,7 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2087,11 +2306,23 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "not_in_the_last",
-                          value: 1,
-                          type: "days",
+                          operator: "is",
+                          value: "refunded",
+                          property: "cartType",
                         },
                         {
+                          property: "OrderDate",
+                          operator: "not_in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "cancelledAt",
                           operator: "at_least",
                           value: 1,
                         },
@@ -2107,7 +2338,7 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2115,11 +2346,20 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "in_total",
+                          operator: "is",
+                          value: "refunded",
+                          property: "cartType",
                         },
                         {
+                          operator: "in_total",
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -2133,7 +2373,7 @@ function App() {
                   filterValue: {
                     property: "orderRefunded",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2141,12 +2381,22 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "on_the_exact_date",
-                          date: "",
+                          operator: "is",
+                          value: "refunded",
+                          property: "cartType",
                         },
                         {
+                          property: "OrderDate",
+                          operator: "on_the_exact_date",
+                          value: new Date(),
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -2163,8 +2413,8 @@ function App() {
                 return [
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -2176,8 +2426,8 @@ function App() {
                   },
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -2186,12 +2436,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -2201,15 +2453,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[1].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[1].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[1].value.unit",
+                    id: "filterValue.condition.value[1].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -2243,8 +2495,8 @@ function App() {
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.condition.value[1].operator",
-              id: "filterValue.condition.value[1].operator",
+              defaultValue: "filterValue.condition.value[2].operator",
+              id: "filterValue.condition.value[2].operator",
               options: [
                 { value: "at_least", label: "at least" },
                 { value: "exactly", label: "exactly" },
@@ -2252,20 +2504,20 @@ function App() {
             },
             {
               type: "input",
-              defaultValue: "filterValue.condition.value[1].value",
+              defaultValue: "filterValue.condition.value[2].value",
               placeholder: 0,
-              id: "filterValue.condition.value[1].value",
+              id: "filterValue.condition.value[2].value",
               min: 0,
               inputType: "number",
             },
             {
               type: "label",
-              text: "times",
+              text: "time",
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.condition.value[0].operator",
-              id: "filterValue.condition.value[0].operator",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
               options: [
                 { value: "after", label: "after" },
                 { value: "before", label: "before" },
@@ -2299,7 +2551,7 @@ function App() {
                   filterValue: {
                     property: "paidForOrder",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2307,12 +2559,24 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "paid",
+                          property: "cartType",
+                        },
+                        {
                           operator: "in_the_last",
-                          value: 1,
-                          type: "days",
+                          property: "OrderDate",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                          params: {
+                            main: true,
+                          },
                         },
                         {
                           operator: "at_least",
+                          property: "id",
                           value: 1,
                         },
                       ],
@@ -2327,7 +2591,7 @@ function App() {
                   filterValue: {
                     property: "paidForOrder",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2335,12 +2599,22 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "paid",
+                          property: "cartType",
+                        },
+                        {
                           operator: "after",
-                          date: "",
+                          property: "OrderDate",
+                          value: new Date(),
+                          params: {
+                            main: true,
+                          },
                         },
                         {
                           operator: "at_least",
-                          value: "",
+                          property: "id",
+                          value: "1",
                         },
                       ],
                     },
@@ -2356,18 +2630,28 @@ function App() {
                     valueType: "object",
                     returnType: "have",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     condition: {
                       junction: "and",
                       value: [
                         {
-                          operator: "before",
-                          date: "",
+                          operator: "is",
+                          value: "paid",
+                          property: "cartType",
                         },
                         {
+                          operator: "before",
+                          property: "OrderDate",
+                          value: new Date(),
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "2",
                         },
                       ],
                     },
@@ -2381,7 +2665,7 @@ function App() {
                   filterValue: {
                     property: "paidForOrder",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2389,13 +2673,25 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          operator: "is",
+                          value: "paid",
+                          property: "cartType",
                         },
                         {
+                          operator: "between",
+                          property: "OrderDate",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -2409,7 +2705,7 @@ function App() {
                   filterValue: {
                     property: "paidForOrder",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2417,11 +2713,23 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "not_in_the_last",
-                          value: 1,
-                          type: "days",
+                          operator: "is",
+                          value: "paid",
+                          property: "cartType",
                         },
                         {
+                          property: "OrderDate",
+                          operator: "not_in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "cancelledAt",
                           operator: "at_least",
                           value: 1,
                         },
@@ -2437,7 +2745,7 @@ function App() {
                   filterValue: {
                     property: "paidForOrder",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2445,11 +2753,20 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "in_total",
+                          operator: "is",
+                          value: "paid",
+                          property: "cartType",
                         },
                         {
+                          operator: "in_total",
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -2463,7 +2780,7 @@ function App() {
                   filterValue: {
                     property: "paidForOrder",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2471,12 +2788,22 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "on_the_exact_date",
-                          date: "",
+                          operator: "is",
+                          value: "paid",
+                          property: "cartType",
                         },
                         {
+                          property: "OrderDate",
+                          operator: "on_the_exact_date",
+                          value: new Date(),
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -2485,7 +2812,6 @@ function App() {
               },
             ],
           },
-
           order: (option: string) => {
             switch (option) {
               case "after":
@@ -2493,8 +2819,8 @@ function App() {
                 return [
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -2506,8 +2832,8 @@ function App() {
                   },
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -2516,12 +2842,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -2531,15 +2859,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[1].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[1].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[1].value.unit",
+                    id: "filterValue.condition.value[1].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -2573,8 +2901,8 @@ function App() {
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.condition.value[1].operator",
-              id: "filterValue.condition.value[1].operator",
+              defaultValue: "filterValue.condition.value[2].operator",
+              id: "filterValue.condition.value[2].operator",
               options: [
                 { value: "at_least", label: "at least" },
                 { value: "exactly", label: "exactly" },
@@ -2582,20 +2910,20 @@ function App() {
             },
             {
               type: "input",
-              defaultValue: "filterValue.condition.value[1].value",
+              defaultValue: "filterValue.condition.value[2].value",
               placeholder: 0,
-              id: "filterValue.condition.value[1].value",
+              id: "filterValue.condition.value[2].value",
               min: 0,
               inputType: "number",
             },
             {
               type: "label",
-              text: "times",
+              text: "time",
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.condition.value[0].operator",
-              id: "filterValue.condition.value[0].operator",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
               options: [
                 { value: "after", label: "after" },
                 { value: "before", label: "before" },
@@ -2629,7 +2957,7 @@ function App() {
                   filterValue: {
                     property: "orderPlaced",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2637,12 +2965,24 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "processing",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
                           operator: "in_the_last",
-                          value: 1,
-                          type: "days",
+                          property: "createdAt",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
+                          property: "id",
                           value: 1,
                         },
                       ],
@@ -2657,7 +2997,7 @@ function App() {
                   filterValue: {
                     property: "orderPlaced",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2665,12 +3005,22 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "processing",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
                           operator: "after",
-                          date: "",
+                          property: "createdAt",
+                          value: new Date(),
                         },
                         {
                           operator: "at_least",
-                          value: "",
+                          property: "id",
+                          value: "1",
                         },
                       ],
                     },
@@ -2686,18 +3036,28 @@ function App() {
                     valueType: "object",
                     returnType: "have",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     condition: {
                       junction: "and",
                       value: [
                         {
-                          operator: "before",
-                          date: "",
+                          operator: "is",
+                          value: "processing",
+                          property: "cartType",
                         },
                         {
+                          params: {
+                            main: true,
+                          },
+                          operator: "before",
+                          property: "createdAt",
+                          value: new Date(),
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "2",
                         },
                       ],
                     },
@@ -2711,7 +3071,7 @@ function App() {
                   filterValue: {
                     property: "orderPlaced",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2719,13 +3079,25 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          operator: "is",
+                          value: "processing",
+                          property: "cartType",
                         },
                         {
+                          params: {
+                            main: true,
+                          },
+                          operator: "between",
+                          property: "createdAt",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -2739,7 +3111,7 @@ function App() {
                   filterValue: {
                     property: "orderPlaced",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2747,11 +3119,23 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "not_in_the_last",
-                          value: 1,
-                          type: "days",
+                          operator: "is",
+                          value: "processing",
+                          property: "cartType",
                         },
                         {
+                          params: {
+                            main: true,
+                          },
+                          property: "createdAt",
+                          operator: "not_in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          property: "cancelledAt",
                           operator: "at_least",
                           value: 1,
                         },
@@ -2767,7 +3151,7 @@ function App() {
                   filterValue: {
                     property: "orderPlaced",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2775,11 +3159,20 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "processing",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
                           operator: "in_total",
                         },
                         {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -2793,7 +3186,7 @@ function App() {
                   filterValue: {
                     property: "orderPlaced",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2801,12 +3194,22 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "on_the_exact_date",
-                          date: "",
+                          operator: "is",
+                          value: "processing",
+                          property: "cartType",
                         },
                         {
+                          params: {
+                            main: true,
+                          },
+                          property: "createdAt",
+                          operator: "on_the_exact_date",
+                          value: new Date(),
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -2815,7 +3218,6 @@ function App() {
               },
             ],
           },
-
           order: (option: string) => {
             switch (option) {
               case "after":
@@ -2823,8 +3225,8 @@ function App() {
                 return [
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -2836,8 +3238,8 @@ function App() {
                   },
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -2846,12 +3248,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -2861,15 +3265,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[1].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[1].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[1].value.unit",
+                    id: "filterValue.condition.value[1].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -2885,8 +3289,8 @@ function App() {
         },
         {
           type: "common",
-          category: "checkoutStarted",
-          displayName: "started Checkout",
+          category: "orderFailed",
+          displayName: "Order Failed",
           showFilterSelectAt: 1,
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -2903,8 +3307,8 @@ function App() {
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.condition.value[1].operator",
-              id: "filterValue.condition.value[1].operator",
+              defaultValue: "filterValue.condition.value[2].operator",
+              id: "filterValue.condition.value[2].operator",
               options: [
                 { value: "at_least", label: "at least" },
                 { value: "exactly", label: "exactly" },
@@ -2912,20 +3316,20 @@ function App() {
             },
             {
               type: "input",
-              defaultValue: "filterValue.condition.value[1].value",
+              defaultValue: "filterValue.condition.value[2].value",
               placeholder: 0,
-              id: "filterValue.condition.value[1].value",
+              id: "filterValue.condition.value[2].value",
               min: 0,
               inputType: "number",
             },
             {
               type: "label",
-              text: "times",
+              text: "time",
             },
             {
               type: "dropdown",
-              defaultValue: "filterValue.condition.value[0].operator",
-              id: "filterValue.condition.value[0].operator",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
               options: [
                 { value: "after", label: "after" },
                 { value: "before", label: "before" },
@@ -2957,9 +3361,9 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "checkoutStarted",
+                    property: "orderFailed",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2967,12 +3371,24 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "failed",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
                           operator: "in_the_last",
-                          value: 1,
-                          type: "days",
+                          property: "orderDate",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
+                          property: "id",
                           value: 1,
                         },
                       ],
@@ -2985,9 +3401,9 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "checkoutStarted",
+                    property: "orderFailed",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -2995,12 +3411,22 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "failed",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
                           operator: "after",
-                          date: "",
+                          property: "orderDate",
+                          value: new Date(),
                         },
                         {
                           operator: "at_least",
-                          value: "",
+                          property: "id",
+                          value: "1",
                         },
                       ],
                     },
@@ -3012,22 +3438,32 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "checkoutStarted",
+                    property: "orderFailed",
                     valueType: "object",
                     returnType: "have",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     condition: {
                       junction: "and",
                       value: [
                         {
-                          operator: "before",
-                          date: "",
+                          operator: "is",
+                          value: "failed",
+                          property: "cartType",
                         },
                         {
+                          params: {
+                            main: true,
+                          },
+                          operator: "before",
+                          property: "orderDate",
+                          value: new Date(),
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "2",
                         },
                       ],
                     },
@@ -3039,9 +3475,9 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "checkoutStarted",
+                    property: "orderFailed",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -3049,13 +3485,25 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          operator: "is",
+                          value: "failed",
+                          property: "cartType",
                         },
                         {
+                          params: {
+                            main: true,
+                          },
+                          operator: "between",
+                          property: "orderDate",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -3067,9 +3515,9 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "checkoutStarted",
+                    property: "orderFailed",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -3077,11 +3525,23 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "not_in_the_last",
-                          value: 1,
-                          type: "days",
+                          operator: "is",
+                          value: "failed",
+                          property: "cartType",
                         },
                         {
+                          params: {
+                            main: true,
+                          },
+                          property: "orderDate",
+                          operator: "not_in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          property: "cancelledAt",
                           operator: "at_least",
                           value: 1,
                         },
@@ -3095,9 +3555,9 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "checkoutStarted",
+                    property: "orderFailed",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -3105,11 +3565,20 @@ function App() {
                       junction: "and",
                       value: [
                         {
+                          operator: "is",
+                          value: "failed",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
                           operator: "in_total",
                         },
                         {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -3121,9 +3590,9 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "checkoutStarted",
+                    property: "orderFailed",
                     params: {
-                      property: "cart_type",
+                      property: "cartType",
                     },
                     valueType: "object",
                     returnType: "have",
@@ -3131,12 +3600,22 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "on_the_exact_date",
-                          date: "",
+                          operator: "is",
+                          value: "failed",
+                          property: "cartType",
                         },
                         {
+                          params: {
+                            main: true,
+                          },
+                          property: "orderDate",
+                          operator: "on_the_exact_date",
+                          value: new Date(),
+                        },
+                        {
+                          property: "id",
                           operator: "at_least",
-                          value: "",
+                          value: "1",
                         },
                       ],
                     },
@@ -3145,7 +3624,6 @@ function App() {
               },
             ],
           },
-
           order: (option: string) => {
             switch (option) {
               case "after":
@@ -3153,8 +3631,8 @@ function App() {
                 return [
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -3166,8 +3644,8 @@ function App() {
                   },
                   {
                     type: "date",
-                    defaultValue: "filterValue.condition.value[0].date",
-                    id: "filterValue.condition.value[0].date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
                     placeholder: "Enter valid date",
                   },
                 ];
@@ -3176,12 +3654,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -3191,15 +3671,827 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[1].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[1].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[1].value.unit",
+                    id: "filterValue.condition.value[1].value.unit",
+                    options: [
+                      { value: "days", label: "days" },
+                      { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
+                      { value: "year", label: "year" },
+                    ],
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "common",
+          category: "onHold",
+          displayName: "Order on Hold",
+          showFilterSelectAt: 1,
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.returnType",
+              id: "filterValue.returnType",
+              options: [
+                { value: "have", label: "have" },
+                { value: "have_not", label: "have not" },
+              ],
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[2].operator",
+              id: "filterValue.condition.value[2].operator",
+              options: [
+                { value: "at_least", label: "at least" },
+                { value: "exactly", label: "exactly" },
+              ],
+            },
+            {
+              type: "input",
+              defaultValue: "filterValue.condition.value[2].value",
+              placeholder: 0,
+              id: "filterValue.condition.value[2].value",
+              min: 0,
+              inputType: "number",
+            },
+            {
+              type: "label",
+              text: "time",
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
+              options: [
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "in_the_last",
+                  label: "in the last",
+                },
+                {
+                  value: "not_in_the_last",
+                  label: "not in the last",
+                },
+                {
+                  value: "on_the_exact_date",
+                  label: "on the exact date",
+                },
+                {
+                  value: "in_total",
+                  label: "in total",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "onHold",
+                    params: {
+                      property: "cartType",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "on-hold",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          operator: "in_the_last",
+                          property: "orderDate",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          operator: "at_least",
+                          property: "id",
+                          value: 1,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "onHold",
+                    params: {
+                      property: "cartType",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "on-hold",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          operator: "after",
+                          property: "orderDate",
+                          value: new Date(),
+                        },
+                        {
+                          operator: "at_least",
+                          property: "id",
+                          value: "1",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "onHold",
+                    valueType: "object",
+                    returnType: "have",
+                    params: {
+                      property: "cartType",
+                    },
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "on-hold",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          operator: "before",
+                          property: "orderDate",
+                          value: new Date(),
+                        },
+                        {
+                          property: "id",
+                          operator: "at_least",
+                          value: "2",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "onHold",
+                    params: {
+                      property: "cartType",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "on-hold",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          operator: "between",
+                          property: "orderDate",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
+                        },
+                        {
+                          property: "id",
+                          operator: "at_least",
+                          value: "1",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "not_in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "onHold",
+                    params: {
+                      property: "cartType",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "on-hold",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          property: "orderDate",
+                          operator: "not_in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          property: "cancelledAt",
+                          operator: "at_least",
+                          value: 1,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "in_total",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "onHold",
+                    params: {
+                      property: "cartType",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "on-hold",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          operator: "in_total",
+                        },
+                        {
+                          property: "id",
+                          operator: "at_least",
+                          value: "1",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "on_the_exact_date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "onHold",
+                    params: {
+                      property: "cartType",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "on-hold",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          property: "orderDate",
+                          operator: "on_the_exact_date",
+                          value: new Date(),
+                        },
+                        {
+                          property: "id",
+                          operator: "at_least",
+                          value: "1",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "after":
+              case "before":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "on_the_exact_date":
+                return [
+                  {
+                    type: "label",
+                    text: "that is",
+                  },
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "dateRange",
+                    defaultValue: {
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
+                    },
+                    id: {
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
+                    },
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "in_the_last":
+              case "not_in_the_last":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[1].value.value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[1].value.value",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "dropdown",
+                    defaultValue: "filterValue.condition.value[1].value.unit",
+                    id: "filterValue.condition.value[1].value.unit",
+                    options: [
+                      { value: "days", label: "days" },
+                      { value: "weeks", label: "weeks" },
+                      { value: "months", label: "months" },
+                      { value: "year", label: "year" },
+                    ],
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "common",
+          category: "partiallyRefunded",
+          displayName: "Partially Refunded",
+          showFilterSelectAt: 1,
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.returnType",
+              id: "filterValue.returnType",
+              options: [
+                { value: "have", label: "have" },
+                { value: "have_not", label: "have not" },
+              ],
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[2].operator",
+              id: "filterValue.condition.value[2].operator",
+              options: [
+                { value: "at_least", label: "at least" },
+                { value: "exactly", label: "exactly" },
+              ],
+            },
+            {
+              type: "input",
+              defaultValue: "filterValue.condition.value[2].value",
+              placeholder: 0,
+              id: "filterValue.condition.value[2].value",
+              min: 0,
+              inputType: "number",
+            },
+            {
+              type: "label",
+              text: "time",
+            },
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[1].operator",
+              id: "filterValue.condition.value[1].operator",
+              options: [
+                { value: "after", label: "after" },
+                { value: "before", label: "before" },
+                { value: "between", label: "between" },
+                {
+                  value: "in_the_last",
+                  label: "in the last",
+                },
+                {
+                  value: "not_in_the_last",
+                  label: "not in the last",
+                },
+                {
+                  value: "on_the_exact_date",
+                  label: "on the exact date",
+                },
+                {
+                  value: "in_total",
+                  label: "in total",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "partiallyRefunded",
+                    params: {
+                      property: "cartType",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "partially_refunded",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          operator: "in_the_last",
+                          property: "orderDate",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          operator: "at_least",
+                          property: "id",
+                          value: 1,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "after",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "partiallyRefunded",
+                    params: {
+                      property: "cartType",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "partially_refunded",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          operator: "after",
+                          property: "orderDate",
+                          value: new Date(),
+                        },
+                        {
+                          operator: "at_least",
+                          property: "id",
+                          value: "1",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "before",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "partiallyRefunded",
+                    valueType: "object",
+                    returnType: "have",
+                    params: {
+                      property: "cartType",
+                    },
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "partially_refunded",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          operator: "before",
+                          property: "orderDate",
+                          value: new Date(),
+                        },
+                        {
+                          property: "id",
+                          operator: "at_least",
+                          value: "2",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "partiallyRefunded",
+                    params: {
+                      property: "cartType",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "partially_refunded",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          operator: "between",
+                          property: "orderDate",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
+                        },
+                        {
+                          property: "id",
+                          operator: "at_least",
+                          value: "1",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "not_in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "partiallyRefunded",
+                    params: {
+                      property: "cartType",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "partially_refunded",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          property: "orderDate",
+                          operator: "not_in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          property: "cancelledAt",
+                          operator: "at_least",
+                          value: 1,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "in_total",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "partiallyRefunded",
+                    params: {
+                      property: "cartType",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "partially_refunded",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          operator: "in_total",
+                        },
+                        {
+                          property: "id",
+                          operator: "at_least",
+                          value: "1",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "on_the_exact_date",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "partiallyRefunded",
+                    params: {
+                      property: "cartType",
+                    },
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "is",
+                          value: "partially_refunded",
+                          property: "cartType",
+                        },
+                        {
+                          params: {
+                            main: true,
+                          },
+                          property: "orderDate",
+                          operator: "on_the_exact_date",
+                          value: new Date(),
+                        },
+                        {
+                          property: "id",
+                          operator: "at_least",
+                          value: "1",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "after":
+              case "before":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "on_the_exact_date":
+                return [
+                  {
+                    type: "label",
+                    text: "that is",
+                  },
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[1].value",
+                    id: "filterValue.condition.value[1].value",
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "between":
+                return [
+                  {
+                    type: "dateRange",
+                    defaultValue: {
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
+                    },
+                    id: {
+                      startDate:
+                        "filterValue.condition.value[1].value.startDate",
+                      endDate: "filterValue.condition.value[1].value.endDate",
+                    },
+                    placeholder: "Enter valid date",
+                  },
+                ];
+              case "in_the_last":
+              case "not_in_the_last":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[1].value.value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[1].value.value",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "dropdown",
+                    defaultValue: "filterValue.condition.value[1].value.unit",
+                    id: "filterValue.condition.value[1].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -3215,7 +4507,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "BillingAddressPostalCode",
+          category: "billingAddressPostalCode",
           group: "Billing Address",
 
           displayName: "ZIP code",
@@ -3229,13 +4521,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3251,7 +4543,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "BillingAddressPostalCode",
+                property: "billingAddressPostalCode",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3261,7 +4553,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "Language",
+          category: "language",
           group: "General",
           displayName: "Language",
           icon: <MapPin className="tw-mr-1 tw-h-4 tw-w-4" />,
@@ -3274,7 +4566,7 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
+                { value: "isNot", label: "Is Not" },
               ],
             },
             {
@@ -3299,7 +4591,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "ShippingAddressLine1",
+          category: "shippingAddressLine1",
           group: "Shipping Address",
 
           displayName: "Address Line 1",
@@ -3313,13 +4605,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3335,7 +4627,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "ShippingAddressLine1",
+                property: "shippingAddressLine1",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3345,7 +4637,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "ShippingAddressLine2",
+          category: "shippingAddressLine2",
           group: "Shipping Address",
 
           displayName: "Address Line 2",
@@ -3359,13 +4651,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3381,7 +4673,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "ShippingAddressLine2",
+                property: "shippingAddressLine2",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3391,7 +4683,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "ShippingAddressPostalCode",
+          category: "shippingAddressPostalCode",
           group: "Shipping Address",
 
           displayName: "Postal Code",
@@ -3405,13 +4697,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3427,7 +4719,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "ShippingAddressPostalCode",
+                property: "shippingAddressPostalCode",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3437,7 +4729,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "ShippingAddressCity",
+          category: "shippingAddressCity",
           group: "Shipping Address",
 
           displayName: "City",
@@ -3451,13 +4743,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3473,7 +4765,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "ShippingAddressCity",
+                property: "shippingAddressCity",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3483,7 +4775,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "ShippingAddressState",
+          category: "shippingAddressState",
           group: "Shipping Address",
 
           displayName: "State",
@@ -3497,13 +4789,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3519,7 +4811,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "ShippingAddressState",
+                property: "shippingAddressState",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3529,7 +4821,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "ShippingAddressCountry",
+          category: "shippingAddressCountry",
           group: "Shipping Address",
 
           displayName: "Country",
@@ -3543,7 +4835,7 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
+                { value: "isNot", label: "Is Not" },
               ],
             },
             {
@@ -3558,9 +4850,9 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "ShippingAddressCountry",
+                property: "shippingAddressCountry",
                 valueType: "string",
-                operator: "",
+                operator: "is",
                 value: "",
               },
             },
@@ -3568,7 +4860,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "ShippingAddressPhoneNumber",
+          category: "shippingAddressPhoneNumber",
           group: "Shipping Address",
 
           displayName: "Phone number",
@@ -3582,13 +4874,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3604,7 +4896,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "ShippingAddressPhoneNumber",
+                property: "shippingAddressPhoneNumber",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3614,7 +4906,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "BillingAddressFirstName",
+          category: "billingAddressFirstName",
           group: "Billing Address",
 
           displayName: "First Name",
@@ -3628,13 +4920,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3658,7 +4950,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "BillingAddressFirstName",
+                property: "billingAddressFirstName",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3668,7 +4960,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "BillingAddressLastName",
+          category: "billingAddressLastName",
           group: "Billing Address",
 
           displayName: "Last Name",
@@ -3682,13 +4974,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3712,7 +5004,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "BillingAddressLastName",
+                property: "billingAddressLastName",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3722,7 +5014,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "BillingAddressLine1",
+          category: "billingAddressLine1",
           group: "Billing Address",
 
           displayName: "Address Line 1",
@@ -3736,13 +5028,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3758,7 +5050,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "BillingAddressLine1",
+                property: "billingAddressLine1",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3768,7 +5060,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "BillingAddressLine2",
+          category: "billingAddressLine2",
           group: "Billing Address",
 
           displayName: "Address Line 2",
@@ -3782,13 +5074,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3804,7 +5096,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "BillingAddressLine2",
+                property: "billingAddressLine2",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3814,7 +5106,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "BillingAddressCountry",
+          category: "billingAddressCountry",
           group: "Billing Address",
 
           displayName: "Country",
@@ -3828,7 +5120,7 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
+                { value: "isNot", label: "Is Not" },
               ],
             },
             {
@@ -3843,9 +5135,9 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "BillingAddressCountry",
+                property: "billingAddressCountry",
                 valueType: "string",
-                operator: "",
+                operator: "is",
                 value: "",
               },
             },
@@ -3853,7 +5145,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "BillingAddressState",
+          category: "billingAddressState",
           group: "Billing Address",
 
           displayName: "State",
@@ -3867,13 +5159,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3889,7 +5181,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "BillingAddressState",
+                property: "billingAddressState",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3899,7 +5191,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "BillingAddressCity",
+          category: "billingAddressCity",
           group: "Billing Address",
 
           displayName: "City",
@@ -3913,13 +5205,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3935,7 +5227,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "BillingAddressCity",
+                property: "billingAddressCity",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -3959,13 +5251,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -3991,7 +5283,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "IpAddress",
+          category: "ipAddress",
           group: "General",
           displayName: "IP Address",
           icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
@@ -4004,13 +5296,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -4034,7 +5326,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "IpAddress",
+                property: "ipAddress",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -4044,7 +5336,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "BillingAddressPhoneNumber",
+          category: "billingAddressPhoneNumber",
           displayName: "Phone number",
           icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -4056,13 +5348,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -4078,7 +5370,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "BillingAddressPhoneNumber",
+                property: "billingAddressPhoneNumber",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -4088,7 +5380,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "MetaData",
+          category: "metaData",
           displayName: "Meta Data",
           icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
           group: "Order Details",
@@ -4102,13 +5394,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -4124,7 +5416,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "MetaData",
+                property: "metaData",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -4134,7 +5426,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "DiscountCodes",
+          category: "discountCodes",
           displayName: "Discount Codes",
           icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
           group: "Order Details",
@@ -4148,13 +5440,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -4170,7 +5462,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "DiscountCodes",
+                property: "discountCodes",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -4180,7 +5472,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "BuyerAcceptMarketing",
+          category: "buyerAcceptMarketing",
           displayName: "Buyer Accept Marketing",
           icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
           group: "Order Details",
@@ -4192,7 +5484,7 @@ function App() {
               defaultValue: "filterValue.operator",
               id: "filterValue.operator",
               options: [
-                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "doesNotExist", label: "Does Not Exist" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
               ],
@@ -4215,7 +5507,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "BuyerAcceptMarketing",
+                    property: "buyerAcceptMarketing",
                     valueType: "string",
                     operator: "is",
                     value: true,
@@ -4227,7 +5519,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "OrderSubTotal",
+          category: "orderSubTotal",
           displayName: "Sub Total",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           group: "Order Details",
@@ -4239,7 +5531,7 @@ function App() {
               defaultValue: "filterValue.condition.value[0].operator",
               id: "filterValue.condition.value[0].operator",
               options: [
-                { value: "between", label: "between" },
+                { value: "in_between", label: "between" },
                 {
                   value: "exactly",
                   label: "exactly",
@@ -4249,7 +5541,7 @@ function App() {
                   label: "exists",
                 },
                 {
-                  value: "does_not_exist",
+                  value: "doesNotExist",
                   label: "does not exist",
                 },
                 {
@@ -4267,20 +5559,24 @@ function App() {
             type: "dynamic",
             values: [
               {
-                for: "between",
+                for: "in_between",
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderSubTotal",
+                    property: "orderSubTotal",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
-                          operator: "between",
+                          property: "orderSubTotal",
+                          operator: "in_between",
                           value: {
                             min: 0,
                             max: 0,
+                          },
+                          params: {
+                            main: true,
                           },
                         },
                       ],
@@ -4289,17 +5585,21 @@ function App() {
                 },
               },
               {
-                for: "does_not_exist",
+                for: "doesNotExist",
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderSubTotal",
+                    property: "orderSubTotal",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
-                          operator: "does_not_exist",
+                          property: "orderSubTotal",
+                          operator: "doesNotExist",
+                          params: {
+                            main: true,
+                          },
                         },
                       ],
                     },
@@ -4307,17 +5607,21 @@ function App() {
                 },
               },
               {
-                for: "exist",
+                for: "exists",
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderSubTotal",
+                    property: "orderSubTotal",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
-                          operator: "exist",
+                          property: "orderSubTotal",
+                          operator: "exists",
+                          params: {
+                            main: true,
+                          },
                         },
                       ],
                     },
@@ -4329,14 +5633,18 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderSubTotal",
+                    property: "orderSubTotal",
                     valueType: "string",
                     condition: {
                       junction: "and",
                       value: [
                         {
+                          property: "orderSubTotal",
                           operator: "exactly",
                           value: 0,
+                          params: {
+                            main: true,
+                          },
                         },
                       ],
                     },
@@ -4348,14 +5656,18 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderSubTotal",
+                    property: "orderSubTotal",
                     valueType: "string",
                     condition: {
                       junction: "and",
                       value: [
                         {
+                          property: "orderSubTotal",
                           operator: "less_than",
                           value: 0,
+                          params: {
+                            main: true,
+                          },
                         },
                       ],
                     },
@@ -4367,14 +5679,18 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderSubTotal",
+                    property: "orderSubTotal",
                     valueType: "string",
                     condition: {
                       junction: "and",
                       value: [
                         {
+                          property: "orderSubTotal",
                           operator: "more_than",
                           value: 0,
+                          params: {
+                            main: true,
+                          },
                         },
                       ],
                     },
@@ -4397,7 +5713,7 @@ function App() {
                     placeholder: "Enter valid number",
                   },
                 ];
-              case "between":
+              case "in_between":
                 return [
                   {
                     type: "input",
@@ -4425,7 +5741,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "OrderShippingTotal",
+          category: "orderShippingTotal",
           displayName: "Order Shipping Total",
           group: "Order Details",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
@@ -4437,7 +5753,7 @@ function App() {
               defaultValue: "filterValue.condition.value[0].operator",
               id: "filterValue.condition.value[0].operator",
               options: [
-                { value: "between", label: "between" },
+                { value: "in_between", label: "between" },
                 {
                   value: "exactly",
                   label: "exactly",
@@ -4447,7 +5763,7 @@ function App() {
                   label: "exists",
                 },
                 {
-                  value: "does_not_exist",
+                  value: "doesNotExist",
                   label: "does not exist",
                 },
                 {
@@ -4465,17 +5781,20 @@ function App() {
             type: "dynamic",
             values: [
               {
-                for: "between",
+                for: "in_between",
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderShippingTotal",
+                    property: "orderShippingTotal",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
-                          operator: "between",
+                          params: {
+                            main: true,
+                          },
+                          operator: "in_between",
                           value: {
                             min: 0,
                             max: 0,
@@ -4487,17 +5806,20 @@ function App() {
                 },
               },
               {
-                for: "does_not_exist",
+                for: "doesNotExist",
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderShippingTotal",
+                    property: "orderShippingTotal",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
-                          operator: "does_not_exist",
+                          params: {
+                            main: true,
+                          },
+                          operator: "doesNotExist",
                         },
                       ],
                     },
@@ -4509,12 +5831,15 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderShippingTotal",
+                    property: "orderShippingTotal",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
+                          params: {
+                            main: true,
+                          },
                           operator: "exist",
                         },
                       ],
@@ -4527,12 +5852,15 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderShippingTotal",
+                    property: "orderShippingTotal",
                     valueType: "string",
                     condition: {
                       junction: "and",
                       value: [
                         {
+                          params: {
+                            main: true,
+                          },
                           operator: "exactly",
                           value: 0,
                         },
@@ -4546,12 +5874,15 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderShippingTotal",
+                    property: "orderShippingTotal",
                     valueType: "string",
                     condition: {
                       junction: "and",
                       value: [
                         {
+                          params: {
+                            main: true,
+                          },
                           operator: "less_than",
                           value: 0,
                         },
@@ -4565,12 +5896,15 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderShippingTotal",
+                    property: "orderShippingTotal",
                     valueType: "string",
                     condition: {
                       junction: "and",
                       value: [
                         {
+                          params: {
+                            main: true,
+                          },
                           operator: "more_than",
                           value: 0,
                         },
@@ -4595,7 +5929,7 @@ function App() {
                     placeholder: "Enter valid number",
                   },
                 ];
-              case "between":
+              case "in_between":
                 return [
                   {
                     type: "input",
@@ -4623,7 +5957,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "OrderDiscountTotal",
+          category: "orderDiscountTotal",
           displayName: "Order Discount Total",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           group: "Order Details",
@@ -4645,7 +5979,7 @@ function App() {
                   label: "exists",
                 },
                 {
-                  value: "does_not_exist",
+                  value: "doesNotExist",
                   label: "does not exist",
                 },
                 {
@@ -4667,7 +6001,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderDiscountTotal",
+                    property: "orderDiscountTotal",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -4685,17 +6019,17 @@ function App() {
                 },
               },
               {
-                for: "does_not_exist",
+                for: "doesNotExist",
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderDiscountTotal",
+                    property: "orderDiscountTotal",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
-                          operator: "does_not_exist",
+                          operator: "doesNotExist",
                         },
                       ],
                     },
@@ -4707,7 +6041,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderDiscountTotal",
+                    property: "orderDiscountTotal",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -4725,7 +6059,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderDiscountTotal",
+                    property: "orderDiscountTotal",
                     valueType: "string",
                     condition: {
                       junction: "and",
@@ -4744,7 +6078,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderDiscountTotal",
+                    property: "orderDiscountTotal",
                     valueType: "string",
                     condition: {
                       junction: "and",
@@ -4763,7 +6097,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderDiscountTotal",
+                    property: "orderDiscountTotal",
                     valueType: "string",
                     condition: {
                       junction: "and",
@@ -4821,7 +6155,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "OrderTaxTotal",
+          category: "orderTaxTotal",
           displayName: "Order Tax Total",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           group: "Order Details",
@@ -4844,7 +6178,7 @@ function App() {
                   label: "exists",
                 },
                 {
-                  value: "does_not_exist",
+                  value: "doesNotExist",
                   label: "does not exist",
                 },
                 {
@@ -4866,7 +6200,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderTaxTotal",
+                    property: "orderTaxTotal",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -4884,17 +6218,17 @@ function App() {
                 },
               },
               {
-                for: "does_not_exist",
+                for: "doesNotExist",
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderTaxTotal",
+                    property: "orderTaxTotal",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
-                          operator: "does_not_exist",
+                          operator: "doesNotExist",
                         },
                       ],
                     },
@@ -4906,7 +6240,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderTaxTotal",
+                    property: "orderTaxTotal",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -4924,7 +6258,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderTaxTotal",
+                    property: "orderTaxTotal",
                     valueType: "string",
                     condition: {
                       junction: "and",
@@ -4943,7 +6277,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderTaxTotal",
+                    property: "orderTaxTotal",
                     valueType: "string",
                     condition: {
                       junction: "and",
@@ -4962,7 +6296,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderTaxTotal",
+                    property: "orderTaxTotal",
                     valueType: "string",
                     condition: {
                       junction: "and",
@@ -5020,7 +6354,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "CreatedAt",
+          category: "createdAt",
           displayName: "Created At",
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           group: "Order Details",
@@ -5050,7 +6384,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "CreatedAt",
+                    property: "createdAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -5069,7 +6403,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "CreatedAt",
+                    property: "createdAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -5088,15 +6422,17 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "CreatedAt",
+                    property: "createdAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                       ],
                     },
@@ -5108,7 +6444,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "CreatedAt",
+                    property: "createdAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -5155,12 +6491,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -5172,7 +6510,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "OrderDate",
+          category: "orderDate",
           group: "General",
 
           displayName: "Order Date",
@@ -5203,7 +6541,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderDate",
+                    property: "orderDate",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -5222,7 +6560,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderDate",
+                    property: "orderDate",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -5241,15 +6579,17 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderDate",
+                    property: "orderDate",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                       ],
                     },
@@ -5261,7 +6601,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderDate",
+                    property: "orderDate",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -5308,12 +6648,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -5325,7 +6667,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "CancelledAt",
+          category: "cancelledAt",
           group: "General",
 
           displayName: "Cancelled At",
@@ -5350,7 +6692,7 @@ function App() {
           ],
           labels: [
             {
-              text: "times",
+              text: "time",
               index: 2,
             },
           ],
@@ -5362,7 +6704,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "CancelledAt",
+                    property: "cancelledAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -5381,7 +6723,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "CancelledAt",
+                    property: "cancelledAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -5400,15 +6742,17 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "CancelledAt",
+                    property: "cancelledAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                       ],
                     },
@@ -5420,7 +6764,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "CancelledAt",
+                    property: "cancelledAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -5467,12 +6811,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -5507,7 +6853,7 @@ function App() {
                   label: "exists",
                 },
                 {
-                  value: "does_not_exist",
+                  value: "doesNotExist",
                   label: "does not exist",
                 },
                 {
@@ -5547,7 +6893,7 @@ function App() {
                 },
               },
               {
-                for: "does_not_exist",
+                for: "doesNotExist",
                 value: {
                   filterType: "filter",
                   filterValue: {
@@ -5557,7 +6903,7 @@ function App() {
                       junction: "and",
                       value: [
                         {
-                          operator: "does_not_exist",
+                          operator: "doesNotExist",
                         },
                       ],
                     },
@@ -5683,7 +7029,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "Currency",
+          category: "currency",
           group: "General",
           displayName: "Currency",
           icon: <User className="tw-mr-1 tw-h-4 tw-w-4" />,
@@ -5696,7 +7042,7 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
+                { value: "isNot", label: "Is Not" },
               ],
             },
             {
@@ -5712,7 +7058,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "Currency",
+                property: "currency",
                 valueType: "string",
                 operator: "is",
                 value: "",
@@ -5722,7 +7068,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "Email",
+          category: "email",
           group: "General",
 
           displayName: "Email",
@@ -5736,13 +7082,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -5758,7 +7104,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "Email",
+                property: "email",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -5768,7 +7114,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "PaymentMethod",
+          category: "paymentMethod",
           group: "General",
 
           displayName: "Payment Method",
@@ -5782,13 +7128,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -5804,7 +7150,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "PaymentMethod",
+                property: "paymentMethod",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -5814,7 +7160,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "OrderStatusUpdatedAt",
+          category: "orderStatusUpdatedAt",
           group: "Order Details",
 
           displayName: "Order Status Updated At",
@@ -5845,7 +7191,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderStatusUpdatedAt",
+                    property: "orderStatusUpdatedAt",
                     valueType: "object",
                     condition: {
                       junction: "and",
@@ -5890,8 +7236,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                       ],
                     },
@@ -5950,12 +7298,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -5967,7 +7317,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "Phone",
+          category: "phone",
           group: "General",
 
           displayName: "Phone number",
@@ -5981,13 +7331,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -6003,7 +7353,7 @@ function App() {
             value: {
               filterType: "filter",
               filterValue: {
-                property: "Phone",
+                property: "phone",
                 valueType: "string_list",
                 operator: "contains",
                 values: [],
@@ -6013,7 +7363,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "OrderStatus",
+          category: "orderStatus",
           displayName: "Order Status",
           icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
@@ -6024,10 +7374,10 @@ function App() {
               defaultValue: "filterValue.operator",
               id: "filterValue.operator",
               options: [
-                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "doesNotExist", label: "Does Not Exist" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is not" },
+                { value: "isNot", label: "Is not" },
               ],
             },
             {
@@ -6055,7 +7405,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "OrderStatus",
+                    property: "orderStatus",
                     valueType: "string",
                     operator: "is",
                     value: "paid",
@@ -6067,7 +7417,7 @@ function App() {
         },
         {
           type: "raw",
-          category: "FullfilmentStatus",
+          category: "fullfilmentStatus",
           group: "General",
           displayName: "Fullfilment Status",
           icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
@@ -6079,10 +7429,10 @@ function App() {
               defaultValue: "filterValue.operator",
               id: "filterValue.operator",
               options: [
-                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "doesNotExist", label: "Does Not Exist" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is not" },
+                { value: "isNot", label: "Is not" },
               ],
             },
             {
@@ -6090,13 +7440,13 @@ function App() {
               defaultValue: "filterValue.value",
               id: "filterValue.value",
               options: [
-                { value: "failed", label: "Failed" },
-                { value: "paid", label: "Paid" },
-                { value: "completed", label: "Completed" },
-                { value: "pending", label: "Pending" },
-                { value: "cancelled", label: "Cancelled" },
+                { value: "FULFILLED", label: "FULFILLED" },
+                { value: "ON_HOLD", label: "ON_HOLD" },
+                { value: "OPEN", label: "OPEN" },
+                { value: "PARTIALLY_FULFILLED", label: "PARTIALLY_FULFILLED" },
+                { value: "PENDING_FULFILLMENT", label: "PENDING_FULFILLMENT" },
                 { value: "partially_refunded", label: "Partially Refunded" },
-                { value: "on-hold", label: "on Hold" },
+                { value: "REQUEST_DECLINED", label: "REQUEST_DECLINED" },
                 { value: "processing", label: "Processing" },
                 { value: "refunded", label: "Refunded" },
               ],
@@ -6110,7 +7460,7 @@ function App() {
                 value: {
                   filterType: "filter",
                   filterValue: {
-                    property: "FullfilmentStatus",
+                    property: "fullfilmentStatus",
                     valueType: "string",
                     operator: "is",
                     value: "paid",
@@ -6196,8 +7546,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                       ],
                     },
@@ -6256,12 +7608,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -6271,86 +7625,936 @@ function App() {
             }
           },
         },
+        {
+          type: "raw",
+          category: "ProductId",
+          group: "General",
+          displayName: "Product Id",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ProductId",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "VariantId",
+          group: "General",
+          displayName: "Variant Id",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "VariantId",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "ProductName",
+          group: "General",
+          displayName: "Product Name",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ProductName",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "Category",
+          group: "General",
+          displayName: "Product Category",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "Category",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "Sku",
+          group: "General",
+          displayName: "Product Sku",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "Sku",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "Quantity",
+          displayName: "Quantity",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "in_between", label: "between" },
+                {
+                  value: "exactly",
+                  label: "exactly",
+                },
+                {
+                  value: "exists",
+                  label: "exists",
+                },
+                {
+                  value: "doesNotExist",
+                  label: "does not exist",
+                },
+                {
+                  value: "less_than",
+                  label: "less than",
+                },
+                {
+                  value: "more_than",
+                  label: "more than",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "in_between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Quantity",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_between",
+                          value: {
+                            min: 0,
+                            max: 0,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "doesNotExist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Quantity",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "doesNotExist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exists",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Quantity",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exists",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exactly",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Quantity",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exactly",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "less_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Quantity",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "less_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "more_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Quantity",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "more_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "exactly":
+              case "less_than":
+              case "more_than":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              case "in_between":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.min",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.min",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "label",
+                    text: "to",
+                  },
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.max",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.max",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "UnitPrice",
+          displayName: "Unit Price",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "in_between", label: "between" },
+                {
+                  value: "exactly",
+                  label: "exactly",
+                },
+                {
+                  value: "exists",
+                  label: "exists",
+                },
+                {
+                  value: "doesNotExist",
+                  label: "does not exist",
+                },
+                {
+                  value: "less_than",
+                  label: "less than",
+                },
+                {
+                  value: "more_than",
+                  label: "more than",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "in_between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UnitPrice",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_between",
+                          value: {
+                            min: 0,
+                            max: 0,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "doesNotExist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UnitPrice",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "doesNotExist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exists",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UnitPrice",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exists",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exactly",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UnitPrice",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exactly",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "less_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UnitPrice",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "less_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "more_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UnitPrice",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "more_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "exactly":
+              case "less_than":
+              case "more_than":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              case "in_between":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.min",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.min",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "label",
+                    text: "to",
+                  },
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.max",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.max",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "TotalPrice",
+          displayName: "Total Price",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "in_between", label: "between" },
+                {
+                  value: "exactly",
+                  label: "exactly",
+                },
+                {
+                  value: "exists",
+                  label: "exists",
+                },
+                {
+                  value: "doesNotExist",
+                  label: "does not exist",
+                },
+                {
+                  value: "less_than",
+                  label: "less than",
+                },
+                {
+                  value: "more_than",
+                  label: "more than",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "in_between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalPrice",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_between",
+                          value: {
+                            min: 0,
+                            max: 0,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "doesNotExist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalPrice",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "doesNotExist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exists",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalPrice",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exists",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exactly",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalPrice",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exactly",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "less_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalPrice",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "less_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "more_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalPrice",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "more_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "exactly":
+              case "less_than":
+              case "more_than":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              case "in_between":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.min",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.min",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "label",
+                    text: "to",
+                  },
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.max",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.max",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
       ],
       recommendations: [
-        "OrderSubTotal",
-        "OrderShippingTotal",
-        "OrderDiscountTotal",
-        "OrderTaxTotal",
-        "BuyerAcceptMarketing",
-        "DiscountCodes",
-        "CreatedAt",
+        "orderSubTotal",
+        "orderShippingTotal",
+        "orderDiscountTotal",
+        "orderTaxTotal",
+        "buyerAcceptMarketing",
+        "discountCodes",
+        "metaData",
+        "createdAt",
+        "orderStatus",
+        "abandonedAt",
+        "productId",
+        "variantId",
+        "productName",
+        "category",
+        "sku",
+        "quantity",
+        "unitPrice",
+        "totalPrice",
+        "discount",
+        "orderDate",
+        "cancelledAt",
+        "totalAmount",
+        "currency",
+        "language",
+        "paymentMethod",
+        "fullfilmentStatus",
+        "orderStatusUpdatedAt",
+        "email",
+        "phone",
+        "ipAddress",
+        "shippingAddressLine1",
+        "shippingAddressLine2",
+        "shippingAddressPostalCode",
+        "shippingAddressCity",
+        "shippingAddressState",
+        "shippingAddressCountry",
+        "shippingAddressPhoneNumber",
+        "billingAddressFirstName",
       ],
       rawFields: [
         {
           group: "Order Details",
           items: [
-            { value: "OrderSubTotal", label: "Sub Total" },
-            { value: "OrderShippingTotal", label: "Shipping Total" },
-            { value: "OrderDiscountTotal", label: "Discount Total" },
-            { value: "OrderTaxTotal", label: "Tax Total" },
-            { value: "BuyerAcceptMarketing", label: "Buyer Accept Marketing" },
-            { value: "DiscountCodes", label: "Discount Codes" },
-            { value: "MetaData", label: "Meta Data" },
-            { value: "CreatedAt", label: "Created At" },
-            { value: "OrderStatus", label: "Order Status" },
-            { value: "AbandonedAt", label: "Abanded At" },
+            { value: "orderSubTotal", label: "Sub Total" },
+            { value: "orderShippingTotal", label: "Shipping Total" },
+            { value: "orderDiscountTotal", label: "Discount Total" },
+            { value: "orderTaxTotal", label: "Tax Total" },
+            { value: "buyerAcceptMarketing", label: "Buyer Accept Marketing" },
+            { value: "discountCodes", label: "Discount Codes" },
+            { value: "detaData", label: "Meta Data" },
+            { value: "createdAt", label: "Created At" },
+            { value: "orderStatus", label: "Order Status" },
+            { value: "abandonedAt", label: "Abanded At" },
           ],
         },
         {
           group: "Order Items",
           items: [
-            { value: "ProductId", label: "Product Id" },
-            { value: "VariantId", label: "Variant Id" },
-            { value: "ProductName", label: "Product Name" },
-            { value: "Category", label: "Product Category" },
-            { value: "Sku", label: "Sku" },
-            { value: "Quantity", label: "Quantity" },
-            { value: "UnitPrice", label: "Unit Price" },
-            { value: "TotalPrice", label: "product Price" },
-            { value: "Discount", label: "Discount" },
+            { value: "productId", label: "Product Id" },
+            { value: "variantId", label: "Variant Id" },
+            { value: "productName", label: "Product Name" },
+            { value: "category", label: "Product Category" },
+            { value: "sku", label: "Sku" },
+            { value: "quantity", label: "Quantity" },
+            { value: "unitPrice", label: "Unit Price" },
+            { value: "totalPrice", label: "product Price" },
+            { value: "discount", label: "Discount" },
           ],
         },
         {
           group: "Shipping Address",
           items: [
-            { value: "ShippingAddressLine1", label: "Address Line 1" },
-            { value: "ShippingAddressLine2", label: "Address Line 2" },
-            { value: "ShippingAddressPostalCode", label: "Postal Code" },
-            { value: "ShippingAddressCity", label: "City" },
-            { value: "ShippingAddressState", label: "State" },
-            { value: "ShippingAddressCountry", label: "Country" },
-            { value: "ShippingAddressPhoneNumber", label: "Phone Number" },
+            { value: "shippingAddressLine1", label: "Address Line 1" },
+            { value: "shippingAddressLine2", label: "Address Line 2" },
+            { value: "shippingAddressPostalCode", label: "Postal Code" },
+            { value: "shippingAddressCity", label: "City" },
+            { value: "shippingAddressState", label: "State" },
+            { value: "shippingAddressCountry", label: "Country" },
+            { value: "shippingAddressPhoneNumber", label: "Phone Number" },
           ],
         },
         {
           group: "Billing Address",
           items: [
-            { value: "BillingAddressFirstName", label: "First Name" },
-            { value: "BillingAddressLastName", label: "Last Name" },
-            { value: "BillingAddressLine1", label: "Address Line 1" },
-            { value: "BillingAddressLine2", label: "Address Line 2" },
-            { value: "BillingAddressPostalCode", label: "Postal Code" },
-            { value: "BillingAddressCity", label: "City" },
-            { value: "BillingAddressState", label: "State" },
-            { value: "BillingAddressCountry", label: "Country" },
-            { value: "BillingAddressPhoneNumber", label: "Phone Number" },
+            { value: "billingAddressFirstName", label: "First Name" },
+            { value: "billingAddressLastName", label: "Last Name" },
+            { value: "billingAddressLine1", label: "Address Line 1" },
+            { value: "billingAddressLine2", label: "Address Line 2" },
+            { value: "billingAddressPostalCode", label: "Postal Code" },
+            { value: "billingAddressCity", label: "City" },
+            { value: "billingAddressState", label: "State" },
+            { value: "billingAddressCountry", label: "Country" },
+            { value: "billingAddressPhoneNumber", label: "Phone Number" },
           ],
         },
         {
           group: "General",
           items: [
-            { value: "OrderDate", label: "Order Date" },
-            { value: "CancelledAt", label: "Cancelled At" },
-            { value: "TotalAmount", label: "Total Amount" },
-            { value: "Currency", label: "Currency" },
-            { value: "Language", label: "Language" },
-            { value: "PaymentMethod", label: "Payment Method" },
-            { value: "FullfilmentStatus", label: "Fulfillment Status" },
-            { value: "OrderStatusUpdatedAt", label: "Status Updated At" },
-            { value: "Email", label: "Email" },
-            { value: "Phone", label: "Phone" },
-            { value: "IpAddress", label: "IP Address" },
+            { value: "orderDate", label: "Order Date" },
+            { value: "cancelledAt", label: "Cancelled At" },
+            { value: "totalAmount", label: "Total Amount" },
+            { value: "currency", label: "Currency" },
+            { value: "language", label: "Language" },
+            { value: "paymentMethod", label: "Payment Method" },
+            { value: "fullfilmentStatus", label: "Fulfillment Status" },
+            { value: "orderStatusUpdatedAt", label: "Status Updated At" },
+            { value: "email", label: "Email" },
+            { value: "phone", label: "Phone" },
+            { value: "ipAddress", label: "IP Address" },
           ],
         },
       ],
@@ -6359,11 +8563,14 @@ function App() {
       id: "products",
       displayName: "Products",
       icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+      conditionLimit: 7,
       filters: [
         {
           type: "common",
           category: "addedProductToCart",
           displayName: "Added product to cart",
+          showFilterSelectAt: 1,
+
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The addedProductToCart event tracks when a user adds a product to their shopping cart. This event is essential for understanding user purchase intent and optimizing the shopping experience. Key details captured include the product ID, product name, quantity, price, user ID (if logged in), session ID, timestamp, and optional metadata like product category or variant. By analyzing this data, businesses can identify popular products, tailor marketing strategies, and reduce cart abandonment rates.",
@@ -6395,6 +8602,10 @@ function App() {
               inputType: "number",
             },
             {
+              type: "label",
+              text: "time",
+            },
+            {
               type: "dropdown",
               defaultValue: "filterValue.condition.value[0].operator",
               id: "filterValue.condition.value[0].operator",
@@ -6423,13 +8634,43 @@ function App() {
           ],
           labels: [
             {
-              text: "times",
+              text: "time",
               index: 2,
             },
           ],
           data: {
             type: "dynamic",
             values: [
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "addedProductToCart",
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                          params: {
+                            main: true,
+                          },
+                        },
+                        {
+                          operator: "at_least",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
               {
                 for: "after",
                 value: {
@@ -6491,8 +8732,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                         {
                           operator: "at_least",
@@ -6503,31 +8746,7 @@ function App() {
                   },
                 },
               },
-              {
-                for: "in_the_last",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "addedProductToCart",
-                    valueType: "object",
-                    returnType: "have",
-                    condition: {
-                      junction: "and",
-                      value: [
-                        {
-                          operator: "in_the_last",
-                          value: 0,
-                          type: "days",
-                        },
-                        {
-                          operator: "at_least",
-                          value: 0,
-                        },
-                      ],
-                    },
-                  },
-                },
-              },
+
               {
                 for: "not_in_the_last",
                 value: {
@@ -6541,8 +8760,10 @@ function App() {
                       value: [
                         {
                           operator: "not_in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -6607,8 +8828,20 @@ function App() {
             switch (option) {
               case "after":
               case "before":
+                return [
+                  {
+                    type: "date",
+                    defaultValue: "filterValue.condition.value[0].date",
+                    id: "filterValue.condition.value[0].date",
+                    placeholder: "Enter valid date",
+                  },
+                ];
               case "on_the_exact_date":
                 return [
+                  {
+                    type: "label",
+                    text: "that is",
+                  },
                   {
                     type: "date",
                     defaultValue: "filterValue.condition.value[0].date",
@@ -6621,12 +8854,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -6636,15 +8871,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[0].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[0].value.unit",
+                    id: "filterValue.condition.value[0].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -6662,6 +8897,8 @@ function App() {
           type: "common",
           category: "orderedProduct",
           displayName: "Ordered Product",
+          showFilterSelectAt: 1,
+
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The orderedProduct event records when a user successfully places an order for a product. This event is critical for tracking completed transactions and understanding purchasing behavior. Key details captured include the order ID, product ID, product name, quantity, price, user ID (if logged in), order total, shipping information, payment method, timestamp, and any promotional codes applied. Analyzing this data helps businesses optimize the checkout process, assess product performance, and improve overall sales strategies.",
@@ -6721,7 +8958,7 @@ function App() {
           ],
           labels: [
             {
-              text: "times",
+              text: "time",
               index: 2,
             },
           ],
@@ -6789,8 +9026,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                         {
                           operator: "at_least",
@@ -6814,8 +9053,10 @@ function App() {
                       value: [
                         {
                           operator: "in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -6839,8 +9080,10 @@ function App() {
                       value: [
                         {
                           operator: "not_in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -6919,12 +9162,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -6934,15 +9179,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[0].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[0].value.unit",
+                    id: "filterValue.condition.value[0].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -6960,6 +9205,8 @@ function App() {
           type: "common",
           category: "submittedProductReview",
           displayName: "Submitted Product Review",
+          showFilterSelectAt: 1,
+
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The submittedProductReview event tracks when a user submits a product review. It includes details such as product ID, user ID, rating, review text, and timestamp. This data helps businesses monitor customer feedback and improve products.",
@@ -7019,7 +9266,7 @@ function App() {
           ],
           labels: [
             {
-              text: "times",
+              text: "time",
               index: 2,
             },
           ],
@@ -7087,8 +9334,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                         {
                           operator: "at_least",
@@ -7112,8 +9361,10 @@ function App() {
                       value: [
                         {
                           operator: "in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -7137,8 +9388,10 @@ function App() {
                       value: [
                         {
                           operator: "not_in_the_last",
-                          value: 0,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -7217,12 +9470,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -7232,15 +9487,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[0].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[0].value.unit",
+                    id: "filterValue.condition.value[0].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -7258,6 +9513,8 @@ function App() {
           type: "common",
           category: "viewedProduct",
           displayName: "Viewed Product",
+          showFilterSelectAt: 1,
+
           icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
           description:
             "The viewedProduct event tracks when a user views a product page. It captures details like product ID, user ID (if logged in), timestamp, and optional metadata such as session ID or device used. This data helps businesses understand user interest and optimize product visibility",
@@ -7317,7 +9574,7 @@ function App() {
           ],
           labels: [
             {
-              text: "times",
+              text: "time",
               index: 2,
             },
           ],
@@ -7385,8 +9642,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                         {
                           operator: "at_least",
@@ -7410,8 +9669,10 @@ function App() {
                       value: [
                         {
                           operator: "in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -7435,8 +9696,10 @@ function App() {
                       value: [
                         {
                           operator: "not_in_the_last",
-                          value: 0,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -7515,12 +9778,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -7530,15 +9795,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[0].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[0].value.unit",
+                    id: "filterValue.condition.value[0].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -7552,18 +9817,858 @@ function App() {
             }
           },
         },
+        {
+          type: "raw",
+          category: "ProductId",
+          group: "General",
+          displayName: "Product Id",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ProductId",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "VariantId",
+          group: "General",
+          displayName: "Variant Id",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "VariantId",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "common",
+          category: "ProductName",
+          group: "General",
+          displayName: "Product Name",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "product name is the name given to the product when it was created. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "ProductName",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "Category",
+          group: "General",
+          displayName: "Product Category",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "Category",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "Sku",
+          group: "General",
+          displayName: "Product Sku",
+          icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          description:
+            "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.operator",
+              id: "filterValue.operator",
+              options: [
+                { value: "contains", label: "Contains" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
+                { value: "exists", label: "Exists" },
+                { value: "is", label: "Is" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
+              ],
+            },
+            {
+              type: "multiInput",
+              defaultValue: "filterValue.values",
+              placeholder: "",
+              inputType: "text",
+              id: "filterValue.values",
+            },
+          ],
+          data: {
+            type: "normal",
+            value: {
+              filterType: "filter",
+              filterValue: {
+                property: "Sku",
+                valueType: "string_list",
+                operator: "contains",
+                values: [],
+              },
+            },
+          },
+        },
+        {
+          type: "raw",
+          category: "Quantity",
+          displayName: "Quantity",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "in_between", label: "between" },
+                {
+                  value: "exactly",
+                  label: "exactly",
+                },
+                {
+                  value: "exists",
+                  label: "exists",
+                },
+                {
+                  value: "doesNotExist",
+                  label: "does not exist",
+                },
+                {
+                  value: "less_than",
+                  label: "less than",
+                },
+                {
+                  value: "more_than",
+                  label: "more than",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "in_between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Quantity",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_between",
+                          value: {
+                            min: 0,
+                            max: 0,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "doesNotExist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Quantity",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "doesNotExist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exists",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Quantity",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exists",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exactly",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Quantity",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exactly",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "less_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Quantity",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "less_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "more_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "Quantity",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "more_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "exactly":
+              case "less_than":
+              case "more_than":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              case "in_between":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.min",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.min",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "label",
+                    text: "to",
+                  },
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.max",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.max",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "UnitPrice",
+          displayName: "Unit Price",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "in_between", label: "between" },
+                {
+                  value: "exactly",
+                  label: "exactly",
+                },
+                {
+                  value: "exists",
+                  label: "exists",
+                },
+                {
+                  value: "doesNotExist",
+                  label: "does not exist",
+                },
+                {
+                  value: "less_than",
+                  label: "less than",
+                },
+                {
+                  value: "more_than",
+                  label: "more than",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "in_between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UnitPrice",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_between",
+                          value: {
+                            min: 0,
+                            max: 0,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "doesNotExist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UnitPrice",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "doesNotExist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exists",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UnitPrice",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exists",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exactly",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UnitPrice",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exactly",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "less_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UnitPrice",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "less_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "more_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "UnitPrice",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "more_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "exactly":
+              case "less_than":
+              case "more_than":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              case "in_between":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.min",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.min",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "label",
+                    text: "to",
+                  },
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.max",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.max",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
+        {
+          type: "raw",
+          category: "TotalPrice",
+          displayName: "Total Price",
+          icon: <ShoppingCart className="tw-mr-1 tw-h-4 tw-w-4" />,
+          group: "Order Details",
+          description:
+            "The user's order canceled is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
+          fields: [
+            {
+              type: "dropdown",
+              defaultValue: "filterValue.condition.value[0].operator",
+              id: "filterValue.condition.value[0].operator",
+              options: [
+                { value: "in_between", label: "between" },
+                {
+                  value: "exactly",
+                  label: "exactly",
+                },
+                {
+                  value: "exists",
+                  label: "exists",
+                },
+                {
+                  value: "doesNotExist",
+                  label: "does not exist",
+                },
+                {
+                  value: "less_than",
+                  label: "less than",
+                },
+                {
+                  value: "more_than",
+                  label: "more than",
+                },
+              ],
+            },
+          ],
+          data: {
+            type: "dynamic",
+            values: [
+              {
+                for: "in_between",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalPrice",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_between",
+                          value: {
+                            min: 0,
+                            max: 0,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "doesNotExist",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalPrice",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "doesNotExist",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exists",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalPrice",
+                    valueType: "object",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exists",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "exactly",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalPrice",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "exactly",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "less_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalPrice",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "less_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "more_than",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "TotalPrice",
+                    valueType: "string",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "more_than",
+                          value: 0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          order: (option: string) => {
+            switch (option) {
+              case "exactly":
+              case "less_than":
+              case "more_than":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              case "in_between":
+                return [
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.min",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.min",
+                    placeholder: "Enter valid number",
+                  },
+                  {
+                    type: "label",
+                    text: "to",
+                  },
+                  {
+                    type: "input",
+                    defaultValue: "filterValue.condition.value[0].value.max",
+                    inputType: "number",
+                    id: "filterValue.condition.value[0].value.max",
+                    placeholder: "Enter valid number",
+                  },
+                ];
+              default:
+                return [];
+            }
+          },
+        },
       ],
       recommendations: [
-        "addedProductToCart",
-        "viewedProduct",
-        "submittedProductReview",
-        "addedProductToCart",
+        "VariantId",
+        "ProductName",
+        "Category",
+        "Sku",
+        "Quantity",
+        "UnitPrice",
+        "TotalPrice",
+        "Discount",
       ],
       showFilterSelectAt: 1,
+      rawFields: [
+        {
+          group: "Product Details",
+          items: [
+            { value: "ProductId", label: "Product Id" },
+            { value: "VariantId", label: "Variant Id" },
+            { value: "ProductName", label: "Product Name" },
+            { value: "Category", label: "Product Category" },
+            { value: "Sku", label: "Sku" },
+            { value: "Quantity", label: "Quantity" },
+            { value: "UnitPrice", label: "Unit Price" },
+            { value: "TotalPrice", label: "product Price" },
+            { value: "Discount", label: "Discount" },
+          ],
+        },
+      ],
     },
     {
       id: "engagement",
       displayName: "Engagement",
+      conditionLimit: 7,
       icon: <MailIcon className="tw-mr-1 tw-h-4 tw-w-4" />,
       filters: [
         {
@@ -7571,6 +10676,7 @@ function App() {
           category: "clickedOnMail",
           displayName: "Clicked on Mail",
           icon: <MousePointerClick className="tw-mr-1 tw-h-4 tw-w-4" />,
+          showFilterSelectAt: 1,
           description:
             "The clickedOnMail event tracks when a user clicks on a link or action within an email. This event provides insights into user engagement with email campaigns by capturing key details such as the specific link clicked, the email campaign ID, the recipient's information, and the timestamp of the action. It is essential for analyzing the effectiveness of email marketing strategies, measuring click-through rates, and optimizing future campaigns.",
           fields: [
@@ -7601,6 +10707,10 @@ function App() {
               inputType: "number",
             },
             {
+              text: "time",
+              type: "label",
+            },
+            {
               type: "dropdown",
               defaultValue: "filterValue.condition.value[0].operator",
               id: "filterValue.condition.value[0].operator",
@@ -7629,7 +10739,7 @@ function App() {
           ],
           labels: [
             {
-              text: "times",
+              text: "time",
               index: 2,
             },
           ],
@@ -7697,8 +10807,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                         {
                           operator: "at_least",
@@ -7722,8 +10834,10 @@ function App() {
                       value: [
                         {
                           operator: "in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -7747,8 +10861,10 @@ function App() {
                       value: [
                         {
                           operator: "not_in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -7827,12 +10943,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -7842,15 +10960,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[0].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[0].value.unit",
+                    id: "filterValue.condition.value[0].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -7869,6 +10987,7 @@ function App() {
           category: "markedMailAsSpam",
           displayName: "Marked Mail As Spam",
           icon: <AlertOctagon className="tw-mr-1 tw-h-4 tw-w-4" />,
+          showFilterSelectAt: 1,
           description:
             "The markedMailAsSpam event captures when a user marks an email as spam. This event provides valuable insights into email deliverability issues and user dissatisfaction with email content. Key details tracked include the email campaign ID, recipient information, timestamp of the action, and any associated metadata. This data helps identify problematic patterns, improve email content, and maintain sender reputation.",
           fields: [
@@ -7899,6 +11018,10 @@ function App() {
               inputType: "number",
             },
             {
+              text: "time",
+              type: "label",
+            },
+            {
               type: "dropdown",
               defaultValue: "filterValue.condition.value[0].operator",
               id: "filterValue.condition.value[0].operator",
@@ -7925,15 +11048,36 @@ function App() {
               ],
             },
           ],
-          labels: [
-            {
-              text: "times",
-              index: 2,
-            },
-          ],
           data: {
             type: "dynamic",
             values: [
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "markedMailAsSpam",
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          operator: "at_least",
+                          value: 3,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
               {
                 for: "after",
                 value: {
@@ -7995,8 +11139,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                         {
                           operator: "at_least",
@@ -8007,31 +11153,7 @@ function App() {
                   },
                 },
               },
-              {
-                for: "in_the_last",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "markedMailAsSpam",
-                    valueType: "object",
-                    returnType: "have",
-                    condition: {
-                      junction: "and",
-                      value: [
-                        {
-                          operator: "in_the_last",
-                          value: 6,
-                          type: "days",
-                        },
-                        {
-                          operator: "at_least",
-                          value: 3,
-                        },
-                      ],
-                    },
-                  },
-                },
-              },
+
               {
                 for: "not_in_the_last",
                 value: {
@@ -8045,8 +11167,10 @@ function App() {
                       value: [
                         {
                           operator: "not_in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -8125,12 +11249,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -8140,15 +11266,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[0].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[0].value.unit",
+                    id: "filterValue.condition.value[0].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -8167,6 +11293,7 @@ function App() {
           category: "mailDeliveryFailed",
           displayName: "Mail Delivery Failed",
           icon: <XCircle className="tw-mr-1 tw-h-4 tw-w-4" />,
+          showFilterSelectAt: 1,
           description:
             "The mailDeliveryFailed event logs instances when an email fails to be delivered to the recipient. This event is crucial for diagnosing and resolving delivery issues, ensuring optimal email campaign performance. Key details captured include the email campaign ID, recipient's email address, failure reason (e.g., invalid address, blocked, or server error), and the timestamp of the failure. By analyzing these events, businesses can maintain email deliverability, update contact lists, and improve messaging reliability.",
           fields: [
@@ -8197,6 +11324,10 @@ function App() {
               inputType: "number",
             },
             {
+              type: "label",
+              text: "time",
+            },
+            {
               type: "dropdown",
               defaultValue: "filterValue.condition.value[0].operator",
               id: "filterValue.condition.value[0].operator",
@@ -8223,15 +11354,117 @@ function App() {
               ],
             },
           ],
-          labels: [
-            {
-              text: "times",
-              index: 2,
-            },
-          ],
           data: {
             type: "dynamic",
             values: [
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "mailDeliveryFailed",
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          operator: "at_least",
+                          value: 3,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "mailDeliveryFailed",
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          operator: "at_least",
+                          value: 3,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "mailDeliveryFailed",
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          operator: "at_least",
+                          value: 3,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "mailDeliveryFailed",
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          operator: "at_least",
+                          value: 1,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
               {
                 for: "after",
                 value: {
@@ -8293,37 +11526,14 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                         {
                           operator: "at_least",
                           value: "",
-                        },
-                      ],
-                    },
-                  },
-                },
-              },
-              {
-                for: "in_the_last",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "mailDeliveryFailed",
-                    valueType: "object",
-                    returnType: "have",
-                    condition: {
-                      junction: "and",
-                      value: [
-                        {
-                          operator: "in_the_last",
-                          value: 6,
-                          type: "days",
-                        },
-                        {
-                          operator: "at_least",
-                          value: 3,
                         },
                       ],
                     },
@@ -8343,8 +11553,10 @@ function App() {
                       value: [
                         {
                           operator: "not_in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -8423,12 +11635,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -8438,15 +11652,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[0].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[0].value.unit",
+                    id: "filterValue.condition.value[0].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -8465,6 +11679,7 @@ function App() {
           category: "mailSent",
           displayName: "Mail Sent",
           icon: <Send className="tw-mr-1 tw-h-4 tw-w-4" />,
+          showFilterSelectAt: 1,
           description:
             "The mailSent event records the successful dispatch of an email to a recipient. This event is vital for tracking the operational status of email campaigns and ensuring emails are being processed as intended. Key details captured include the email campaign ID, recipient's email address, timestamp of sending, and optional metadata such as subject line or tags. This data helps monitor campaign progress, validate successful transmissions, and provide insights into overall email campaign performance.",
           fields: [
@@ -8495,6 +11710,10 @@ function App() {
               inputType: "number",
             },
             {
+              text: "time",
+              type: "label",
+            },
+            {
               type: "dropdown",
               defaultValue: "filterValue.condition.value[0].operator",
               id: "filterValue.condition.value[0].operator",
@@ -8521,15 +11740,36 @@ function App() {
               ],
             },
           ],
-          labels: [
-            {
-              text: "times",
-              index: 2,
-            },
-          ],
           data: {
             type: "dynamic",
             values: [
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "mailSent",
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          operator: "at_least",
+                          value: 1,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
               {
                 for: "after",
                 value: {
@@ -8591,37 +11831,14 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                         {
                           operator: "at_least",
                           value: "",
-                        },
-                      ],
-                    },
-                  },
-                },
-              },
-              {
-                for: "in_the_last",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "mailSent",
-                    valueType: "object",
-                    returnType: "have",
-                    condition: {
-                      junction: "and",
-                      value: [
-                        {
-                          operator: "in_the_last",
-                          value: 6,
-                          type: "days",
-                        },
-                        {
-                          operator: "at_least",
-                          value: 3,
                         },
                       ],
                     },
@@ -8641,8 +11858,10 @@ function App() {
                       value: [
                         {
                           operator: "not_in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -8721,12 +11940,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -8736,15 +11957,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[0].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[0].value.unit",
+                    id: "filterValue.condition.value[0].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -8763,6 +11984,7 @@ function App() {
           category: "mailOpened",
           displayName: "Mail Opened",
           icon: <Mail className="tw-mr-1 tw-h-4 tw-w-4" />,
+          showFilterSelectAt: 1,
           description:
             "The mailOpened event tracks when a recipient opens an email. This event is essential for measuring email engagement and determining the effectiveness of email campaigns. Key details captured include the email campaign ID, recipient's email address, timestamp of the action, and optional metadata like the device or location. By analyzing these events, businesses can gain insights into user behavior, optimize email content, and improve open rates.",
           fields: [
@@ -8793,6 +12015,10 @@ function App() {
               inputType: "number",
             },
             {
+              type: "label",
+              text: "time",
+            },
+            {
               type: "dropdown",
               defaultValue: "filterValue.condition.value[0].operator",
               id: "filterValue.condition.value[0].operator",
@@ -8819,15 +12045,36 @@ function App() {
               ],
             },
           ],
-          labels: [
-            {
-              text: "times",
-              index: 2,
-            },
-          ],
           data: {
             type: "dynamic",
             values: [
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "mailOpened",
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          operator: "at_least",
+                          value: 1,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
               {
                 for: "after",
                 value: {
@@ -8889,37 +12136,14 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                         {
                           operator: "at_least",
                           value: "",
-                        },
-                      ],
-                    },
-                  },
-                },
-              },
-              {
-                for: "in_the_last",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "mailOpened",
-                    valueType: "object",
-                    returnType: "have",
-                    condition: {
-                      junction: "and",
-                      value: [
-                        {
-                          operator: "in_the_last",
-                          value: 6,
-                          type: "days",
-                        },
-                        {
-                          operator: "at_least",
-                          value: 3,
                         },
                       ],
                     },
@@ -8939,8 +12163,10 @@ function App() {
                       value: [
                         {
                           operator: "not_in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -9019,12 +12245,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -9034,15 +12262,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[0].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[0].value.unit",
+                    id: "filterValue.condition.value[0].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -9061,6 +12289,7 @@ function App() {
           category: "optedIn",
           displayName: "Opted In",
           icon: <CheckCircle2 className="tw-mr-1 tw-h-4 tw-w-4" />,
+          showFilterSelectAt: 1,
           description:
             "he optedIn event records when a user voluntarily subscribes or consents to receive communications, such as marketing emails or newsletters. This event is essential for tracking user consent and building a compliant, engaged audience. Key details captured include the user's email address, the timestamp of consent, the source of opt-in (e.g., signup form, in-app prompt), and optional metadata like campaign or referral ID. This information helps businesses ensure compliance with regulations, maintain a positive sender reputation, and segment audiences effectively.",
           fields: [
@@ -9091,6 +12320,10 @@ function App() {
               inputType: "number",
             },
             {
+              type: "label",
+              text: "time",
+            },
+            {
               type: "dropdown",
               defaultValue: "filterValue.condition.value[0].operator",
               id: "filterValue.condition.value[0].operator",
@@ -9117,15 +12350,36 @@ function App() {
               ],
             },
           ],
-          labels: [
-            {
-              text: "times",
-              index: 2,
-            },
-          ],
           data: {
             type: "dynamic",
             values: [
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "optedIn",
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          operator: "at_least",
+                          value: 1,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
               {
                 for: "after",
                 value: {
@@ -9187,8 +12441,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                         {
                           operator: "at_least",
@@ -9199,31 +12455,7 @@ function App() {
                   },
                 },
               },
-              {
-                for: "in_the_last",
-                value: {
-                  filterType: "filter",
-                  filterValue: {
-                    property: "optedIn",
-                    valueType: "object",
-                    returnType: "have",
-                    condition: {
-                      junction: "and",
-                      value: [
-                        {
-                          operator: "in_the_last",
-                          value: 6,
-                          type: "days",
-                        },
-                        {
-                          operator: "at_least",
-                          value: 3,
-                        },
-                      ],
-                    },
-                  },
-                },
-              },
+
               {
                 for: "not_in_the_last",
                 value: {
@@ -9237,8 +12469,10 @@ function App() {
                       value: [
                         {
                           operator: "not_in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -9317,12 +12551,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -9332,15 +12568,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[0].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[0].value.unit",
+                    id: "filterValue.condition.value[0].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -9359,6 +12595,7 @@ function App() {
           category: "optedOut",
           displayName: "Opted Out",
           icon: <XOctagon className="tw-mr-1 tw-h-4 tw-w-4" />,
+          showFilterSelectAt: 1,
           description:
             "The optedOut event tracks when a user unsubscribes or withdraws consent to receive further communications, such as marketing emails or newsletters. This event is critical for ensuring compliance with privacy regulations and respecting user preferences. Key details captured include the user's email address, the timestamp of the action, the source of opt-out (e.g., unsubscribe link, in-app settings), and optional metadata like campaign ID or reason for opting out (if provided). By analyzing these events, businesses can refine their communication strategies, reduce unsubscribe rates, and maintain a positive sender reputation.",
           fields: [
@@ -9417,7 +12654,7 @@ function App() {
           ],
           labels: [
             {
-              text: "times",
+              text: "time",
               index: 2,
             },
           ],
@@ -9485,8 +12722,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                         {
                           operator: "at_least",
@@ -9510,8 +12749,10 @@ function App() {
                       value: [
                         {
                           operator: "in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -9535,8 +12776,10 @@ function App() {
                       value: [
                         {
                           operator: "not_in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -9615,12 +12858,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -9630,15 +12875,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[0].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[0].value.unit",
+                    id: "filterValue.condition.value[0].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -9657,6 +12902,7 @@ function App() {
           category: "viewdMail",
           displayName: "Viewed Mail",
           icon: <Eye className="tw-mr-1 tw-h-4 tw-w-4" />,
+          showFilterSelectAt: 1,
           description:
             "The viewedMail event captures when a recipient views or previews an email. This event helps measure engagement and assess the effectiveness of email content. Key details recorded include the email campaign ID, recipient's email address, timestamp of the action, and optional metadata such as the device or email client used. Analyzing this data provides insights into user behavior, helps optimize email strategies, and improves overall campaign performance.",
           fields: [
@@ -9687,6 +12933,10 @@ function App() {
               inputType: "number",
             },
             {
+              type: "label",
+              text: "time",
+            },
+            {
               type: "dropdown",
               defaultValue: "filterValue.condition.value[0].operator",
               id: "filterValue.condition.value[0].operator",
@@ -9713,15 +12963,36 @@ function App() {
               ],
             },
           ],
-          labels: [
-            {
-              text: "times",
-              index: 2,
-            },
-          ],
           data: {
             type: "dynamic",
             values: [
+              {
+                for: "in_the_last",
+                value: {
+                  filterType: "filter",
+                  filterValue: {
+                    property: "viewdMail",
+                    valueType: "object",
+                    returnType: "have",
+                    condition: {
+                      junction: "and",
+                      value: [
+                        {
+                          operator: "in_the_last",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
+                        },
+                        {
+                          operator: "at_least",
+                          value: 3,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
               {
                 for: "after",
                 value: {
@@ -9783,8 +13054,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                         {
                           operator: "at_least",
@@ -9808,8 +13081,10 @@ function App() {
                       value: [
                         {
                           operator: "in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -9833,8 +13108,10 @@ function App() {
                       value: [
                         {
                           operator: "not_in_the_last",
-                          value: 6,
-                          type: "days",
+                          value: {
+                            value: 30,
+                            unit: "days",
+                          },
                         },
                         {
                           operator: "at_least",
@@ -9913,12 +13190,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -9928,15 +13207,15 @@ function App() {
                 return [
                   {
                     type: "input",
-                    defaultValue: "filterValue.condition.value[0].value",
+                    defaultValue: "filterValue.condition.value[0].value.value",
                     inputType: "number",
-                    id: "filterValue.condition.value[0].value",
+                    id: "filterValue.condition.value[0].value.value",
                     placeholder: "Enter valid number",
                   },
                   {
                     type: "dropdown",
-                    defaultValue: "filterValue.condition.value[0].type",
-                    id: "filterValue.condition.value[0].type",
+                    defaultValue: "filterValue.condition.value[0].value.unit",
+                    id: "filterValue.condition.value[0].value.unit",
                     options: [
                       { value: "days", label: "days" },
                       { value: "weeks", label: "weeks" },
@@ -9955,6 +13234,8 @@ function App() {
           category: "Status",
           displayName: "Status",
           icon: <Phone className="tw-mr-1 tw-h-4 tw-w-4" />,
+          showFilterSelectAt: 1,
+
           description:
             "phone number is the personal identifier typically provided when creating their contact profile. It helps personalize interactions and communications.",
           fields: [
@@ -9963,10 +13244,10 @@ function App() {
               defaultValue: "filterValue.operator",
               id: "filterValue.operator",
               options: [
-                { value: "does_not_exist", label: "Does Not Exist" },
+                { value: "doesNotExist", label: "Does Not Exist" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is not" },
+                { value: "isNot", label: "Is not" },
               ],
             },
             {
@@ -10015,13 +13296,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -10121,8 +13402,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                       ],
                     },
@@ -10181,12 +13464,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -10272,8 +13557,10 @@ function App() {
                       value: [
                         {
                           operator: "between",
-                          startDate: "",
-                          endDate: "",
+                          value: {
+                            startDate: new Date(),
+                            endDate: addDays(new Date(), 20),
+                          },
                         },
                       ],
                     },
@@ -10332,12 +13619,14 @@ function App() {
                   {
                     type: "dateRange",
                     defaultValue: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     id: {
-                      startDate: "filterValue.condition.value[0].startDate",
-                      endDate: "filterValue.condition.value[0].endDate",
+                      startDate:
+                        "filterValue.condition.value[0].value.startDate",
+                      endDate: "filterValue.condition.value[0].value.endDate",
                     },
                     placeholder: "Enter valid date",
                   },
@@ -10361,13 +13650,13 @@ function App() {
               id: "filterValue.operator",
               options: [
                 { value: "contains", label: "Contains" },
-                { value: "does_not_contain", label: "Does Not Contain" },
-                { value: "does_not_exist", label: "Does Not Exist" },
-                { value: "ends_with", label: "Ends With" },
+                { value: "doesNotContain", label: "Does Not Contain" },
+                { value: "doesNotExist", label: "Does Not Exist" },
+                { value: "endsWith", label: "Ends With" },
                 { value: "exists", label: "Exists" },
                 { value: "is", label: "Is" },
-                { value: "is_not", label: "Is Not" },
-                { value: "starts_with", label: "Starts With" },
+                { value: "isNot", label: "Is Not" },
+                { value: "startsWith", label: "Starts With" },
               ],
             },
             {
@@ -10419,7 +13708,6 @@ function App() {
       showFilterSelectAt: 1,
     },
   ];
-  const [toggle, setToggle] = useState(false);
   return (
     <div className="tw-flex tw-h-screen tw-p-5 tw-flex-col">
       {filter.type === "group" ? (
@@ -10446,13 +13734,6 @@ function App() {
           <span className="tw-text-sm tw-flex tw-gap-1 tw-items-center">
             <Plus /> Add Group{" "}
           </span>
-        </Button>
-        <Button
-          onClick={() => {
-            setToggle(!toggle);
-          }}
-        >
-          press here
         </Button>
         <Button
           className="hover:tw-bg-[#F27052] hover:tw-text-white tw-text-[#F27052]"

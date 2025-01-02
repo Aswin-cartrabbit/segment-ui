@@ -50,8 +50,8 @@ export function DateRangePicker({
   const handleDateSelect = (range: DateRange | undefined) => {
     setDate(range);
     if (onChange && range?.from && range?.to) {
-      onChange(id.startDate, range.from.getTime());
-      onChange(id.endDate, range.to.getTime());
+      onChange(id.startDate, range.from);
+      onChange(id.endDate, range.to);
     }
   };
 

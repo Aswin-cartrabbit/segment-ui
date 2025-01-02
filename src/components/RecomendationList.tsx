@@ -38,7 +38,7 @@ export default function RecommendationsList({
       )
       .slice(0, 3);
   }, [configItem.recommendations, conditions]);
-
+  console.log(filteredRecommendations);
   return (
     <div className="tw-flex tw-gap-2 tw-ml-20">
       {filteredRecommendations.map((item, index) => {

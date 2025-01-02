@@ -22,11 +22,15 @@ export function RawDropdown({
   config,
   filterIndex,
   defaultValue,
+  updateRaw,
+  conditionRowIndex,
+  conditions,
 }: any) {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<string | null>(null);
   const groupedColumns = configItem?.rawFields ?? [];
   const addFilter = useStore((selector) => selector.addRawFilter);
+  const changeCondition = useStore((selector) => selector.changeCondition);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -52,13 +56,24 @@ export function RawDropdown({
                     value={item.value}
                     onSelect={() => {
                       setSelected(item.label);
-                      addFilter(
-                        groupIndex,
-                        filterIndex,
-                        item.value,
-                        configItem.id,
-                        config
-                      );
+                      if (!updateRaw) {
+                        addFilter(
+                          groupIndex,
+                          filterIndex,
+                          item.value,
+                          configItem.id,
+                          config
+                        );
+                      } else {
+                        changeCondition(
+                          groupIndex,
+                          filterIndex,
+                          conditionRowIndex,
+                          item.value,
+                          configItem.id,
+                          config
+                        );
+                      }
                       setOpen(false);
                     }}
                     className="tw-ml-5"

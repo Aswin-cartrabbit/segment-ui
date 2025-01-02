@@ -104,10 +104,9 @@ interface StoreState {
   changeCondition: (
     groupIndex: number,
     filterIndex: number,
-    resourceType: string,
-    currentValue: string,
     conditionIndex: number,
-
+    value: string,
+    resourceType: string,
     config: any
   ) => void;
   onChange: (
@@ -122,209 +121,80 @@ interface StoreState {
 
 const useStore = create<StoreState>((set) => ({
   RuleJson: {
-    type: "group",
-    group: {
-      junction: "or",
-      members: [
+    "type": "group",
+    "group": {
+      "junction": "or",
+      "members": [
         {
-          type: "group",
-          group: {
-            junction: "and",
-            members: [
+          "type": "group",
+          "group": {
+            "junction": "and",
+            "members": [
               {
-                type: "group",
-                group: {
-                  junction: "and",
-                  members: [
+                "type": "group",
+                "group": {
+                  "junction": "and",
+                  "members": [
                     {
-                      type: "rule",
-                      rule: {
-                        resourceType: "contact",
-                        filter: {
-                          junction: "and",
-                          filterType: "junction",
-                          filters: [
+                      "type": "rule",
+                      "rule": {
+                        "resourceType": "orders",
+                        "filter": {
+                          "junction": "and",
+                          "filterType": "junction",
+                          "filters": [
                             {
-                              junction: "and",
-                              filterType: "junction",
-                              filters: [
+                              "junction": "and",
+                              "filterType": "junction",
+                              "filters": [
                                 {
-                                  filterType: "filter",
-                                  filterValue: {
-                                    property: "firstName",
-                                    valueType: "string_list",
-                                    operator: "contains",
-                                    values: ["hello"],
-                                  },
-                                },
-                                {
-                                  filterType: "filter",
-                                  filterValue: {
-                                    property: "Status",
-                                    valueType: "string",
-                                    operator: "is",
-                                    value: "active",
-                                  },
-                                },
-                                {
-                                  filterType: "filter",
-                                  filterValue: {
-                                    property: "ImportType",
-                                    valueType: "string",
-                                    operator: "is",
-                                    value: "csv_import",
-                                  },
-                                },
-                              ],
-                            },
-                            {
-                              junction: "and",
-                              filterType: "junction",
-                              filters: [
-                                {
-                                  filterType: "filter",
-                                  filterValue: {
-                                    property: "lastName",
-                                    valueType: "string_list",
-                                    operator: "contains",
-                                    values: ["kumar", "aswin"],
-                                  },
-                                },
-                              ],
-                            },
-                          ],
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                type: "group",
-                group: {
-                  junction: "or",
-                  members: [
-                    {
-                      type: "rule",
-                      rule: {
-                        resourceType: "orders",
-                        filter: {
-                          junction: "and",
-                          filterType: "junction",
-                          filters: [
-                            {
-                              junction: "and",
-                              filterType: "junction",
-                              filters: [
-                                {
-                                  filterType: "filter",
-                                  filterValue: {
-                                    property: "orderCanceled",
-                                    params: {
-                                      property: "cart_type",
+                                  "filterType": "filter",
+                                  "filterValue": {
+                                    "property": "orderCanceled",
+                                    "params": {
+                                      "property": "cartType"
                                     },
-                                    valueType: "object",
-                                    returnType: "have",
-                                    condition: {
-                                      junction: "and",
-                                      value: [
+                                    "valueType": "object",
+                                    "returnType": "have",
+                                    "condition": {
+                                      "junction": "and",
+                                      "value": [
                                         {
-                                          operator: "between",
-                                          startDate: 1734460200000,
-                                          endDate: 1737570600000,
+                                          "operator": "is",
+                                          "value": "cancelled",
+                                          "property": "cartType"
                                         },
                                         {
-                                          operator: "at_least",
-                                          value: "2",
-                                        },
-                                      ],
-                                    },
-                                  },
-                                },
-                                {
-                                  filterType: "filter",
-                                  filterValue: {
-                                    property: "OrderSubTotal",
-                                    valueType: "object",
-                                    condition: {
-                                      junction: "and",
-                                      value: [
-                                        {
-                                          operator: "between",
-                                          value: {
-                                            min: "22",
-                                            max: "56",
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                },
-                              ],
-                            },
-                          ],
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                type: "group",
-                group: {
-                  junction: "and",
-                  members: [
-                    {
-                      type: "rule",
-                      rule: {
-                        resourceType: "orders",
-                        filter: {
-                          junction: "and",
-                          filterType: "junction",
-                          filters: [
-                            {
-                              junction: "and",
-                              filterType: "junction",
-                              filters: [
-                                {
-                                  filterType: "filter",
-                                  filterValue: {
-                                    property: "orderFulfilled",
-                                    params: {
-                                      property: "cart_type",
-                                    },
-                                    valueType: "object",
-                                    returnType: "have",
-                                    condition: {
-                                      junction: "and",
-                                      value: [
-                                        {
-                                          operator: "in_the_last",
-                                          value: 1,
-                                          type: "days",
+                                          "operator": "in_the_last",
+                                          "property": "cancelledAt",
+                                          "value": {
+                                            "value": 30,
+                                            "unit": "days"
+                                          }
                                         },
                                         {
-                                          operator: "at_least",
-                                          value: 1,
-                                        },
-                                      ],
-                                    },
-                                  },
-                                },
-                              ],
-                            },
-                          ],
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-        },
-      ],
-    },
+                                          "operator": "at_least",
+                                          "property": "id",
+                                          "value": 1
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
   },
   addFilter: (index, category, hoveredOption, config) => {
     const filter = config.find((f) => f.id === category);
@@ -397,6 +267,7 @@ const useStore = create<StoreState>((set) => ({
     groupIndex: number,
     filterType: string
   ) => {
+    console.log(indexToRemove, groupIndex, filterType);
     set((state) => {
       const newFilter = JSON.parse(JSON.stringify(state.RuleJson));
       const group =
@@ -406,7 +277,7 @@ const useStore = create<StoreState>((set) => ({
         const member = group.find(
           (member: any) => member.rule?.resourceType === filterType
         );
-
+        console.log(member.rule.filter.filters[indexToRemove]);
         if (member && member.rule?.filter?.filters) {
           _.remove(
             member.rule.filter.filters,
@@ -525,7 +396,9 @@ const useStore = create<StoreState>((set) => ({
       const filteredData = data?.values.find(
         (v: any) => v.for === operatorValue
       );
-      result = filteredData.value;
+      console.log(operatorValue);
+      result = filteredData?.value;
+      console.log(result);
       set((state) => {
         const newFilter = JSON.parse(JSON.stringify(state.RuleJson));
 
@@ -711,33 +584,38 @@ const useStore = create<StoreState>((set) => ({
   changeCondition: (
     groupIndex: number,
     filterIndex: number,
-    resourceType: string,
-    currentValue: string,
     conditionIndex: number,
+    value: string,
+    resourceType: string,
     config: any
   ) => {
+    console.log(
+      groupIndex,
+      filterIndex,
+      conditionIndex,
+      value,
+      resourceType,
+    );
     set((state) => {
       const newFilter = JSON.parse(JSON.stringify(state.RuleJson));
       const filter = config.find((f) => f.id === resourceType);
       let data =
-        filter?.filters.find((f) => f.category === currentValue)?.data ?? null;
+        filter?.filters.find((f) => f.category === value)?.data ?? null;
       if (data?.type === "dynamic") {
         data = data.values[0].value;
       } else if (data?.type === "normal") {
         data = data.value;
       }
+
       newFilter.group.members[0].group.members[groupIndex].group.members.find(
         (m: any) => m.rule.resourceType === resourceType
-      ).rule.filter.filters[filterIndex] = {
-        junction: "and",
-        filterType: "junction",
-        filters: [data],
-      };
+      ).rule.filter.filters[filterIndex].filters[conditionIndex] = data;
       return {
         RuleJson: newFilter,
       };
     });
   },
+
   onChange: (
     groupIndex: number,
     filterIndex: number,
@@ -790,7 +668,6 @@ const useStore = create<StoreState>((set) => ({
       newFilter.group.members[0].group.members[groupIndex].group.members.find(
         (m: any) => m.rule.resourceType === resourceType
       ).rule.filter.filters[filterIndex].filters[conditionIndex] = updatedObj;
-      console.log(updatedObj);
       return {
         RuleJson: newFilter,
       };

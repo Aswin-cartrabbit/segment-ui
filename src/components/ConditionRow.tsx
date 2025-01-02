@@ -26,62 +26,30 @@ const ConditionRow = ({
   );
   const setChange = useStore((state) => state.onChange);
 
-  const setRule = useStore((state) => state.setRule);
-
   const removeFilter = useStore((state) => state.removeFilter);
 
   const matchedFilter = configItem.filters.find(
     (filter: any) => filter.category === item.filterValue?.property
   );
 
-  const getDefaultValue = useMemo(() => {
-    const matchedFilterData =
-      matchedFilter.data.type === "dynamic"
-        ? matchedFilter.data.values.find(
-            (hh: any) => hh.for === item.filterValue.operator
-          )
-        : matchedFilter.data.value;
-    const areKeysMatching =
-      matchedFilterData &&
-      Object.keys(matchedFilterData).every(
-        (key) => key in item && matchedFilterData[key] === item[key]
-      );
-
-    const isMatched =
-      areKeysMatching &&
-      JSON.stringify(item) === JSON.stringify(matchedFilterData);
-    // If matched, return matchedFilter data value; otherwise, return the item
-    const defaultValue = isMatched ? matchedFilter.data.value || {} : item;
-
-    return defaultValue;
-  }, [matchedFilter, item]);
-
-  // const [filterData, setFilterData] = useState(getDefaultValue);
-
-  const onChange = useCallback(
-    (path: string, value: any) => {
-      setChange(groupIndex, filterCardIndex, configItem.id, index, path, value);
-    },
-    []
-  );
+  const onChange = useCallback((path: string, value: any) => {
+    setChange(groupIndex, filterCardIndex, configItem.id, index, path, value);
+  }, []);
   const filterArray = useMemo(() => {
     return [
-      ...(matchedFilter.fields || []),
+      ...(matchedFilter?.fields || []),
       ...(typeof matchedFilter?.order === "function"
         ? matchedFilter.order(
             item.filterValue.operator === undefined
-              ? item.filterValue.condition.value[0].operator
-              : item.filterValue.operator
+            ? item.filterValue.condition.value.find((conditionItem: any) => conditionItem?.params?.main)?.operator
+            : item.filterValue.operator
           )
         : []),
     ];
   }, [matchedFilter, item]);
-  // useEffect(() => {
-  //   setRule(filterData, configItem.id, groupIndex, filterCardIndex, index);
-  // }, [filterData]);
   const filterDropdownOptions = useMemo(() => {
     const options = configItem.filters
-      .filter((item: any) => item.type === matchedFilter.type)
+      .filter((item: any) => item?.type === matchedFilter?.type)
       .map((item: any) => ({
         value: item.category,
         label: item.displayName,
@@ -90,7 +58,7 @@ const ConditionRow = ({
   }, [configItem.filters]);
   const showFilterSelectAt = matchedFilter?.showFilterSelectAt ?? 0;
   const getMessage = () => {
-    if (filterCardIndex === 0 && index === 0) {
+    if (filterCardIndex === 0 && index === 0 && configItem.id === "contact") {
       return (
         <span className="tw-whitespace-nowrap tw-mr-3 tw-text-[#F27052]">
           {"All contacts"} {configItem.id === "contact" ? "whose" : "who"}
@@ -131,9 +99,12 @@ const ConditionRow = ({
     } else {
       return <></>;
     }
-  }
+  };
   return (
-    <div className="tw-box-border tw-gap-5 tw-items-center tw-flex min-h-[40px] tw-relative w-[1694px] tw-z-0 tw-text-[rgb(33,37,41)] tw-text-[16px] tw-font-light tw-leading-[24px] tw-text-start tw-bg-white tw-mb-[8px]">
+    <div
+      key={index}
+      className="tw-box-border tw-gap-5 tw-items-center tw-flex min-h-[40px] tw-relative w-[1694px] tw-z-0 tw-text-[rgb(33,37,41)] tw-text-[16px] tw-font-light tw-leading-[24px] tw-text-start tw-bg-white tw-mb-[8px]"
+    >
       <div className="tw-box-border tw-flex tw-justify-end tw-w-[160px] tw-text-[rgb(30,36,35)] tw-text-[14px] tw-font-normal tw-tracking-[normal] tw-leading-[24px] tw-whitespace-nowrap tw-text-right tw-bg-white tw-pl-[8px] tw-pr-[0px] tw-py-[8px]">
         {getMessage()}
       </div>
@@ -156,7 +127,7 @@ const ConditionRow = ({
           }
         }
         return (
-          <div className="tw-flex tw-items-center tw-gap-3">
+          <div key={fieldIndex} className="tw-flex tw-items-center tw-gap-3">
             <div>
               {showFilterSelectAt === fieldIndex &&
                 (matchedFilter.type === "raw" ? (
@@ -165,6 +136,8 @@ const ConditionRow = ({
                     groupIndex={groupIndex}
                     config={config}
                     filterIndex={filterCardIndex}
+                    updateRaw
+                    conditionRowIndex={index}
                     defaultValue={matchedFilter.displayName}
                   />
                 ) : (
@@ -201,7 +174,7 @@ const ConditionRow = ({
       <Button
         onClick={() => {
           if (index === 0) {
-            removeFilter(index, groupIndex, configItem.id);
+            removeFilter(filterCardIndex, groupIndex, configItem.id);
           } else {
             removeCondition(groupIndex, filterCardIndex, index, configItem.id);
           }
